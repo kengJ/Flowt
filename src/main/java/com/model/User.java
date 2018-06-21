@@ -1,5 +1,6 @@
 package com.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -69,6 +70,24 @@ public class User {
 		super();
 		UserName = userName;
 		Password = password;
+	}
+
+	public String getCreateDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD HH:ss:mm");
+		return sdf.format(CreateDate) ;
+	}
+
+	public void setCreateDate(Date createDate) {
+		CreateDate = createDate;
+	}
+
+	public String getUpdateDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD HH:ss:mm");
+		return sdf.format(UpdateDate) ;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		UpdateDate = updateDate;
 	}
 
 	public User() {

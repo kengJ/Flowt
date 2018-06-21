@@ -1,10 +1,10 @@
 package com.repository;
 
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 public class BasicRepository<T> {
 	
@@ -14,8 +14,10 @@ public class BasicRepository<T> {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	//@Transactional(readOnly=true)
 	private Session getCurrentSession() {
-        return this.sessionFactory.openSession();
+		
+        return this.sessionFactory.getCurrentSession();
 	}
 	
 	public boolean Save(T o){
@@ -47,6 +49,7 @@ public class BasicRepository<T> {
 	
 	@SuppressWarnings("unchecked")
 	public List<T> FindByHql(String Hql){
-		return getCurrentSession().createQuery(Hql).list();
+		 Session session = getCurrentSession();
+		 return session.createQuery(Hql).list();
 	}
 }

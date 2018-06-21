@@ -28,4 +28,10 @@ public class LoginService {
 		List<User> users = userRepository.FindByHql(String.format(Hql, UserName));
 		return users.size()<=0;
 	}
+	
+	public User FindUserById(String Id){
+		String Hql = "from User where Id='%s'";
+		List<User> users = userRepository.FindByHql(String.format(Hql, Id));
+		return users.size()<=0?users.get(0):null;
+	}
 }

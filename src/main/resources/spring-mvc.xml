@@ -32,6 +32,14 @@
         <property name="suffix" value=".jsp"></property>  
     </bean>  
     
+    <mvc:interceptors >  
+    	<!--过滤所有请求，处理跨域请求问题-->  
+    	<mvc:interceptor>  
+        	<mvc:mapping path="/**"/>  
+        	<bean class="com.interceptor.CommonInterceptor"></bean>  
+    	</mvc:interceptor>  
+	</mvc:interceptors >
+    
     <mvc:annotation-driven/>
     <mvc:resources mapping="/static/css/**" location="/WEB-INF/static/css/" />
     <mvc:resources mapping="/static/fonts/**" location="/WEB-INF/static/fonts/" />

@@ -43,6 +43,7 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>   <!--指定数据库方言-->
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>     <!--在控制台显示执行的数据库操作语句-->
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>     <!--在控制台显示执行的数据哭操作语句（格式）-->
+            	<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
             </props>
         </property>
     </bean>
@@ -51,4 +52,19 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <!-- 声明式事务管理begin 
+    <aop:config>         
+        <aop:advisor pointcut="execution(* com.service..*Service*.*(..))" advice-ref="txAdvice"/>
+    </aop:config>
+    
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    	<tx:attributes>
+            <tx:method name="Find*" read-only="true"/>
+            <tx:method name="Get*" read-only="true"/>
+            <tx:method name="Load*" read-only="true"/>
+            <tx:method name="Query*" read-only="true"/>
+            <tx:method name="*" rollback-for="Exception"/>
+        </tx:attributes>
+    </tx:advice>-->
 </beans>

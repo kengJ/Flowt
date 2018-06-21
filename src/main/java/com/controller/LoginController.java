@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,9 +68,14 @@ public class LoginController {
 	
 	@RequestMapping(value="/LoginForReact")
 	@ResponseBody
-	public Map<String, String> LoginForReact(String UserName,String Password){
-		
-		User user = userService.Check(UserName, Password);
+	public Map<String, String> LoginForReact(@RequestBody Map<String, String> Json){
+		User user = null;
+		String Id = Json.get("uid");
+		if(Id!=null&&!Id.equals("")){
+			user = loginService.FindUserById(Id);
+		}else{
+			user = userService.Check(Json.get("UserName"), Json.get("Password"));
+		}
 		if(user!=null&&!user.equals("")){
 			Map<String, String> result = new HashMap<String,String>();
 			result.put("name", user.getUserName());
