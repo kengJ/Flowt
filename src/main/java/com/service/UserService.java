@@ -26,7 +26,8 @@ public class UserService {
 	}
 	
 	public User Check(String UserName,String Password){
-		return userRepositoryImpl.FindByHql("from User where UserName='"+UserName+"' and Password='"+Password+"'").get(0);
+		List<User> UserList = userRepositoryImpl.FindByHql("from User where UserName='"+UserName+"' and Password='"+Password+"'");
+		return UserList.size()>0?UserList.get(0):null;
 	}
 	
 	public List<User> FindList(){

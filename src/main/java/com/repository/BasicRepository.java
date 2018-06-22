@@ -1,5 +1,6 @@
 package com.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,8 +16,7 @@ public class BasicRepository<T> {
 	private SessionFactory sessionFactory;
 	
 	//@Transactional(readOnly=true)
-	private Session getCurrentSession() {
-		
+	public Session getCurrentSession() {
         return this.sessionFactory.getCurrentSession();
 	}
 	
@@ -49,7 +49,12 @@ public class BasicRepository<T> {
 	
 	@SuppressWarnings("unchecked")
 	public List<T> FindByHql(String Hql){
-		 Session session = getCurrentSession();
-		 return session.createQuery(Hql).list();
+		List<T> DataList = new ArrayList<T>(); 
+		try {
+			 Session session = getCurrentSession();
+			 DataList = session.createQuery(Hql).list();
+		} catch (Exception e) {
+		}
+		return DataList;
 	}
 }

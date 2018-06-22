@@ -11,13 +11,6 @@ import com.model.SqlMessage;
 
 @Repository
 public class SqlMessageRepository extends BasicRepository<SqlMessage> {
-
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	private Session getCurrentSession() {
-        return this.sessionFactory.openSession();
-	}
 	
 	public boolean Save(SqlMessage sqlMessage){
 		if(getCurrentSession().createQuery("from SqlMessage where Memo='"+sqlMessage.getMemo()+"'").list().size()<=0){
