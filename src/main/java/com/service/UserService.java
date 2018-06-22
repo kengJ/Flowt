@@ -32,5 +32,9 @@ public class UserService {
 	public List<User> FindList(){
 		return userRepositoryImpl.FindByHql("From User");
 	}
+	
+	public List<User> FindListByCode(String Code){
+		return userRepositoryImpl.FindByHql("From User where UserName like '%"+Code+"%'");
+	}
 }
 	

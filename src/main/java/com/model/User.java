@@ -32,6 +32,9 @@ public class User {
 	@Column(name="Password")
 	private String Password;
 	
+	@Column(name="Role")
+	private String Role;
+	
 	@Generated(GenerationTime.ALWAYS)
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="CreateDate",nullable=false,columnDefinition="datetime default CURRENT_TIMESTAMP")
@@ -93,6 +96,14 @@ public class User {
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getRole() {
+		return Role;
+	}
+
+	public void setRole(String role) {
+		Role = role;
 	}
 	
 	
