@@ -56,8 +56,8 @@ public class LoginController {
 	
 	@RequestMapping(value="/CheckUserName",method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, String> CheckUserName(@RequestParam String UserName){
-		Map<String, String> result = null;
+	public Map<String, Object> CheckUserName(@RequestParam String UserName){
+		Map<String, Object> result = null;
 		if(loginService.FindUserByName(UserName)){
 			result = MessageBox.UserMessageBox("error", "用户名不存在");
 		}else{
