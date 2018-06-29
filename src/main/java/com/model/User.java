@@ -74,6 +74,13 @@ public class User {
 		UserName = userName;
 		Password = password;
 	}
+	
+	public User(String id ,String userName, String password) {
+		super();
+		Id = Long.parseLong(id);
+		UserName = userName;
+		Password = password;
+	}
 
 	public String getCreateDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD HH:ss:mm");
