@@ -53,18 +53,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <!-- 声明式事务管理begin 
-    <aop:config>         
-        <aop:advisor pointcut="execution(* com.service..*Service*.*(..))" advice-ref="txAdvice"/>
-    </aop:config>
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
     
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-    	<tx:attributes>
-            <tx:method name="Find*" read-only="true"/>
-            <tx:method name="Get*" read-only="true"/>
-            <tx:method name="Load*" read-only="true"/>
-            <tx:method name="Query*" read-only="true"/>
-            <tx:method name="*" rollback-for="Exception"/>
-        </tx:attributes>
-    </tx:advice>-->
+    
 </beans>

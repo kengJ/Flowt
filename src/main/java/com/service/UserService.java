@@ -41,10 +41,16 @@ public class UserService {
 	}
 	
 	public Map<String, Object> UpdateUser(User OldUser,User NewUser){
-		//查询旧值是否与数据库匹配
+		System.out.println(OldUser);
+		System.out.println(NewUser);
+		//鏌ヨ鏃у�兼槸鍚︿笌鏁版嵁搴撳尮閰�
 		List<User> users =  userRepositoryImpl.FindByHql(String.format("from User where Id='%s' and UserName = '%s' and Password = '%s'", OldUser.getId(),OldUser.getUserName(),OldUser.getPassword()));
 		if(users.size()>0){
-			userRepositoryImpl.FindByHql(String.format("update User set UserName = '%s',Password = '%s' where Id = '%s'", NewUser.getUserName(),NewUser.getPassword(),NewUser.getId()));
+			User user = users.get(0);
+			user.setUserName(NewUser.getUserName());
+			user.setPassword(NewUser.getPassword());
+			userRepositoryImpl.Update(user);
+			//userRepositoryImpl.FindByHql(String.format("update User set UserName = '%s',Password = '%s' where Id = '%s'", NewUser.getUserName(),NewUser.getPassword(),NewUser.getId()));
 			return MessageBox.UserMessageBox("success", userRepositoryImpl.FindByHql(String.format("from User where Id = '%s'", NewUser.getId())).get(0));
 		}else{
 			return MessageBox.UserMessageBox("error",userRepositoryImpl.FindByHql(String.format("from User where Id = '%s'", NewUser.getId())).get(0));
