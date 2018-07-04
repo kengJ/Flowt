@@ -64,7 +64,7 @@ public class LogAop {
 		
 		try {
 			System.out.println("the method "+proceedingJoinPoint.getSignature().getName()+"begin with "+Arrays.asList(proceedingJoinPoint.getArgs()));
-			proceedingJoinPoint.proceed();
+			result = proceedingJoinPoint.proceed();
 			System.out.println("the method end with result is "+result	);
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
