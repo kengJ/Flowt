@@ -32,13 +32,20 @@
         <property name="suffix" value=".jsp"></property>  
     </bean>  
     
-    <mvc:interceptors >  
-    	<!--过滤所有请求，处理跨域请求问题-->  
+    <!--过滤所有请求，处理跨域请求问题-->
+    <!-- <mvc:interceptors >  	  
     	<mvc:interceptor>  
         	<mvc:mapping path="/**"/>  
         	<bean class="com.interceptor.CommonInterceptor"></bean>  
     	</mvc:interceptor>  
-	</mvc:interceptors >
+	</mvc:interceptors > -->
+	<mvc:cors>
+		<mvc:mapping path="/**"
+	        allowed-origins="*"
+	        allowed-methods="POST, GET, OPTIONS, DELETE, PUT"
+	        allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+	        allow-credentials="true" />
+	</mvc:cors>
     
     <mvc:annotation-driven/>
     <mvc:resources mapping="/static/css/**" location="/WEB-INF/static/css/" />

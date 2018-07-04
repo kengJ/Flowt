@@ -10,9 +10,11 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.aspectj.lang.annotation.Around;
 
+@Order(10)
 @Aspect
 @Component
 public class LogAop {
@@ -64,7 +66,7 @@ public class LogAop {
 		
 		try {
 			System.out.println("the method "+proceedingJoinPoint.getSignature().getName()+"begin with "+Arrays.asList(proceedingJoinPoint.getArgs()));
-			proceedingJoinPoint.proceed();
+			result = proceedingJoinPoint.proceed();
 			System.out.println("the method end with result is "+result	);
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
