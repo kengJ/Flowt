@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.model.User;
@@ -12,7 +13,7 @@ import com.util.MessageBox;
 
 
 @Service
-@Transactional(propagation=Propagation.REQUIRED)
+//@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.READ_COMMITTED,timeout=1000,readOnly=false)
 public class UserService {
 
 	@Autowired(required = true)
@@ -52,6 +53,19 @@ public class UserService {
 			return MessageBox.UserMessageBox("success", userRepositoryImpl.FindByHql(String.format("from User where Id = '%s'", NewUser.getId())).get(0));
 		}else{
 			return MessageBox.UserMessageBox("error",userRepositoryImpl.FindByHql(String.format("from User where Id = '%s'", NewUser.getId())).get(0));
+		}
+	}
+	
+	public Map<String, Object> AddUser(String UserName,String Password){
+		List<User> UserList = userRepositoryImpl.FindByHql(String.format("from User where UserName = '%s' and Password = '%s'", UserName,Password));
+		if(UserList.size()>1){
+			return MessageBox.UserMessageBox("error","已存在此账号");
+		}
+		boolean check = userRepositoryImpl.Save(new User(UserName, Password));
+		if(check){
+			return MessageBox.UserMessageBox("success", userRepositoryImpl.FindByHql(String.format("from User where UserName = '%s' and Password = '%s'", UserName,Password)).get(0));
+		}else{
+			return MessageBox.UserMessageBox("error","插入失败");
 		}
 	}
 }

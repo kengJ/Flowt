@@ -112,6 +112,11 @@ public class User {
 	public void setRole(String role) {
 		Role = role;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "User [Id=" + Id + ", UserName=" + UserName + ", Password=" + Password + ", Role=" + Role
+				+ ", CreateDate=" + CreateDate + ", UpdateDate=" + UpdateDate + "]";
+	}
 	
 }

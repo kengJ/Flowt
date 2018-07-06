@@ -28,12 +28,12 @@ public class LogAop {
 	public void BeforeMethod(JoinPoint joinPoint) {
 		String methodName = joinPoint.getSignature().getName();
 		List<Object> args = Arrays.asList(joinPoint.getArgs());
-		System.out.println("the method "+methodName+" begin with "+args);
+		System.out.println("controller method"+methodName+" args is "+args);
 		
 	}
 	
 	//后置通知无法获取返回值
-	@After("ControllerLogExpression()")
+	//@After("ControllerLogExpression()")
 	public void AfterMethod(JoinPoint joinPoint) {
 		String methodName = joinPoint.getSignature().getName();
 		//List<Object> args = Arrays.asList(joinPoint.getArgs());
@@ -44,11 +44,11 @@ public class LogAop {
 	@AfterReturning(value="ControllerLogExpression()",returning="result")
 	public void AfterReturn(JoinPoint joinPoint,Object result) {
 		String methodName = joinPoint.getSignature().getName();
-		System.out.println("the method "+methodName+" with result is"+result);
+		System.out.println("controller method "+methodName+" result is"+result);
 	}
 	
 	//异常通知
-	@AfterThrowing(value="ControllerLogExpression()",throwing="ex")
+	//@AfterThrowing(value="ControllerLogExpression()",throwing="ex")
 	public void AfterThrowing(JoinPoint joinPoint,Exception ex) {
 		String methodName = joinPoint.getSignature().getName();
 		System.out.println("the method "+methodName+" with throwing is"+ex);
@@ -59,7 +59,7 @@ public class LogAop {
 	 * 	环绕通知类似于动态代理全过程，ProceedingJoinPoint可以决定是否执行目标方法
 	 * @param proceedingJoinPoint
 	 */
-	@Around("ControllerLogExpression()")
+	//@Around("ControllerLogExpression()")
 	public Object Around(ProceedingJoinPoint proceedingJoinPoint) {
 		
 		Object result = null;

@@ -46,4 +46,13 @@ public class UserController {
 		User NewUser = new User(NewData.get("id").toString(),NewData.get("userName").toString(), NewData.get("password").toString());
 		return userService.UpdateUser(OldUser,NewUser);
 	}
+	
+	@RequestMapping(value="/AddUser",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> AddUser(@RequestBody Map<String, Object> result){
+		//System.out.println(result);
+		String UserName = result.get("UserName").toString();
+		String Password = result.get("Password").toString();
+		return userService.AddUser(UserName, Password);
+	}
 }

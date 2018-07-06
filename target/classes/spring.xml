@@ -53,8 +53,24 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <!-- 启动事务注解 -->
-    <tx:annotation-driven transaction-manager="transactionManager"/> 
+    <!-- 启动事务注解
+    <tx:annotation-driven transaction-manager="transactionManager"/>  -->
+    
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    	<tx:attributes>
+    		<tx:method name="Get*" read-only="true"/>
+    		<tx:method name="Find*" read-only="true"/>
+    		<tx:method name="Update*" propagation="REQUIRED"/>
+    		<tx:method name="Save*" propagation="REQUIRED"/>
+    		<tx:method name="Add*" propagation="REQUIRED"/>
+    		<tx:method name="*"/>
+    	</tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+    	<aop:pointcut expression="execution(* com.service.*Service.*(..))" id="txPointcut"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
     
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"></property>
