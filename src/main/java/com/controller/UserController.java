@@ -2,7 +2,6 @@ package com.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,11 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.model.User;
 import com.service.UserService;
-
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
 @Controller
 @RequestMapping(value="/User")
@@ -54,5 +50,12 @@ public class UserController {
 		String UserName = result.get("UserName").toString();
 		String Password = result.get("Password").toString();
 		return userService.AddUser(UserName, Password);
+	}
+	
+	@RequestMapping(value="/DelUser",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> DelUser(@RequestBody Map<String, Object> result){
+		String Id = result.get("Id").toString();
+		return userService.DelUser(Id);
 	}
 }

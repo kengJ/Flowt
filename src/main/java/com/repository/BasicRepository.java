@@ -3,7 +3,6 @@ package com.repository;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
@@ -56,5 +55,9 @@ public class BasicRepository<T> {
 		} catch (Exception e) {
 		}
 		return DataList;
+	}
+	
+	public T Get(Integer Id) {
+		return hibernateTemplate.get(entityClass, Id);
 	}
 }

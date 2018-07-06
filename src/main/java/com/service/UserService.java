@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import com.model.User;
 import com.repository.UserRepositoryImpl;
 import com.util.MessageBox;
@@ -66,6 +63,28 @@ public class UserService {
 			return MessageBox.UserMessageBox("success", userRepositoryImpl.FindByHql(String.format("from User where UserName = '%s' and Password = '%s'", UserName,Password)).get(0));
 		}else{
 			return MessageBox.UserMessageBox("error","插入失败");
+		}
+	}
+	
+	public Map<String, Object> DelUser(String Id){
+		
+		User user;
+		try {
+			user = userRepositoryImpl.FindByHql("from User where Id='"+Id+"'").get(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			user = null;
+		}
+		if(user!=null) {
+			boolean check = userRepositoryImpl.Delete(user);
+			if(check) {
+				return MessageBox.UserMessageBox("success","删除账号"+user.getUserName()+"成功");
+			}else {
+				return MessageBox.UserMessageBox("error","删除账号失败");
+			}
+		}else {
+			return MessageBox.UserMessageBox("error","找不到账号信息");
 		}
 	}
 }
