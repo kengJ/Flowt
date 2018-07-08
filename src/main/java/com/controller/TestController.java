@@ -21,6 +21,7 @@ import com.views.ViewExcel;
 
 @Controller
 public class TestController {
+	@SuppressWarnings("unused")
 	@Autowired(required=true)
     private UserService userService;
 	
@@ -49,7 +50,7 @@ public class TestController {
     @RequestMapping(value = "/savePerson", method = RequestMethod.GET)
     @ResponseBody
     public String savePerson() {
-    	userService.Save();
+    	//userService.Save();
         return "success!";
     }
     

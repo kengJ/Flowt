@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.model.User;
 import com.service.LoginService;
-import com.service.UserService;
 import com.util.MessageBox;
 
 @Controller
@@ -21,9 +19,6 @@ public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
-	
-	@Autowired
-	private UserService userService;
 	
 	@RequestMapping(value="/LoginPage")
 	public String LoginPage(){
@@ -74,9 +69,9 @@ public class LoginController {
 		if(Id!=null&&!Id.equals("")){
 			user = loginService.FindUserById(Id);
 		}else{
-			user = userService.Check(Json.get("UserName"), Json.get("Password"));
+			user = loginService.FindUser(Json.get("UserName"), Json.get("Password"));
 		}
-		if(user!=null&&!user.equals("")){
+		if(user!=null){
 			Map<String, String> result = new HashMap<String,String>();
 			result.put("name", user.getUserName());
 			result.put("role", "ADMIN");

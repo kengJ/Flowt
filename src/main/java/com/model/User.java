@@ -83,7 +83,7 @@ public class User {
 	}
 
 	public String getCreateDate() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD HH:ss:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(CreateDate) ;
 	}
 
@@ -92,7 +92,7 @@ public class User {
 	}
 
 	public String getUpdateDate() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD HH:ss:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(UpdateDate) ;
 	}
 

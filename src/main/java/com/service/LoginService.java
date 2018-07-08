@@ -34,4 +34,12 @@ public class LoginService {
 		List<User> users = userRepository.FindByHql(String.format(Hql, Id));
 		return users.size()<=0?users.get(0):null;
 	}
+	
+	public User FindUser(String UserName,String Password) {
+		try {
+			return userRepository.FindByHql(String.format("from User where UserName='%s' and Password='%s'", UserName,Password)).get(0);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

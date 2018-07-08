@@ -19,23 +19,26 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/UserList")
+	/**
+	 * 查询用户
+	 * @param Code
+	 * @return
+	 */
+	@RequestMapping(value="/FindUser")
 	@ResponseBody
-	public List<User> UserList(){
-		return userService.FindList();
-	}
-	
-	@RequestMapping(value="/UserListByCode")
-	@ResponseBody
-	public List<User> UserListByCode(@RequestParam String Code){
+	public List<User> FindUser(@RequestParam(value="Code") String Code){
 		return userService.FindListByCode(Code);
 	}
 	
+	/**
+	 * 更新用户
+	 * @param result
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/UpdateUserById",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> UpdateUserById(@RequestBody Map<String, Object> result){
-		System.out.println(result);
 		Map<String, Object> OldData =  (Map<String, Object>) result.get("oldData");
 		Map<String, Object> NewData =  (Map<String, Object>) result.get("newData");
 		User OldUser = new User(OldData.get("id").toString(),OldData.get("userName").toString(), OldData.get("password").toString());
@@ -43,15 +46,24 @@ public class UserController {
 		return userService.UpdateUser(OldUser,NewUser);
 	}
 	
+	/**
+	 * 新增用户
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value="/AddUser",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> AddUser(@RequestBody Map<String, Object> result){
-		//System.out.println(result);
 		String UserName = result.get("UserName").toString();
 		String Password = result.get("Password").toString();
 		return userService.AddUser(UserName, Password);
 	}
 	
+	/**
+	 * 删除用户
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value="/DelUser",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> DelUser(@RequestBody Map<String, Object> result){
