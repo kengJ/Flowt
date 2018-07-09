@@ -5,6 +5,8 @@ import com.model.SqlMessage;
 
 public class SqlTool {
 
+	
+	
 	public List<String[]> GetData(SqlMessage sqlMessage , String Sql) {
 		List<String[]> DataList = null;
 		switch(sqlMessage.getType()) {

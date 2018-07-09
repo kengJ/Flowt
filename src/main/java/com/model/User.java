@@ -2,19 +2,20 @@ package com.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
@@ -32,8 +33,9 @@ public class User {
 	@Column(name="Password")
 	private String Password;
 	
-	@Column(name="Role")
-	private String Role;
+	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@JoinColumn(name="Role_Id",referencedColumnName="id")
+	private Role Role;
 	
 	@Generated(GenerationTime.ALWAYS)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -105,11 +107,11 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return Role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		Role = role;
 	}
 

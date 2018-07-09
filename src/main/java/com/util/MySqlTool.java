@@ -13,6 +13,7 @@ import com.model.SqlMessage;
 public class MySqlTool {
 
 	public Connection CreateConn(SqlMessage sqlMessage) {
+		
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	    String DB_URL = String.format("jdbc:mysql://%:3306/%", sqlMessage.getIp(),sqlMessage.getDatabaseName());
 	    String USER = sqlMessage.getUserName();
@@ -23,9 +24,7 @@ public class MySqlTool {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		} catch (ClassNotFoundException e) {
-			System.out.println("��������ʧ��");
 		} catch (SQLException e) {
-			System.out.println("�������ݿ�ʧ��");
 		}
 	    
 	    return conn;

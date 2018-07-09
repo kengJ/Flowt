@@ -8,7 +8,6 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 
 public class BasicRepository<T> {
 	
-	@SuppressWarnings("unused")
 	private Class<T> entityClass;  
 	
 	@Autowired
