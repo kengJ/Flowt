@@ -1,5 +1,8 @@
 package com.aop;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,19 +16,23 @@ import org.springframework.stereotype.Component;
  * @author heyanzhu
  *
  */
-@Order(10)
+@Order(0)
 @Component
 @Aspect
-public class ServiceBasicAop {
+public class ServiceLogAop {
 
-	private static final  Logger log = Logger.getLogger(ServiceBasicAop.class);
+	private static final  Logger log = Logger.getLogger(ServiceLogAop.class);
 	
-	@Pointcut("execution(* com.controller.*Controller.*(..))")
+	/**
+	 * 拦截service下所有的函数
+	 */
+	
+	@Pointcut("execution(* com.service.*Service.Find*(..))")
 	public void FindFuncExpression() {}
 	
 	/**
 	 * 环绕通知
-	 * 针对所有service曾的Find函数进行处理
+	 * 针对所有service层的Find函数进行处理
 	 * 1.输出日志
 	 * 2.返回空值
 	 * @param joinPoint
@@ -33,16 +40,14 @@ public class ServiceBasicAop {
 	 */
 	@Around("FindFuncExpression()")
 	public Object ServiceExctionForFind(ProceedingJoinPoint proceedingJoinPoint){
-	    
 		String MethodName = proceedingJoinPoint.getSignature().getName();
-		log.info("Method "+MethodName+" Start");
+		List<Object> Args = Arrays.asList(proceedingJoinPoint.getArgs());
 		Object Result = null;
 		try {
 			Result = proceedingJoinPoint.proceed();
 		} catch (Throwable e) {
-			log.error("Method "+MethodName+" have a expection is "+e.toString());
+			log.error("Method "+MethodName+" and args is "+ Args +" have a expection is "+e.toString());
 		}
-		log.info("Method "+MethodName +" end");
 		return Result;
 	}
 }

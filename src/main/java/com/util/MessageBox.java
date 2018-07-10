@@ -11,4 +11,12 @@ public class MessageBox {
 		result.put("value", Value);
 		return result;
 	}
+	
+	public static Map<String, Object> SuccessBox(Object Value){
+		return MessageBox.UserMessageBox("success", Value);
+	}
+	
+	public static Map<String, Object> ErrorBox(Object Value){
+		return MessageBox.UserMessageBox("error", Value);
+	}
 }

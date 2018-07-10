@@ -17,6 +17,10 @@ public class BasicRepository<T> {
         return hibernateTemplate.getSessionFactory().getCurrentSession();
 	}
 	
+	public HibernateTemplate GetHibernateTemplate(){
+		return this.hibernateTemplate;
+	}
+	
 	public boolean Save(T o){
 		try{
 			hibernateTemplate.save(o);

@@ -62,4 +62,22 @@ public class RoleService implements BasicService<Role> {
 		}
 	}
 	
+	public List<Role> FindByName(String Name){
+		try {
+			return roleRepository.FindByHql(String.format("from Role where RoleName like '%%s%'", Name));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public boolean AddRole(String RoleName,String Memo){
+		List<Role> Roles = roleRepository.FindByHql(String.format("from Role where RoleName = '%s'", RoleName));
+		if(Roles.size()<=0){
+			this.Add(new Role(RoleName, Memo));
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 }

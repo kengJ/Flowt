@@ -2,23 +2,23 @@ package com.aop;
 
 import java.util.Arrays;
 import java.util.List;
-import org.aspectj.lang.annotation.AfterThrowing;
+import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.aspectj.lang.annotation.Around;
 
-@Order(10)
-@Aspect
-@Component
+//@Order(10)
+//@Aspect
+//@Component
 public class LogAop {
 
+	Logger log = Logger.getLogger(LogAop.class);
+	
 	//切入点表达式
 	@Pointcut("execution(* com.controller.*Controller.*(..))")
 	public void ControllerLogExpression() {}
@@ -28,8 +28,7 @@ public class LogAop {
 	public void BeforeMethod(JoinPoint joinPoint) {
 		String methodName = joinPoint.getSignature().getName();
 		List<Object> args = Arrays.asList(joinPoint.getArgs());
-		System.out.println("controller method"+methodName+" args is "+args);
-		
+		log.info("controller method"+methodName+" args is "+args);
 	}
 	
 	//后置通知无法获取返回值
@@ -44,7 +43,8 @@ public class LogAop {
 	@AfterReturning(value="ControllerLogExpression()",returning="result")
 	public void AfterReturn(JoinPoint joinPoint,Object result) {
 		String methodName = joinPoint.getSignature().getName();
-		System.out.println("controller method "+methodName+" result is"+result);
+		//System.out.println("controller method "+methodName+" result is"+result);
+		log.info("controller method "+methodName+" result is"+result);
 	}
 	
 	//异常通知

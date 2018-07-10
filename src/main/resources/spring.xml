@@ -69,12 +69,13 @@
     
     <aop:config>
     	<aop:pointcut expression="execution(* com.service.*Service.*(..))" id="txPointcut"/>
-    	<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" order="1"/>
     </aop:config>
-    
+     
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
-    
-    
+
+    <!-- <aop:aspectj-autoproxy/>  -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 </beans>
