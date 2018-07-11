@@ -56,7 +56,7 @@ public class UserService {
 		}
 		boolean check = userRepositoryImpl.Save(new User(UserName, Password));
 		if(check){
-			return MessageBox.UserMessageBox("success", userRepositoryImpl.FindByHql(String.format("from User where UserName = '%s' and Password = '%s'", UserName,Password)).get(0));
+			return MessageBox.UserMessageBox("success", "新增成功");
 		}else{
 			return MessageBox.UserMessageBox("error","插入失败");
 		}
