@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,5 +50,10 @@ public class SqlMessageController {
 	@ResponseBody
 	public List<SqlMessage> FindSqlMessages(){
 		return sqlMessageService.FindSqlMessage();
+	}
+	@RequestMapping("/Find")
+	@ResponseBody
+	public Map<String, Object> Find(String Code){
+		return sqlMessageService.Find(Code);
 	}
 }

@@ -23,19 +23,17 @@ public class RoleController {
 	
 	@RequestMapping(value="Find",method=RequestMethod.GET)
 	@ResponseBody
-	public List<Role> Find(String Code){
+	public Map<String, Object> Find(String Code){
 		List<Role> RoleList = null;
 		if(Code==""||Code.equals("")){
 			RoleList = roleService.FindAll();
 		}else{
 			RoleList = roleService.FindByName(Code);
 		}
-		/**if(RoleList.size()>0){
-			return MessageBox.SuccessBox(RoleList);
-		}else{
-			return MessageBox.ErrorBox("没有查到相应的数据");	
-		}**/
-		return RoleList;
+		if(RoleList==null||RoleList.size()==0){
+			return MessageBox.ErrorBox("未能查到相应数据");
+		}
+		return MessageBox.SuccessBox("数据查询成功", RoleList);
 	}
 	
 	@RequestMapping(value="AddRole",method=RequestMethod.POST)

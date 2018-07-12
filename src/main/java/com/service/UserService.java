@@ -37,9 +37,9 @@ public class UserService {
 			user.setUserName(NewUser.getUserName());
 			user.setPassword(NewUser.getPassword());
 			userRepositoryImpl.Update(user);
-			return MessageBox.UserMessageBox("success", userRepositoryImpl.FindByHql(String.format("from User where Id = '%s'", NewUser.getId())).get(0));
+			return MessageBox.SuccessBox("更新成功");
 		}else{
-			return MessageBox.UserMessageBox("error",userRepositoryImpl.FindByHql(String.format("from User where Id = '%s'", NewUser.getId())).get(0));
+			return MessageBox.ErrorBox("更新失败");
 		}
 	}
 	

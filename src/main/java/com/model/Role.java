@@ -16,7 +16,7 @@ public class Role {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Long Id;
 	
 	@Column(name="RoleName")
 	private String RoleName;
@@ -26,15 +26,15 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", RoleName=" + RoleName + ", Memo=" + Memo + "]";
+		return "Role [id=" + Id + ", RoleName=" + RoleName + ", Memo=" + Memo + "]";
 	}
 
 	public Long getId() {
-		return id;
+		return Id;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.Id = id;
 	}
 
 	public String getRoleName() {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.model.User;
 import com.service.UserService;
+import com.util.MessageBox;
 
 @Controller
 @RequestMapping(value="/User")
@@ -26,8 +27,9 @@ public class UserController {
 	 */
 	@RequestMapping(value="/FindUser")
 	@ResponseBody
-	public List<User> FindUser(@RequestParam(value="Code") String Code){
-		return userService.FindListByCode(Code);
+	public Map<String, Object> FindUser(@RequestParam(value="Code") String Code){
+		List<User> DataList = userService.FindListByCode(Code);
+		return MessageBox.SuccessBox("数据查询成功", DataList);
 	}
 	
 	/**
