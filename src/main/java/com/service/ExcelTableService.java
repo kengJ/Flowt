@@ -8,6 +8,7 @@ import com.model.ExcelTable;
 import com.model.SqlMessage;
 import com.repository.ExcelTableRepository;
 import com.util.ExcelHelp;
+import com.util.MessageBox;
 import com.util.SqlTool;
 
 
@@ -75,5 +76,24 @@ public class ExcelTableService {
 		}**/
 		//return result;
 		return excelTableRepository.Find();
+	}
+	
+	public Map<String, Object> Find(String Code){
+		try {
+			List<ExcelTable> DataList = null;
+			if(Code==""||Code.equals("")){
+				DataList = excelTableRepository.Find();
+			}else{
+				DataList = excelTableRepository.FindByHql(String.format("from ExcelTable where Memo like '%%s%' or Ip like '%%s%'", Code,Code));
+			}
+			if(DataList==null||DataList.size()==0){
+				return MessageBox.ErrorBox("查询错误，未能查到相应记录");
+			}else{
+				return MessageBox.SuccessBox("查询成功", DataList);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return MessageBox.ErrorBox("查询异常");
+		}
 	}
 }

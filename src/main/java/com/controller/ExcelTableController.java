@@ -1,6 +1,8 @@
 package com.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +49,14 @@ public class ExcelTableController {
 	@RequestMapping("/FindExcelTables")
 	@ResponseBody
 	public List<ExcelTable> FindExcelTables(){
-		System.out.println(excelTableService.FindExcelTables());
+		//System.out.println(excelTableService.FindExcelTables());
 		return excelTableService.FindExcelTables();
+	}
+	
+	@RequestMapping(value="/Find")
+	@ResponseBody
+	public Map<String, Object> Find(String Code){
+		return excelTableService.Find(Code);
 	}
 	
 }

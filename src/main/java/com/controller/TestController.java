@@ -46,6 +46,15 @@ public class TestController {
         
         return new ModelAndView(new ViewExcel(), model);
     }
+	@RequestMapping(value = "/TxCode")
+	@ResponseBody
+	public Map<String, String> TxCode(){
+		Map<String, String> json = new HashMap<String, String>();
+		json.put("db", "TxCardb18");
+		json.put("code", "050161237052242231051164050161235166216051155138035153092221159023121");
+		json.put("computer", "P09240");
+		return json;
+	}
 
     @RequestMapping(value = "/savePerson", method = RequestMethod.GET)
     @ResponseBody

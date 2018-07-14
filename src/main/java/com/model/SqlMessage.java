@@ -14,6 +14,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
+import com.util.StrUtil;
+
 import lombok.Data;
 
 @Data
@@ -92,16 +94,16 @@ public class SqlMessage {
 		Ip = ip;
 	}
 
-	public Date getCreateDate() {
-		return CreateDate;
+	public String getCreateDate() {
+		return StrUtil.FormatDateTime(CreateDate);
 	}
 
 	public void setCreateDate(Date createDate) {
 		CreateDate = createDate;
 	}
 
-	public Date getUpdateDate() {
-		return UpdateDate;
+	public String getUpdateDate() {
+		return StrUtil.FormatDateTime(UpdateDate);
 	}
 
 	public void setUpdateDate(Date updateDate) {

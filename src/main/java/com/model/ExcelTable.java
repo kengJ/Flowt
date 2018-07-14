@@ -6,6 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
+import com.util.StrUtil;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,10 +41,14 @@ public class ExcelTable {
 	@Column(name="IsSplitTable")
 	private int IsSplitTable;
 	
-	@Column(name="CreateDate")
+	@Generated(GenerationTime.ALWAYS)
+	@Temporal(TemporalType.TIME)
+	@Column(name="CreateDate",nullable=false,columnDefinition="datetime DEFAULT CURRENT_TIMESTAMP")
 	private Date CreateDate;
 	
-	@Column(name="UpdateDate")
+	@Generated(GenerationTime.ALWAYS)
+	@Temporal(TemporalType.TIME)
+	@Column(name="UpdateDate",nullable=false,columnDefinition="datetime DEFAULT CURRENT_TIMESTAMP")
 	private Date UpdateDate;
 
 	@Column(name="CodeIcon")
@@ -87,24 +99,24 @@ public class ExcelTable {
 		Memo = memo;
 	}
 
-	public int getIsSplitTable() {
-		return IsSplitTable;
+	public String getIsSplitTable() {
+		return IsSplitTable==0?"否":"是";
 	}
 
 	public void setIsSplitTable(int isSplitTable) {
 		IsSplitTable = isSplitTable;
 	}
 
-	public Date getCreateDate() {
-		return CreateDate;
+	public String getCreateDate() {
+		return StrUtil.FormatDateTime(CreateDate);
 	}
 
 	public void setCreateDate(Date createDate) {
 		CreateDate = createDate;
 	}
 
-	public Date getUpdateDate() {
-		return UpdateDate;
+	public String getUpdateDate() {
+		return StrUtil.FormatDateTime(UpdateDate);
 	}
 
 	public void setUpdateDate(Date updateDate) {

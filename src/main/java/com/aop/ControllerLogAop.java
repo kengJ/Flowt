@@ -60,6 +60,7 @@ public class ControllerLogAop {
 			log.info("Controller Url is "+Url+" and Args is "+ Args);//记录请求信息
 			try {
 				Result = proceedingJoinPoint.proceed();
+				log.info("Controller Url is "+Url+" and result is "+Result.toString());
 			} catch (Throwable e) {
 				log.error("Method "+MethodName+" and the args is"+ Args +" Error: "+e.toString());
 				e.printStackTrace();
@@ -69,7 +70,7 @@ public class ControllerLogAop {
 			//把拦截的Ip写入数据库，先判断是否已经存在记录
 			interceptedLogService.SaveInterceptedComputer(Ip, Url);
 		}
-		log.info("Controller Url is "+Url+" and result is "+Result.toString());
+		
 		return Result;
 	}
 }
