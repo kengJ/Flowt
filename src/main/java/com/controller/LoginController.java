@@ -22,7 +22,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/LoginPage")
 	public String LoginPage(){
-		return "Login";
+		return "Login/UiTest";
 	}
 	
 	@RequestMapping(value="/LoginCheck",method=RequestMethod.GET)
@@ -43,7 +43,7 @@ public class LoginController {
 		System.out.println(UserName+'_'+Password);
 		if(UserName.equals("admin")&&Password.equals("admin")) {
 			//return "success";
-			return "index";
+			return "LayUiIndex";
 		}else {
 			return "redirect:Login";
 		}
@@ -80,5 +80,10 @@ public class LoginController {
 		}
 		return null;
 		
+	}
+	
+	@RequestMapping("/Logout")
+	public String Ladyout(){
+		return "Login/UiTest";
 	}
 }
