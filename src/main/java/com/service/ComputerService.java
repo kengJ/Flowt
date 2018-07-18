@@ -24,7 +24,7 @@ public class ComputerService implements BasicService<Computer>{
 	}
 	
 	public List<Computer> FindAll() {
-		return computerRepository.FindByHql("form Computer");
+		return computerRepository.FindByHql("from Computer");
 	}
 
 	public Computer FindById(String Id) {
@@ -66,5 +66,9 @@ public class ComputerService implements BasicService<Computer>{
 	public boolean FindByIP(String Ip){
 		List<Computer> computers =  computerRepository.FindByHql(String.format("select Id from Computer where Ip = '%s'", Ip));
 		return computers.size()>0;
+	}
+	
+	public List<Computer> FindByKey(String Key){
+		return computerRepository.FindByHql("from Computer where LoginName like '%"+Key+"%' or Ip like '%"+Key+"%' or UserCode like '%"+Key+"%' or UserName like '%"+Key+"%' ");
 	}
 }
