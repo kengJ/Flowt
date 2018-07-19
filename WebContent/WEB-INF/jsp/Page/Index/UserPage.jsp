@@ -7,11 +7,11 @@
 <div class="layui-card" style="margin: 10px;border: 1px solid #e8e8e8;">
   <div class="layui-card-header" style="border-bottom: 1px solid #e8e8e8;">准入IP地址列表</div>
   <div class="layui-card-body">
-  	<blockquote class="layui-elem-quote">
+  	<!-- <blockquote class="layui-elem-quote">
   		说明:<br/>
   		1.系统登录时会进行Ip检查，准入IP里没有信息是不可以访问的<br/>
   		2.查询功能可查询所有列
-  	</blockquote>
+  	</blockquote> -->
    	<div class="layui-row layui-col-space10"">
 	   	<div class="layui-col-md2">
 	   		<button class="layui-btn layui-btn-normal" id="btn-add"><i class="layui-icon layui-icon-add-circle-fine"></i> 新增</button>
@@ -55,15 +55,6 @@ layui.use(['table','layer','form'], function(){
 	      ,{field: 'action', title: '操作',toolbar:"#barDemo"}
 	    ]],
 	    done: function(res, curr, count){
-	        //如果是异步请求数据方式，res即为你接口返回的信息。
-	        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-	        //console.log(res);
-	        
-	        //得到当前页码
-	        //console.log(curr); 
-	        
-	        //得到数据总量
-	        //console.log(count);
 	        return res;
 	      }
 	  });

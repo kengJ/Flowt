@@ -9,13 +9,13 @@
 <div class="layui-form-item">
     <label class="layui-form-label">登录名</label>
     <div class="layui-input-block">
-      <input type="text" name="LoginName" required value="${loginName}" placeholder="请输入登录名" autocomplete="off" class="layui-input">
+      <input type="text" name="LoginName" required value="${loginName}"  lay-verify="required" placeholder="请输入登录名" autocomplete="off" class="layui-input">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">IP</label>
     <div class="layui-input-block">
-      <input type="text" name="Ip" required value="${ip}" placeholder="请输入IP地址" autocomplete="off" class="layui-input">
+      <input type="text" name="Ip" required value="${ip}"  lay-verify="required" placeholder="请输入IP地址" autocomplete="off" class="layui-input">
     </div>
 </div>
 </form>

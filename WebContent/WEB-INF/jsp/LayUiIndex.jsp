@@ -72,8 +72,8 @@
         <li class="layui-nav-item">
           <a href="javascript:;">系统设置</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">用户设置</a></dd>
-            <dd><a href="javascript:;" lay-filter="IpAddress">准入IP地址设置</a></dd>
+            <dd><a href="javascript:;" action="User">用户设置</a></dd>
+            <dd><a href="javascript:;" lay-filter="IpAddress" action="IpAddress">准入IP地址设置</a></dd>
           </dl>
         </li>
       </ul>
@@ -93,10 +93,10 @@
 layui.use(['element','layer'], function(){
   var element = layui.element;
   var layer = layui.layer;
-  $("a[lay-filter='IpAddress']").click(function(){
-	  //layer.msg('test');
+  $("a[action]").click(function(){
+	  var action = $(this).attr('action');
 	  $('.layui-body').empty();
-	  $.get('${APP_PATH}/Page/IpAddressIndexPage',function(data){
+	  $.get('${APP_PATH}/PageIndex/IndexPage/'+action,function(data){
 		  $('.layui-body').append(data);
 	  });
   });

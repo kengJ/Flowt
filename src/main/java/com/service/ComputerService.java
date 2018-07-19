@@ -56,7 +56,7 @@ public class ComputerService implements BasicService<Computer>{
 
 	public boolean Update(Computer o) {
 		try {
-			computerRepository.Update(o);
+			computerRepository.SaveOrUpdate(o);
 			return true;
 		} catch (Exception e) {
 			return false;

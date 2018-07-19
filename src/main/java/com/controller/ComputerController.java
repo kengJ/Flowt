@@ -75,9 +75,17 @@ public class ComputerController {
 	
 	@RequestMapping(value="Update")
 	@ResponseBody
-	public String Update(String Id,String LoginName,String Ip){
+	public String Update(@RequestParam(defaultValue="",name="Id")String Id,String LoginName,String Ip){
 		try {
-			Computer computer = computerService.FindById(Id);
+			Computer computer = null;
+			if(Id==null||Id==""||Id.equals("")){
+				//新增跳过查询
+				computer = new Computer();
+				computer.setUserCode("Admin");
+				computer.setUserName("Admin");
+			}else{
+				computer = computerService.FindById(Id);
+			}
 			computer.setIp(Ip);
 			computer.setLoginName(LoginName);
 			computerService.Update(computer);

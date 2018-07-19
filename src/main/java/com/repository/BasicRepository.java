@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
 public class BasicRepository<T> {
@@ -62,5 +63,15 @@ public class BasicRepository<T> {
 	
 	public T Get(Integer Id) {
 		return hibernateTemplate.get(entityClass, Id);
+	}
+	
+	public boolean SaveOrUpdate(T o){
+		try {
+			hibernateTemplate.saveOrUpdate(o);
+			return true;
+		} catch (DataAccessException e) {
+			return false;
+		}
+		
 	}
 }
