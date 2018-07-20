@@ -4,6 +4,7 @@
 	pageContext.setAttribute("APP_PATH", request.getContextPath());
 	pageContext.setAttribute("error", request.getParameter("error-box"));
 %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div style='padding:5px;'>
 	<table class='layui-table'>
 		<thead>

@@ -87,5 +87,14 @@ public class UserService {
 			return MessageBox.UserMessageBox("error","找不到账号信息");
 		}
 	}
+	
+	public List<User> FindAll(){
+		return userRepositoryImpl.FindByHql("from User");
+	}
+	
+	public List<User> FindByKey(String Key){
+		String Sql = String.format("from User where UserName like '%%s%'", Key);
+		return userRepositoryImpl.FindByHql(Sql);
+	}
 }
 	

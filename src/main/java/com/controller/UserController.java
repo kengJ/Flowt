@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.model.Computer;
 import com.model.User;
 import com.service.UserService;
 import com.util.MessageBox;
@@ -71,5 +74,29 @@ public class UserController {
 	public Map<String, Object> DelUser(@RequestBody Map<String, Object> result){
 		String Id = result.get("Id").toString();
 		return userService.DelUser(Id);
+	}
+	
+	/**
+	 * 
+	 * @param page 页编号
+	 * @param limit 每页条数
+	 * @return
+	 */
+	@RequestMapping(value="FindAll")
+	@ResponseBody
+	public Map<String, Object> FindAll(String page,String limit,@RequestParam(name="keyword",defaultValue="")String keyword){
+		int maxPage = Integer.parseInt(limit);
+		List<User> data = null;
+		if(keyword==""||keyword.equals("")){
+			data = userService.FindAll();
+		}else{
+			data = userService.FindByKey(keyword);
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("code", "");
+		result.put("msg", "");
+		result.put("count", data.size());
+		result.put("data", data);
+		return result;
 	}
 }

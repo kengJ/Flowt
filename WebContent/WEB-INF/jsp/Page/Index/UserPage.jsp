@@ -5,7 +5,7 @@
 	pageContext.setAttribute("error", request.getParameter("error-box"));
 %>
 <div class="layui-card" style="margin: 10px;border: 1px solid #e8e8e8;">
-  <div class="layui-card-header" style="border-bottom: 1px solid #e8e8e8;">准入IP地址列表</div>
+  <div class="layui-card-header" style="border-bottom: 1px solid #e8e8e8;">用户管理列表</div>
   <div class="layui-card-body">
   	<!-- <blockquote class="layui-elem-quote">
   		说明:<br/>
@@ -43,15 +43,15 @@ layui.use(['table','layer','form'], function(){
 	  table.render({
 	    elem: '#demo'
 	    ,height: 315
-	    ,url: '${APP_PATH}/Computer/FindAll' //数据接口
+	    ,url: '${APP_PATH}/User/FindAll' //数据接口
 	    ,page: true //开启分页
 	    ,text:'无数据'
 	    ,cols: [[ //表头
 	      {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-	      ,{field: 'loginName', title: '登录名', width:300}
-	      ,{field: 'ip', title: 'IP', width:200, sort: true}
-	      ,{field: 'userCode', title: '账号', width:200} 
-	      ,{field: 'userName', title: '用户名', width: 200}
+	      ,{field: 'userName', title: '用户名', width:300}
+	      ,{field: 'password', title: '密码', width:200, sort: true}
+	      ,{field: 'createDate', title: '创建日期', width:200} 
+	      ,{field: 'updateDate', title: '更新日期', width: 200}
 	      ,{field: 'action', title: '操作',toolbar:"#barDemo"}
 	    ]],
 	    done: function(res, curr, count){
@@ -73,7 +73,7 @@ layui.use(['table','layer','form'], function(){
 	    if(obj.event === 'detail'){
 	      //layer.msg('ID：'+ data.id + ' 的查看操作');
 	      var html = "<div style='padding:5px;'><table class='layui-table'><thead><tr><th style='width:10;'>key</th><th>value</th></tr></thead><tbody>";
-	      var titles = ['id','loginName','ip','userCode','userName'];
+	      var titles = ['id','userName','password','createDate','updateDate'];
 	      for(var index in titles){
 	    	  title = titles[index];
 		      html+="<tr><td>"+title+"</td><td>"+data[title]+"</td></tr>";
@@ -135,8 +135,6 @@ layui.use(['table','layer','form'], function(){
 	    	    });
 	      });
 	    }
-	    //console.log('data',data);
-	    //console.log('obj',obj);
 	  });
 	
 		$('#btn-add').click(function(){
