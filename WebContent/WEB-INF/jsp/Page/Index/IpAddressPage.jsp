@@ -149,7 +149,7 @@ layui.use(['table','layer','form'], function(){
 	  });
 	
 		$('#btn-add').click(function(){
-			$.get('${APP_PATH}/Page/ComputerEditPage',function(data){
+			$.get('${APP_PATH}/Page/Edit/Computer',function(data){
 		    	  var html = "<div style='padding:10px;'>"+data+"</div>";
 		    	  layer.open({
 		    	        type: 1,
