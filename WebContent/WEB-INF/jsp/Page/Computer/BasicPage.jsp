@@ -88,6 +88,9 @@ layui.use(['table','layer','form'], function(){
 		      html+="<tr><td>"+title+"</td><td>"+data[title]+"</td></tr>";
 	      }
 	      html+="</tbody></table></div>";
+	      var id = data[id];
+	      //$.get()
+	      console.log(id);
 	      layer.open({
 	    	  title:'详细信息',
 	    	  type: 1,

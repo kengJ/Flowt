@@ -1,7 +1,10 @@
 package com.util;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -49,5 +52,28 @@ public class StrUtil {
 	public static String FormatDateTime(String FormatStr ,Date Date){
 		SimpleDateFormat sdf = new SimpleDateFormat(FormatStr);
 		return sdf.format(Date);
+	}
+	
+	public static Map<String, String> ObjectToMap(Object obj){
+		Field[] fields = obj.getClass().getDeclaredFields();
+		Map<String, String> Result = new HashMap<String, String>();
+		for(int i = 0; i < fields.length; i++){
+			Field subField;
+			try {
+				subField = obj.getClass().getDeclaredField(fields[i].getName());
+				subField.setAccessible(true);
+				Object o = subField.get(obj);
+				Result.put(fields[i].getName(), o.toString());
+			} catch (NoSuchFieldException e) {
+				System.out.println(e);
+			} catch (SecurityException e) {
+				System.out.println(e);
+			} catch (IllegalArgumentException e) {
+				System.out.println(e);
+			} catch (IllegalAccessException e) {
+				System.out.println(e);
+			}
+		}
+		return Result;
 	}
 }

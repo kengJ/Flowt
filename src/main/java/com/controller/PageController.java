@@ -1,6 +1,11 @@
 package com.controller;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model.MessageTable;
+import com.model.MessageTableDetial;
 import com.service.MessageTableService;
+import com.util.StrUtil;
 
 @Controller
 @RequestMapping(value="/Page")
@@ -41,7 +48,19 @@ public class PageController {
 	@RequestMapping(value="/Show/{action}")
 	public ModelAndView ShowPage(@PathVariable("action")String action,HttpServletRequest request){
 		MessageTable MessageTable =messageTableService.getMessageTable(request.getAttribute("result").getClass().getSimpleName());
-		ModelAndView mv = new ModelAndView("Page/Computer/Show");
+		Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));
+		//System.out.println(Data);
+		System.out.println(MessageTable);
+		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
+		Set<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
+		for(MessageTableDetial mtd : MessageTableDetials ) {
+			Map<String, String> line = new HashMap<String, String>();
+			line.put("title", mtd.getTitle());
+			line.put("Value", Data.get(mtd.getName()));
+			ResultData.add(line);
+		}
+		ModelAndView mv = new ModelAndView("Page/Show");
+		mv.addObject("data", ResultData);
 		return mv;
 	}
 }

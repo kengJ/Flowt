@@ -81,20 +81,24 @@ layui.use(['table','layer','form'], function(){
 	    var data = obj.data;
 	    if(obj.event === 'detail'){
 	      //layer.msg('ID：'+ data.id + ' 的查看操作');
-	      var html = "<div style='padding:5px;'><table class='layui-table'><thead><tr><th style='width:10;'>key</th><th>value</th></tr></thead><tbody>";
+	      /**var html = "<div style='padding:5px;'><table class='layui-table'><thead><tr><th style='width:10;'>key</th><th>value</th></tr></thead><tbody>";
 	      var titles = ['id','loginName','ip','userCode','userName'];
 	      for(var index in titles){
 	    	  title = titles[index];
 		      html+="<tr><td>"+title+"</td><td>"+data[title]+"</td></tr>";
 	      }
-	      html+="</tbody></table></div>";
-	      layer.open({
-	    	  title:'详细信息',
-	    	  type: 1,
-	    	  skin: 'layui-layer-rim', //加上边框
-	    	  area: ['500px', '350px'], //宽高
-	    	  content: html
-	    	});
+	      html+="</tbody></table></div>";**/
+	      var id = data['id'];
+	      $.get("${APP_PATH}/Computer/FindById?Id="+id,function(data){
+	    	  layer.open({
+		    	  title:'详细信息',
+		    	  type: 1,
+		    	  skin: 'layui-layer-rim', //加上边框
+		    	  area: ['500px', '350px'], //宽高
+		    	  content: data
+		    	});
+	      });
+	      
 	    } else if(obj.event === 'del'){
 	      layer.confirm('是否删除此行数据', function(index){
 	    	  $.get('${APP_PATH}/Computer/Del?Id='+data['id'],function(data){

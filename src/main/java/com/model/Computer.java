@@ -68,6 +68,12 @@ public class Computer {
 	public void setUserName(String userName) {
 		UserName = userName;
 	}
+
+	@Override
+	public String toString() {
+		return "Computer [Id=" + Id + ", LoginName=" + LoginName + ", Ip=" + Ip + ", UserCode=" + UserCode
+				+ ", UserName=" + UserName + "]";
+	}
 	
 	
 
