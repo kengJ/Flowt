@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.model.Computer;
 import com.service.ComputerService;
@@ -93,5 +94,13 @@ public class ComputerController {
 		} catch (Exception e) {
 			return "error";
 		}
+	}
+	
+	@RequestMapping("/FindById")
+	public ModelAndView FindById(String Id){
+		Computer Computer = computerService.FindById(Id);
+		ModelAndView mv = new ModelAndView("forward:/Page/Show/Computer");
+		mv.addObject("result", Computer);
+		return mv;
 	}
 }
