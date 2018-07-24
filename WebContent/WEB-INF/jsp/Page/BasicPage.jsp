@@ -4,14 +4,20 @@
 	pageContext.setAttribute("APP_PATH", request.getContextPath());
 	pageContext.setAttribute("error", request.getParameter("error-box"));
 %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="layui-card" style="margin: 10px;border: 1px solid #e8e8e8;">
-  <div class="layui-card-header" style="border-bottom: 1px solid #e8e8e8;">准入IP地址列表</div>
+  <div class="layui-card-header" style="border-bottom: 1px solid #e8e8e8;">${title}</div>
   <div class="layui-card-body">
-  	<blockquote class="layui-elem-quote">
+  	<!-- <blockquote class="layui-elem-quote">
   		说明:<br/>
   		1.系统登录时会进行Ip检查，准入IP里没有信息是不可以访问的<br/>
   		2.查询功能可查询所有列
-  	</blockquote>
+  	</blockquote> -->
+  	<c:if test="${not empty tip}">
+	  	<blockquote class="layui-elem-quote">
+	  		${tip}
+	  	</blockquote>
+  	</c:if>
    	<div class="layui-row layui-col-space10"">
 	   	<div class="layui-col-md2">
 	   		<button class="layui-btn layui-btn-normal" id="btn-add"><i class="layui-icon layui-icon-add-circle-fine"></i> 新增</button>
@@ -43,27 +49,18 @@ layui.use(['table','layer','form'], function(){
 	  table.render({
 	    elem: '#demo'
 	    ,height: 315
-	    ,url: '${APP_PATH}/Computer/FindAll' //数据接口
+	    ,url: "${ActionFind}" //数据接口
 	    ,page: true //开启分页
 	    ,text:'无数据'
 	    ,cols: [[ //表头
 	      {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
 	      ,{field: 'loginName', title: '登录名', width:300}
-	      ,{field: 'ip', title: 'IP', width:200, sort: true}
-	      ,{field: 'userCode', title: '账号', width:200} 
-	      ,{field: 'userName', title: '用户名', width: 200}
+	      ,{field: 'ip', title: 'Ip', width:200, sort: true}
+	      ,{field: 'userCode', title: '账号编码', width:200} 
+	      ,{field: 'userName', title: '账号名称', width: 200}
 	      ,{field: 'action', title: '操作',toolbar:"#barDemo"}
 	    ]],
 	    done: function(res, curr, count){
-	        //如果是异步请求数据方式，res即为你接口返回的信息。
-	        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-	        //console.log(res);
-	        
-	        //得到当前页码
-	        //console.log(curr); 
-	        
-	        //得到数据总量
-	        //console.log(count);
 	        return res;
 	      }
 	  });
@@ -80,8 +77,8 @@ layui.use(['table','layer','form'], function(){
 	  table.on('tool(demo)', function(obj){
 	    var data = obj.data;
 	    if(obj.event === 'detail'){
-	      var id = data['id'];
-	      $.get("${APP_PATH}/Computer/FindById?Id="+id,function(data){
+    		var id = data['id'];
+	      $.get("${ActionShow}"+id,function(data){
 	    	  layer.open({
 		    	  title:'详细信息',
 		    	  type: 1,
@@ -90,10 +87,9 @@ layui.use(['table','layer','form'], function(){
 		    	  content: data
 		    	});
 	      });
-	      
 	    } else if(obj.event === 'del'){
 	      layer.confirm('是否删除此行数据', function(index){
-	    	  $.get('${APP_PATH}/Computer/Del?Id='+data['id'],function(data){
+	    	  $.get('${ActionDel}'+data['id'],function(data){
 	    		 if(data=="success") {
 	    			obj.del();
 	    		    layer.close(index);
@@ -101,7 +97,8 @@ layui.use(['table','layer','form'], function(){
 	    	  });
 	      });
 	    } else if(obj.event === 'edit'){
-	      $.get('${APP_PATH}/Page/ComputerEditPage?Id='+data['id']+'&Ip='+data['ip']+'&LoginName='+data['loginName'],function(data){
+	      //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+	      $.get('${ActionDel}'+data['id'],function(data){
 	    	  var html = "<div style='padding:10px;'>"+data+"</div>";
 	    	  layer.open({
 	    	        type: 1,
@@ -139,12 +136,10 @@ layui.use(['table','layer','form'], function(){
 	    	    });
 	      });
 	    }
-	    //console.log('data',data);
-	    //console.log('obj',obj);
 	  });
 	
 		$('#btn-add').click(function(){
-			$.get('${APP_PATH}/Page/Edit/Computer',function(data){
+			$.get('${APP_PATH}/Page/ComputerEditPage',function(data){
 		    	  var html = "<div style='padding:10px;'>"+data+"</div>";
 		    	  layer.open({
 		    	        type: 1,

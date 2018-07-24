@@ -43,4 +43,13 @@ public class ServerTool {
 		HttpServletRequest Request = ServerTool.GetRequest();
 		return Request.getRequestURI();
 	}
+	
+	/**
+	 * 获取应用地址
+	 * @return
+	 */
+	public static String GetAppPath(){
+		HttpServletRequest Request = ServerTool.GetRequest();
+		return Request.getContextPath();
+	}
 }

@@ -10,6 +10,8 @@ import java.sql.Statement;
 
 import org.junit.Test;
 
+import com.util.StrUtil;
+
 public class test {
 	@Test
 	public void sqltool(){
@@ -56,5 +58,11 @@ public class test {
 		}
 		
 		
+	}
+	
+	@Test
+	public void testStr(){
+		String str = "123456";
+		System.out.println(StrUtil.FormatFirstCharUp(str));
 	}
 }

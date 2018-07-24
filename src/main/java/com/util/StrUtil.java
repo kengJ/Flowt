@@ -54,6 +54,11 @@ public class StrUtil {
 		return sdf.format(Date);
 	}
 	
+	/**
+	 * 对象转换成Map
+	 * @param obj
+	 * @return
+	 */
 	public static Map<String, String> ObjectToMap(Object obj){
 		Field[] fields = obj.getClass().getDeclaredFields();
 		Map<String, String> Result = new HashMap<String, String>();
@@ -75,5 +80,25 @@ public class StrUtil {
 			}
 		}
 		return Result;
+	}
+	
+	/**
+	 * 字符串格式化>首字母大写
+	 * @param Str
+	 * @return
+	 */
+	public static String FormatFirstCharUp(String Str){
+		String pattern = "^[A-Z]{1}[A-Za-z]+";
+		boolean check = Pattern.matches(pattern, Str);
+		if(check){
+			return Str;
+		}
+		pattern = "^[A-Za-z]+";
+		check = Pattern.matches(pattern, Str);
+		if(check){
+			return Str.substring(0,1).toUpperCase()+Str.substring(1);
+		}else{
+			return "-1";
+		}
 	}
 }

@@ -22,6 +22,8 @@ public class MessageTableDetial {
 	private String Title;
 	@Column(name="KeyName")
 	private String Key;
+	@Column(name="OrderNo",nullable=false,columnDefinition="INT default 0")
+	private int OrderNo;
 	public Long getId() {
 		return Id;
 	}
@@ -46,16 +48,24 @@ public class MessageTableDetial {
 	public void setKey(String key) {
 		Key = key;
 	}
+	public int getOrderNo() {
+		return OrderNo;
+	}
+	public void setOrderNo(int orderNo) {
+		OrderNo = orderNo;
+	}
 	@Override
 	public String toString() {
-		return "MessageTableDetial [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Key=" + Key + "]";
+		return "MessageTableDetial [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Key=" + Key + ", OrderNo="
+				+ OrderNo + "]";
 	}
-	public MessageTableDetial(Long id, String name, String title, String key) {
+	public MessageTableDetial(Long id, String name, String title, String key, int orderNo) {
 		super();
 		Id = id;
 		Name = name;
 		Title = title;
 		Key = key;
+		OrderNo = orderNo;
 	}
 	public MessageTableDetial() {
 		super();

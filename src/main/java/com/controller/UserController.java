@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.model.Computer;
 import com.model.User;
 import com.service.UserService;
 import com.util.MessageBox;
@@ -85,7 +83,7 @@ public class UserController {
 	@RequestMapping(value="FindAll")
 	@ResponseBody
 	public Map<String, Object> FindAll(String page,String limit,@RequestParam(name="keyword",defaultValue="")String keyword){
-		int maxPage = Integer.parseInt(limit);
+		//int maxPage = Integer.parseInt(limit);
 		List<User> data = null;
 		if(keyword==""||keyword.equals("")){
 			data = userService.FindAll();

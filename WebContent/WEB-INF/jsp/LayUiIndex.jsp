@@ -73,7 +73,7 @@
           <a href="javascript:;">系统设置</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;" action="User">用户设置</a></dd>
-            <dd><a href="javascript:;" lay-filter="IpAddress" action="IpAddress">准入IP地址设置</a></dd>
+            <dd><a href="javascript:;" lay-filter="IpAddress" action="Computer">准入IP地址设置</a></dd>
           </dl>
         </li>
       </ul>
@@ -96,7 +96,7 @@ layui.use(['element','layer'], function(){
   $("a[action]").click(function(){
 	  var action = $(this).attr('action');
 	  $('.layui-body').empty();
-	  $.get('${APP_PATH}/PageIndex/IndexPage/'+action,function(data){
+	  $.get('${APP_PATH}/Page/Index?ActionName='+action,function(data){
 		  $('.layui-body').append(data);
 	  });
   });

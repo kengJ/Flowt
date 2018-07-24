@@ -48,7 +48,7 @@ public class ComputerController {
 	@RequestMapping(value="FindAll")
 	@ResponseBody
 	public Map<String, Object> FindAll(String page,String limit,@RequestParam(name="keyword",defaultValue="")String keyword){
-		int maxPage = Integer.parseInt(limit);
+		//int maxPage = Integer.parseInt(limit);
 		List<Computer> data = null;
 		if(keyword==""||keyword.equals("")){
 			data = computerService.FindAll();
@@ -97,9 +97,14 @@ public class ComputerController {
 	}
 	
 	@RequestMapping("/FindById")
-	public ModelAndView FindById(String Id){
+	public ModelAndView FindById(@RequestParam(defaultValue="",name="Type")String Type,@RequestParam(name="Id")String Id){
 		Computer Computer = computerService.FindById(Id);
-		ModelAndView mv = new ModelAndView("forward:/Page/Show/Computer");
+		ModelAndView mv = null;
+		if(Type==""||Type.equals("")){
+			mv = new ModelAndView("forward:/Page/Edit");
+		}else{
+			mv = new ModelAndView("forward:/Page/Show");
+		}
 		mv.addObject("result", Computer);
 		return mv;
 	}
