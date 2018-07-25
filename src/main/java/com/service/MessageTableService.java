@@ -16,7 +16,20 @@ public class MessageTableService {
 		
 		try {
 			data =  messageTableRepository.FindByHql(String.format("from MessageTable where Type = 'Basic' and Name='%s' order by Id", KeyName)).get(0);
-			//System.out.println(data);
+			System.out.println(data);
+		} catch (Exception e) {
+			
+		}
+		return data;
+	}
+	
+	public MessageTable  getMessageTable(String KeyName,String Type){
+		MessageTable data = null;
+		
+		try {
+			String Sql = String.format("from MessageTable where Type = 'Basic' and Name='%s' order by Id", KeyName);
+			data =  messageTableRepository.FindByHql(Sql).get(0);
+			System.out.println(data);
 		} catch (Exception e) {
 			
 		}

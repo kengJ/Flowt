@@ -96,5 +96,13 @@ public class UserService {
 		String Sql = String.format("from User where UserName like '%%s%'", Key);
 		return userRepositoryImpl.FindByHql(Sql);
 	}
+	public User FindById(String id) {
+		try {
+			String Sql = String.format("from User where Id = '%s'", id);
+			return userRepositoryImpl.FindByHql(Sql).get(0);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
 	

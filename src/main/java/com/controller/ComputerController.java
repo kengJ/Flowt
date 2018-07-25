@@ -21,20 +21,13 @@ public class ComputerController {
 	@Autowired
 	private ComputerService computerService;
 	
-	@RequestMapping("AddComputer")
+	@RequestMapping("Add")
 	@ResponseBody
-	public String AddComputer(@RequestParam String LoginName,
-							@RequestParam String Ip,
-							@RequestParam String UserCode,
-							@RequestParam String UserName){
-		Computer computer = new Computer();
-		computer.setIp(Ip);
-		computer.setLoginName(LoginName);
-		computer.setUserCode(UserCode);
-		computer.setUserName(UserName);
+	public String AddComputer(String LoginName,String Ip){
+		Computer computer = new Computer(LoginName,Ip);
 		try{
 			computerService.AddComputer(computer);
-			return "sucess";
+			return "success";
 		}catch (Exception e) {
 			return "error";
 		}
@@ -99,11 +92,12 @@ public class ComputerController {
 	@RequestMapping("/FindById")
 	public ModelAndView FindById(@RequestParam(defaultValue="",name="Type")String Type,@RequestParam(name="Id")String Id){
 		Computer Computer = computerService.FindById(Id);
+		System.out.println(Computer);
 		ModelAndView mv = null;
 		if(Type==""||Type.equals("")){
-			mv = new ModelAndView("forward:/Page/Edit");
-		}else{
 			mv = new ModelAndView("forward:/Page/Show");
+		}else{
+			mv = new ModelAndView("forward:/Page/Edit");
 		}
 		mv.addObject("result", Computer);
 		return mv;

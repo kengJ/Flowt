@@ -8,34 +8,39 @@
 <div class="layui-card" style="margin: 10px;border: 1px solid #e8e8e8;">
   <div class="layui-card-header" style="border-bottom: 1px solid #e8e8e8;">${title}</div>
   <div class="layui-card-body">
-  	<!-- <blockquote class="layui-elem-quote">
-  		说明:<br/>
-  		1.系统登录时会进行Ip检查，准入IP里没有信息是不可以访问的<br/>
-  		2.查询功能可查询所有列
-  	</blockquote> -->
   	<c:if test="${not empty tip}">
 	  	<blockquote class="layui-elem-quote">
 	  		${tip}
 	  	</blockquote>
   	</c:if>
    	<div class="layui-row layui-col-space10"">
-	   	<div class="layui-col-md2">
-	   		<button class="layui-btn layui-btn-normal" id="btn-add"><i class="layui-icon layui-icon-add-circle-fine"></i> 新增</button>
-	   	</div>
-	   	<div class="layui-col-md4">
-	   		<input type="text" id="keyword" required  placeholder="请输入查询内容" autocomplete="off" class="layui-input">
-	   	</div>
-	   	<div class="layui-col-md4">
-	   		<button class="layui-btn layui-btn-normal" id="btn-select"><i class="layui-icon layui-icon-search"></i> 查询</button>
-	   	</div>
+   		<c:if test="${not empty ActionAddPage }">
+	   		<div class="layui-col-md2">
+		   		<button class="layui-btn layui-btn-normal" id="btn-add"><i class="layui-icon layui-icon-add-circle-fine"></i> 新增</button>
+		   	</div>
+   		</c:if>
+   		<c:if test="${not empty ActionFindByKey }">
+	   		<div class="layui-col-md4">
+		   		<input type="text" id="keyword" required  placeholder="请输入查询内容" autocomplete="off" class="layui-input">
+		   	</div>
+		   	<div class="layui-col-md4">
+		   		<button class="layui-btn layui-btn-normal" id="btn-select"><i class="layui-icon layui-icon-search"></i> 查询</button>
+		   	</div>
+   		</c:if>
    	</div>
    	
    	<table class="layui-table" id="demo" lay-filter="demo">
    	</table>
    	<script type="text/html" id="barDemo">
-    		<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		<c:if test="${not empty ActionShow }">
+			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+		</c:if>
+		<c:if test="${not empty ActionEditPage }">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		</c:if>
+		<c:if test="${not empty ActionDel }">
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</c:if>
 		</script>
   </div>
 </div>
@@ -97,8 +102,7 @@ layui.use(['table','layer','form'], function(){
 	    	  });
 	      });
 	    } else if(obj.event === 'edit'){
-	      //layer.alert('编辑行：<br>'+ JSON.stringify(data))
-	      $.get('${ActionDel}'+data['id'],function(data){
+	      $.get('${ActionEditPage}'+data['id'],function(data){
 	    	  var html = "<div style='padding:10px;'>"+data+"</div>";
 	    	  layer.open({
 	    	        type: 1,
@@ -107,21 +111,14 @@ layui.use(['table','layer','form'], function(){
 	    	        area: ["460px", "250px"],
 	    	        content: html,
 	    	        yes: function (index) {
-	    	        	 var Data = $('#EditIpAddress').serializeArray();
-	    	        	 var url = "${APP_PATH}/Computer/Update?";
-	    	        	 for(var no in Data){
-	    	        		 if(no==0){
-	    	        			 url+= Data[no]['name']+'='+Data[no]['value'];
-	    	        		 }else{
-	    	        			 url+= '&'+Data[no]['name']+'='+Data[no]['value'];
-	    	        		 }
-	    	        	 }
+	    	        	 var Data = $('#EditIpAddress').serialize();
+	    	        	 var url = "${ActionEdit}"+Data;
 	    	        	 $.get(url,function(data){
 	    	        		if(data=="success"){
 	    	        			layer.msg('修改成功');
 	    	        			layer.close(index);
 	    	        			table.reload('demo', {
-    	        				  url: '${APP_PATH}/Computer/FindAll'
+    	        				  url: '${ActionFind}'
     	        				  ,where: {} //设定异步数据接口的额外参数
     	        				  //,height: 300
     	        				});
@@ -139,7 +136,7 @@ layui.use(['table','layer','form'], function(){
 	  });
 	
 		$('#btn-add').click(function(){
-			$.get('${APP_PATH}/Page/ComputerEditPage',function(data){
+			$.get('${ActionAddPage}',function(data){
 		    	  var html = "<div style='padding:10px;'>"+data+"</div>";
 		    	  layer.open({
 		    	        type: 1,
@@ -148,21 +145,15 @@ layui.use(['table','layer','form'], function(){
 		    	        area: ["460px", "250px"],
 		    	        content: html,
 		    	        yes: function (index) {
-		    	        	 var Data = $('#EditIpAddress').serializeArray();
-		    	        	 var url = "${APP_PATH}/Computer/Update?";
-		    	        	 for(var no in Data){
-		    	        		 if(no==0){
-		    	        			 url+= Data[no]['name']+'='+Data[no]['value'];
-		    	        		 }else{
-		    	        			 url+= '&'+Data[no]['name']+'='+Data[no]['value'];
-		    	        		 }
-		    	        	 }
+		    	        	 var Data = $('#EditIpAddress').serialize();
+		    	        	 console.log(Data);
+		    	        	 var url = "${ActionAdd}"+Data;
 		    	        	 $.get(url,function(data){
 		    	        		if(data=="success"){
 		    	        			layer.msg('新增成功');
 		    	        			layer.close(index);
 		    	        			table.reload('demo', {
-	    	        				  url: '${APP_PATH}/Computer/FindAll'
+	    	        				  url: '${ActionFind}'
 	    	        				  ,where: {} //设定异步数据接口的额外参数
 	    	        				  //,height: 300
 	    	        				});

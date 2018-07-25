@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.model.Computer;
 import com.model.User;
 import com.service.UserService;
 import com.util.MessageBox;
@@ -96,5 +99,19 @@ public class UserController {
 		result.put("count", data.size());
 		result.put("data", data);
 		return result;
+	}
+	
+	@RequestMapping("/FindById")
+	public ModelAndView FindById(@RequestParam(defaultValue="",name="Type")String Type,@RequestParam(name="Id")String Id){
+		User User = userService.FindById(Id);
+		//System.out.println(Computer);
+		ModelAndView mv = null;
+		if(Type==""||Type.equals("")){
+			mv = new ModelAndView("forward:/Page/Show");
+		}else{
+			mv = new ModelAndView("forward:/Page/Edit");
+		}
+		mv.addObject("result", User);
+		return mv;
 	}
 }

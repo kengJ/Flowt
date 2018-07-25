@@ -65,4 +65,11 @@ public class test {
 		String str = "123456";
 		System.out.println(StrUtil.FormatFirstCharUp(str));
 	}
+	
+	@Test
+	public void testType(){
+		
+		String name = "123";
+		System.out.println(StrUtil.IsBasicType(name));
+	}
 }

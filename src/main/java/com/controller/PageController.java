@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.model.MessageTable;
@@ -35,25 +33,33 @@ public class PageController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/{action}Edit")
+	/**@RequestMapping(value="/{action}Edit")
 	public ModelAndView AddPage(@PathVariable("action")String action) {
 		String ActionName = action.substring(0, 1).toUpperCase()+action.substring(1);
 		return new ModelAndView("Page/"+ActionName+"/Edit");
-	}
+	}**/
 	
 	@RequestMapping(value="/Edit")
 	public ModelAndView Edit(HttpServletRequest request){
-		MessageTable MessageTable =messageTableService.getMessageTable(request.getAttribute("result").getClass().getSimpleName());
-		Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
 		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
-		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
-		//把表字段配置信息匹配到request传过来的数据，并封装到list里
-		for(MessageTableDetial mtd : MessageTableDetials ) {
-			Map<String, String> line = new HashMap<String, String>();
-			line.put("title", mtd.getTitle());
-			line.put("Value", Data.get(mtd.getName()));
-			line.put("name", mtd.getName());
-			ResultData.add(line);
+		try {
+			String ActionName = request.getAttribute("result").getClass().getSimpleName();
+			//System.out.println(ActionName);
+			MessageTable MessageTable =messageTableService.getMessageTable(ActionName);
+			Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
+			List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
+			//把表字段配置信息匹配到request传过来的数据，并封装到list里
+			for(MessageTableDetial mtd : MessageTableDetials ) {
+				if(mtd.getIsEdit()==1){
+					Map<String, String> line = new HashMap<String, String>();
+					line.put("title", mtd.getTitle());
+					line.put("Value", Data.get(mtd.getName()));
+					line.put("name", mtd.getName());
+					ResultData.add(line);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 		ModelAndView mv = new ModelAndView("Page/Edit");
 		mv.addObject("data", ResultData);
@@ -67,12 +73,14 @@ public class PageController {
 	 */
 	@RequestMapping(value="/Show")
 	public ModelAndView ShowPage(HttpServletRequest request){
-		//System.out.println(request.getAttribute("result").getClass().getSimpleName());
+		System.out.println(request.getAttribute("result").getClass().getSimpleName());
 		//获取表字段配置信息
 		MessageTable MessageTable =messageTableService.getMessageTable(request.getAttribute("result").getClass().getSimpleName());
+		System.out.println(request.getAttribute("result"));
 		Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
 		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
 		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
+		//System.out.println(MessageTableDetials);
 		//把表字段配置信息匹配到request传过来的数据，并封装到list里
 		for(MessageTableDetial mtd : MessageTableDetials ) {
 			Map<String, String> line = new HashMap<String, String>();
@@ -94,12 +102,31 @@ public class PageController {
 		ModelAndView mv = new ModelAndView("Page/BasicPage");
 		mv.addObject("title", Title);
 		mv.addObject("tip", Tip);
+		mv.addObject("action", MessageTable.getName());
 		Set<MessageTableAction> MessageTableActions = MessageTable.getMessageTableActions();
 		//System.out.println();
 		String AppPath = ServerTool.GetAppPath();
 		for(MessageTableAction MessageTableAction : MessageTableActions){
 			mv.addObject("Action"+MessageTableAction.getType(), AppPath+MessageTableAction.getUrl());
 		}
+		return mv;
+	}
+	@RequestMapping(value="/AddPage")
+	public ModelAndView AddPage(String ActionName){
+		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
+		String Action = StrUtil.FormatFirstCharUp(ActionName);
+		MessageTable MessageTable = messageTableService.getMessageTable(Action);
+		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
+		for(MessageTableDetial MessageTableDetial : MessageTableDetials){
+			if(MessageTableDetial.getIsAdd()==1){
+				Map<String, String> line = new HashMap<String, String>();
+				line.put("title", MessageTableDetial.getTitle());
+				line.put("name", MessageTableDetial.getName());
+				ResultData.add(line);
+			}
+		}
+		ModelAndView mv = new ModelAndView("Page/AddPage");
+		mv.addObject("data", ResultData);
 		return mv;
 	}
 }

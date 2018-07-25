@@ -16,14 +16,25 @@ public class MessageTableDetial {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long Id;
+	
 	@Column(name="Name")
 	private String Name;
+	
 	@Column(name="Title")
 	private String Title;
+	
 	@Column(name="KeyName")
 	private String Key;
+	
 	@Column(name="OrderNo",nullable=false,columnDefinition="INT default 0")
 	private int OrderNo;
+	
+	@Column(name="IsEdit")
+	private int IsEdit;
+	
+	@Column(name="IsAdd")
+	private int IsAdd;
+	
 	public Long getId() {
 		return Id;
 	}
@@ -54,18 +65,32 @@ public class MessageTableDetial {
 	public void setOrderNo(int orderNo) {
 		OrderNo = orderNo;
 	}
+	public int getIsEdit() {
+		return IsEdit;
+	}
+	public void setIsEdit(int isEdit) {
+		IsEdit = isEdit;
+	}
+	public int getIsAdd() {
+		return IsAdd;
+	}
+	public void setIsAdd(int isAdd) {
+		IsAdd = isAdd;
+	}
 	@Override
 	public String toString() {
 		return "MessageTableDetial [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Key=" + Key + ", OrderNo="
-				+ OrderNo + "]";
+				+ OrderNo + ", IsEdit=" + IsEdit + ", IsAdd=" + IsAdd + "]";
 	}
-	public MessageTableDetial(Long id, String name, String title, String key, int orderNo) {
+	public MessageTableDetial(Long id, String name, String title, String key, int orderNo, int isEdit, int isAdd) {
 		super();
 		Id = id;
 		Name = name;
 		Title = title;
 		Key = key;
 		OrderNo = orderNo;
+		IsEdit = isEdit;
+		IsAdd = isAdd;
 	}
 	public MessageTableDetial() {
 		super();

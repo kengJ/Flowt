@@ -22,7 +22,7 @@ public class Computer {
 	
 	@Column(name="Ip")
 	private String Ip;
-	
+
 	@Column(name="UserCode")
 	private String UserCode;
 	
@@ -75,6 +75,27 @@ public class Computer {
 				+ ", UserName=" + UserName + "]";
 	}
 	
-	
+	public Computer(Long id, String loginName, String ip, String userCode, String userName) {
+		super();
+		Id = id;
+		LoginName = loginName;
+		Ip = ip;
+		UserCode = userCode;
+		UserName = userName;
+	}
+
+	public Computer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Computer(String loginName, String ip) {
+		super();
+		LoginName = loginName;
+		Ip = ip;
+		UserCode = "Admin";
+		UserName = "Admin";
+	}
+
 
 }

@@ -19,16 +19,20 @@
       <input type="text" name="Ip" required value="${ip}" placeholder="请输入IP地址" autocomplete="off" class="layui-input">
     </div>
 </div>-->
-<c:forEach var="line" items="${data}">
-	<c:if test="${line.name=='id'}">
-		<input type="hidden" name="Id" value="${line.Value }">
-	</c:if>
 
-			<div class="layui-form-item">
+<c:forEach var="line" items="${data}">
+	<c:choose>
+	    <c:when test="${line.name eq \"Id\"}">  
+	       	<input type="hidden" name="Id" value="${line.Value }">
+	    </c:when>
+	    <c:otherwise>
+	        <div class="layui-form-item">
 			<label class="layui-form-label">${line.title }</label>
 			<div class="layui-input-block">
 		      <input type="text" name="${line.name}" required value="${line.Value }" placeholder="请输入${line.title }" autocomplete="off" class="layui-input">
 		    </div>
 			</div>
+	    </c:otherwise>
+	</c:choose>		
 </c:forEach>
 </form>

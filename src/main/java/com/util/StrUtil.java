@@ -68,7 +68,9 @@ public class StrUtil {
 				subField = obj.getClass().getDeclaredField(fields[i].getName());
 				subField.setAccessible(true);
 				Object o = subField.get(obj);
-				Result.put(fields[i].getName(), o.toString());
+				if(StrUtil.IsBasicType(o)){
+					Result.put(fields[i].getName(), o.toString());
+				}
 			} catch (NoSuchFieldException e) {
 				System.out.println(e);
 			} catch (SecurityException e) {
@@ -100,5 +102,21 @@ public class StrUtil {
 		}else{
 			return "-1";
 		}
+	}
+	
+	/**
+	 * 判断数据是否基础类型
+	 * long string 等
+	 * @param o
+	 * @return
+	 */
+	public static boolean IsBasicType(Object o){
+		if(o==null){
+			return false;
+		}
+		String ClassName = o.getClass().getName();
+		System.out.println(ClassName);
+		String pattern = "^(((java\\.lang\\.)[A-Za-z]+)|java.util.Date|java.sql.Timestamp)";
+		return Pattern.matches(pattern, ClassName);
 	}
 }
