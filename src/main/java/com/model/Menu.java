@@ -109,4 +109,14 @@ public class Menu {
 	public Menu() {
 		super();
 	}
+
+	public Menu(String name, String title, String memo, int orderBy) {
+		super();
+		Name = name;
+		Title = title;
+		Memo = memo;
+		OrderBy = orderBy;
+	}
+	
+	
 }

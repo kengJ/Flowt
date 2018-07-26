@@ -57,11 +57,11 @@ public class UserController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value="/AddUser",method=RequestMethod.POST)
+	@RequestMapping(value="/Add",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> AddUser(@RequestBody Map<String, Object> result){
-		String UserName = result.get("UserName").toString();
-		String Password = result.get("Password").toString();
+	public Map<String, Object> AddUser(String UserName,String Password){
+		//String UserName = result.get("UserName").toString();
+		//String Password = result.get("Password").toString();
 		return userService.AddUser(UserName, Password);
 	}
 	
@@ -113,5 +113,36 @@ public class UserController {
 		}
 		mv.addObject("result", User);
 		return mv;
+	}
+	
+	@RequestMapping(value="Del")
+	@ResponseBody
+	public String Del(String Id){
+		User computer = userService.FindById(Id);
+		if(computer!=null){
+			userService.Delete(computer);
+			return "success";
+		}
+		return "error";
+	}
+	
+	@RequestMapping(value="Update")
+	@ResponseBody
+	public String Update(@RequestParam(defaultValue="",name="Id")String Id,String UserName,String Password){
+		try {
+			User User = null;
+			if(Id==null||Id==""||Id.equals("")){
+				//新增跳过查询
+				User = new User(UserName,Password);
+			}else{
+				User = userService.FindById(Id);
+			}
+			User.setUserName(UserName);
+			User.setPassword(Password);
+			userService.Update(User);
+			return "success";
+		} catch (Exception e) {
+			return "error";
+		}
 	}
 }

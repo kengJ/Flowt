@@ -29,11 +29,14 @@ public class MessageTableDetial {
 	@Column(name="OrderNo",nullable=false,columnDefinition="INT default 0")
 	private int OrderNo;
 	
-	@Column(name="IsEdit")
+	@Column(name="IsEdit",nullable=false,columnDefinition="INT default 0")
 	private int IsEdit;
 	
-	@Column(name="IsAdd")
+	@Column(name="IsAdd",nullable=false,columnDefinition="INT default 0")
 	private int IsAdd;
+	
+	@Column(name="IsShow",nullable=false,columnDefinition="INT default 1")
+	private int IsShow;
 	
 	public Long getId() {
 		return Id;
@@ -77,12 +80,18 @@ public class MessageTableDetial {
 	public void setIsAdd(int isAdd) {
 		IsAdd = isAdd;
 	}
-	@Override
-	public String toString() {
-		return "MessageTableDetial [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Key=" + Key + ", OrderNo="
-				+ OrderNo + ", IsEdit=" + IsEdit + ", IsAdd=" + IsAdd + "]";
+	public MessageTableDetial() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	public MessageTableDetial(Long id, String name, String title, String key, int orderNo, int isEdit, int isAdd) {
+	public int getIsShow() {
+		return IsShow;
+	}
+	public void setIsShow(int isShow) {
+		IsShow = isShow;
+	}
+	public MessageTableDetial(Long id, String name, String title, String key, int orderNo, int isEdit, int isAdd,
+			int isShow) {
 		super();
 		Id = id;
 		Name = name;
@@ -91,9 +100,11 @@ public class MessageTableDetial {
 		OrderNo = orderNo;
 		IsEdit = isEdit;
 		IsAdd = isAdd;
+		IsShow = isShow;
 	}
-	public MessageTableDetial() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return "MessageTableDetial [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Key=" + Key + ", OrderNo="
+				+ OrderNo + ", IsEdit=" + IsEdit + ", IsAdd=" + IsAdd + ", IsShow=" + IsShow + "]";
 	}
 }

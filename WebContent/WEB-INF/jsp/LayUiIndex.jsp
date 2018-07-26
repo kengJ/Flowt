@@ -4,6 +4,7 @@
 	pageContext.setAttribute("APP_PATH", request.getContextPath());
 	pageContext.setAttribute("error", request.getParameter("error-box"));
 %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
     <div class="layui-logo">数据管理系统</div>
-    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <!-- 头部区域（可配合layui已有的水平导航） 
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item"><a href="">控制台</a></li>
       <li class="layui-nav-item"><a href="">商品管理</a></li>
@@ -30,7 +31,7 @@
           <dd><a href="">授权管理</a></dd>
         </dl>
       </li>
-    </ul>
+    </ul> -->
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
         <a href="javascript:;">
@@ -50,7 +51,7 @@
     <div class="layui-side-scroll">
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-        <li class="layui-nav-item layui-nav-itemed">
+        <!-- <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;">所有商品</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">列表一</a></dd>
@@ -69,13 +70,18 @@
         </li>
         <li class="layui-nav-item"><a href="">云市场</a></li>
         <li class="layui-nav-item"><a href="">系统设置</a></li>
-        <li class="layui-nav-item">
-          <a href="javascript:;">系统设置</a>
-          <dl class="layui-nav-child">
-            <dd><a href="javascript:;" action="User">用户设置</a></dd>
-            <dd><a href="javascript:;" lay-filter="IpAddress" action="Computer">准入IP地址设置</a></dd>
-          </dl>
-        </li>
+         -->
+        <c:forEach var="menu" items="${menus }">
+        <c:out value="${menu }"></c:out>
+	        <li class="layui-nav-item">
+	          <a href="javascript:;">${menu.name }</a>
+	          <dl class="layui-nav-child">
+	          <c:forEach var ="subMenu" items="${menu.messageTables }">
+	          	<dd><a href="javascript:;" action="${subMenu.name }">${subMenu.title }</a></dd>
+	          </c:forEach>
+	          </dl>
+	        </li>
+        </c:forEach>
       </ul>
     </div>
   </div>

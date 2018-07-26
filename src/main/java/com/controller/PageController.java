@@ -100,11 +100,19 @@ public class PageController {
 		String Title = MessageTable.getTitle();
 		String Tip = MessageTable.getTip();
 		ModelAndView mv = new ModelAndView("Page/BasicPage");
-		mv.addObject("title", Title);
-		mv.addObject("tip", Tip);
+		mv.addObject("title", Title);//获取标题
+		mv.addObject("tip", Tip);//获取提示
 		mv.addObject("action", MessageTable.getName());
+		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
+		List<Map<String, String>> Detials = new ArrayList<>();
+		for(MessageTableDetial MessageTableDetial :MessageTableDetials){
+			Map<String, String> line = new HashMap<>();
+			line.put("title", MessageTableDetial.getTitle());
+			line.put("field", MessageTableDetial.getKey());
+			Detials.add(line);
+		}
+		mv.addObject("cols", Detials);
 		Set<MessageTableAction> MessageTableActions = MessageTable.getMessageTableActions();
-		//System.out.println();
 		String AppPath = ServerTool.GetAppPath();
 		for(MessageTableAction MessageTableAction : MessageTableActions){
 			mv.addObject("Action"+MessageTableAction.getType(), AppPath+MessageTableAction.getUrl());

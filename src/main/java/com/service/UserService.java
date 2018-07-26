@@ -11,7 +11,7 @@ import com.util.MessageBox;
 
 @Service
 //@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.READ_COMMITTED,timeout=1000,readOnly=false)
-public class UserService {
+public class UserService implements BasicService<User>{
 
 	@Autowired(required = true)
     private UserRepositoryImpl userRepositoryImpl;
@@ -103,6 +103,21 @@ public class UserService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	@Override
+	public boolean Add(User o) {
+		userRepositoryImpl.Save(o);
+		return true;
+	}
+	@Override
+	public boolean Delete(User o) {
+		userRepositoryImpl.Delete(o);
+		return true;
+	}
+	@Override
+	public boolean Update(User o) {
+		userRepositoryImpl.Update(o);
+		return true;
 	}
 }
 	

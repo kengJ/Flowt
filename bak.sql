@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.menu 的数据：~0 rows (大约)
+-- 正在导出表  flowt.menu 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT IGNORE INTO `menu` (`Id`, `Memo`, `Name`, `OrderBy`, `Title`) VALUES
 	(1, NULL, '系统设置', 0, '系统设置');
@@ -141,13 +141,14 @@ CREATE TABLE IF NOT EXISTS `messagetable` (
   PRIMARY KEY (`Id`),
   KEY `FK_aayjedu9m054so23lv4l4boky` (`Menu_id`),
   CONSTRAINT `FK_aayjedu9m054so23lv4l4boky` FOREIGN KEY (`Menu_id`) REFERENCES `menu` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  flowt.messagetable 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `messagetable` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetable` (`Id`, `Memo`, `Name`, `Type`, `Title`, `Url`, `OrderNo`, `Menu_id`, `Tip`) VALUES
 	(1, NULL, 'Computer', 'Basic', '准入IP地址设置', '/PageIndex/IndexPage/Computer', 0, 1, '说明:<br/>1.系统登录时会进行Ip检查，准入IP里没有信息是不可以访问的<br/>2.查询功能可查询所有列'),
-	(2, NULL, 'User', 'Basic', NULL, NULL, 0, 1, NULL);
+	(2, NULL, 'User', 'Basic', '用户设置', '/PageIndex/IndexPage/User', 0, 1, NULL),
+	(3, NULL, 'Menu', 'Basic', '菜单管理', '/PageIndex/IndexPage/Menu', 0, 1, NULL);
 /*!40000 ALTER TABLE `messagetable` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetableaction 结构
@@ -161,18 +162,31 @@ CREATE TABLE IF NOT EXISTS `messagetableaction` (
   PRIMARY KEY (`Id`),
   KEY `FK_n7wpqnj2yubnjt6xlgahg1vkj` (`MessageTable_id`),
   CONSTRAINT `FK_n7wpqnj2yubnjt6xlgahg1vkj` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetableaction 的数据：~7 rows (大约)
+-- 正在导出表  flowt.messagetableaction 的数据：~12 rows (大约)
 /*!40000 ALTER TABLE `messagetableaction` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetableaction` (`Id`, `ActionName`, `Name`, `Type`, `Url`, `MessageTable_id`) VALUES
 	(1, 'Computer', '查询所有', 'Find', '/Computer/FindAll', 1),
 	(2, 'Computer', '显示详细信息', 'Show', '/Computer/FindById?Id=', 1),
 	(3, 'Computer', '删除信息', 'Del', '/Computer/Del?Id=', 1),
-	(4, 'Computer', '增加页面', 'AddPage', '/Page/Edit/Computer', 1),
-	(5, 'Computer', '编辑页面', 'EditPage', '/Computer/FindById?type=edit&Id=', 1),
-	(6, 'Computer', '增加信息', 'Add', '/Computer/Update', 1),
-	(7, 'Computer', '编辑信息', 'Edit', '/Computer/Update', 1);
+	(4, 'Computer', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Computer', 1),
+	(5, 'Computer', '编辑页面', 'EditPage', '/Computer/FindById?Type=edit&Id=', 1),
+	(6, 'Computer', '增加信息', 'Add', '/Computer/Add?', 1),
+	(7, 'Computer', '编辑信息', 'Edit', '/Computer/Update?', 1),
+	(8, 'Computer', '按条件查询', 'FindByKey', '/Computer/FindAll', 1),
+	(9, 'User', '增加页面', 'AddPage', '/Page/AddPage?ActionName=User', 2),
+	(10, 'User', '查询所有', 'Find', '/User/FindAll', 2),
+	(11, 'User', '按条件查询', 'FindByKey', '/User/FindAll', 2),
+	(12, 'User', '显示详细信息', 'Show', '/User/FindById?Id=', 2),
+	(13, 'User', '编辑页面', 'EditPage', '/User/FindById?Type=edit&Id=', 2),
+	(14, 'User', '删除信息', 'Del', '/User/Del?Id=', 2),
+	(15, 'User', '增加信息', 'Add', '/User/Add?', 2),
+	(16, 'User', '修改信息', 'Edit', '/User/Update?', 2),
+	(17, 'Menu', '查询所有', 'Find', '/Menu/FindAll', 3),
+	(18, 'Menu', '显示详细信息', 'Show', '/Menu/FindById?Id=', 3),
+	(19, 'Menu', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Menu', 3),
+	(20, 'Menu', '新增数据', 'Add', '/Menu/Add', 3);
 /*!40000 ALTER TABLE `messagetableaction` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetabledetial 结构
@@ -182,25 +196,33 @@ CREATE TABLE IF NOT EXISTS `messagetabledetial` (
   `Name` varchar(255) DEFAULT NULL,
   `Title` varchar(255) DEFAULT NULL,
   `MessageTable_id` bigint(20) DEFAULT NULL,
-  `OrderNo` int(11) DEFAULT NULL,
+  `OrderNo` int(11) NOT NULL DEFAULT 0,
+  `IsAdd` int(11) NOT NULL DEFAULT 0,
+  `IsEdit` int(11) NOT NULL DEFAULT 0,
+  `IsShow` int(11) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`Id`),
   KEY `FK_16brbwxm07jialhapfje9l5yr` (`MessageTable_id`),
   CONSTRAINT `FK_16brbwxm07jialhapfje9l5yr` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  flowt.messagetabledetial 的数据：~10 rows (大约)
 /*!40000 ALTER TABLE `messagetabledetial` DISABLE KEYS */;
-INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `MessageTable_id`, `OrderNo`) VALUES
-	(1, 'id', 'Id', 'Id', 2, 0),
-	(2, 'userName', 'UserName', '用户名', 2, 0),
-	(3, 'password', 'Password', '密码', 2, 0),
-	(4, 'createDate', 'CreateDate', '创建时间', 2, 0),
-	(5, 'updateDate', 'UpdateDate', '更新时间', 2, 0),
-	(6, 'id', 'Id', 'Id', 1, 0),
-	(7, 'loginName', 'LoginName', '登录名', 1, 0),
-	(8, 'ip', 'Ip', 'Ip', 1, 0),
-	(9, 'userCode', 'UserCode', '账号编码', 1, 0),
-	(10, 'userName', 'UserName', '账号名称', 1, 0);
+INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `MessageTable_id`, `OrderNo`, `IsAdd`, `IsEdit`, `IsShow`) VALUES
+	(1, 'id', 'Id', 'Id', 2, 0, 0, 1, 1),
+	(2, 'userName', 'UserName', '用户名', 2, 0, 0, 1, 1),
+	(3, 'password', 'Password', '密码', 2, 0, 0, 1, 1),
+	(4, 'createDate', 'CreateDate', '创建时间', 2, 0, 0, 0, 1),
+	(5, 'updateDate', 'UpdateDate', '更新时间', 2, 0, 0, 0, 1),
+	(6, 'id', 'Id', 'Id', 1, 0, 0, 1, 1),
+	(7, 'loginName', 'LoginName', '登录名', 1, 0, 1, 1, 1),
+	(8, 'ip', 'Ip', 'Ip', 1, 0, 1, 1, 1),
+	(9, 'userCode', 'UserCode', '账号编码', 1, 0, 0, 0, 1),
+	(10, 'userName', 'UserName', '账号名称', 1, 0, 0, 0, 1),
+	(11, 'id', 'Id', 'Id', 3, 0, 0, 0, 1),
+	(12, 'name', 'Name', '名称', 3, 0, 1, 0, 1),
+	(13, 'title', 'Title', '标题', 3, 0, 1, 0, 1),
+	(14, 'memo', 'Memo', '备注', 3, 0, 1, 0, 1),
+	(15, 'orderBy', 'OrderBy', '顺序编号', 3, 0, 1, 0, 1);
 /*!40000 ALTER TABLE `messagetabledetial` ENABLE KEYS */;
 
 -- 导出  表 flowt.orders 结构
@@ -225,12 +247,13 @@ CREATE TABLE IF NOT EXISTS `pass_computer` (
   `UserCode` varchar(255) DEFAULT NULL,
   `UserName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.pass_computer 的数据：~1 rows (大约)
+-- 正在导出表  flowt.pass_computer 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `pass_computer` DISABLE KEYS */;
 INSERT IGNORE INTO `pass_computer` (`Id`, `Ip`, `LoginName`, `UserCode`, `UserName`) VALUES
-	(1, '192.168.80.186', 'p008484', 'admin', 'admin');
+	(10, '192.168.80.186', 'p00848', 'Admin', 'Admin'),
+	(15, '127.0.0.1', 'test1', 'Admin', 'Admin');
 /*!40000 ALTER TABLE `pass_computer` ENABLE KEYS */;
 
 -- 导出  表 flowt.role 结构
@@ -300,8 +323,7 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT IGNORE INTO `sys_user` (`Id`, `CreateDate`, `Password`, `UpdateDate`, `UserName`, `Role`, `Role_Id`) VALUES
 	(1, '2018-06-19 13:38:53', 'admin', '2018-06-19 13:38:53', 'admin', NULL, NULL),
-	(6, '2018-07-10 09:35:13', '1234', '2018-07-10 09:35:13', 'test', NULL, NULL),
-	(7, '2018-07-11 16:57:44', '12', '2018-07-11 16:57:44', 'test', NULL, NULL);
+	(6, '2018-07-10 09:35:13', '12345', '2018-07-10 09:35:13', 'test', NULL, NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 
 -- 导出  表 flowt.user_1 结构

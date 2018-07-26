@@ -92,7 +92,6 @@ public class ComputerController {
 	@RequestMapping("/FindById")
 	public ModelAndView FindById(@RequestParam(defaultValue="",name="Type")String Type,@RequestParam(name="Id")String Id){
 		Computer Computer = computerService.FindById(Id);
-		System.out.println(Computer);
 		ModelAndView mv = null;
 		if(Type==""||Type.equals("")){
 			mv = new ModelAndView("forward:/Page/Show");

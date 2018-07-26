@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.model.User;
 import com.service.LoginService;
+import com.service.MenuService;
 import com.util.MessageBox;
 
 @Controller
@@ -19,6 +22,9 @@ public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
+	
+	@Autowired
+	private MenuService menuService;
 	
 	@RequestMapping(value="/LoginPage")
 	public String LoginPage(){
@@ -39,14 +45,16 @@ public class LoginController {
 	
 	@RequestMapping(value="/Login",method=RequestMethod.POST)
 	//@ResponseBody
-	public String Login(@RequestParam String UserName,@RequestParam String Password) {
-		System.out.println(UserName+'_'+Password);
+	public ModelAndView Login(@RequestParam String UserName,@RequestParam String Password) {
+		ModelAndView mv = new ModelAndView("redirect:Login");
 		if(UserName.equals("admin")&&Password.equals("admin")) {
 			//return "success";
-			return "LayUiIndex";
-		}else {
-			return "redirect:Login";
+			//return "LayUiIndex";
+			//menuService.FindAll();
+			mv.setViewName("LayUiIndex");
+			mv.addObject("menus", menuService.FindAll());
 		}
+		return mv;
 	}
 	
 	@RequestMapping(value="/CheckUserName",method=RequestMethod.GET)

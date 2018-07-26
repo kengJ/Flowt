@@ -70,12 +70,6 @@ public class User {
 	public void setPassword(String password) {
 		Password = password;
 	}
-
-	public User(String userName, String password) {
-		super();
-		UserName = userName;
-		Password = password;
-	}
 	
 	public User(String id ,String userName, String password) {
 		super();
@@ -119,6 +113,22 @@ public class User {
 	public String toString() {
 		return "User [Id=" + Id + ", UserName=" + UserName + ", Password=" + Password + ", Role=" + Role
 				+ ", CreateDate=" + CreateDate + ", UpdateDate=" + UpdateDate + "]";
+	}
+
+	public User(Long id, String userName, String password, com.model.Role role, Date createDate, Date updateDate) {
+		super();
+		Id = id;
+		UserName = userName;
+		Password = password;
+		Role = role;
+		CreateDate = createDate;
+		UpdateDate = updateDate;
+	}
+
+	public User(String userName, String password) {
+		super();
+		UserName = userName;
+		Password = password;
 	}
 	
 }
