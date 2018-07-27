@@ -9,4 +9,6 @@ public interface BasicService<T> {
 	boolean Update(T o);
 	List<T> FindAll();
 	T FindById(String Id);
+	boolean DeleteById(String Id);
+	List<T> FindByKey(String Sql);
 }

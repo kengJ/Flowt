@@ -29,7 +29,7 @@ public class MessageTableService {
 		try {
 			String Sql = String.format("from MessageTable where Type = 'Basic' and Name='%s' order by Id", KeyName);
 			data =  messageTableRepository.FindByHql(Sql).get(0);
-			System.out.println(data);
+			//System.out.println(data);
 		} catch (Exception e) {
 			
 		}

@@ -82,6 +82,7 @@ layui.use(['table','layer','form'], function(){
 	  $('#btn-select').on('click', function(){
 		    var keyword = $('#keyword').val();
 		    table.reload('demo', {
+		    	url: '${ActionFindByKey}',
                 where: {
                     keyword: keyword
                 }
@@ -92,54 +93,82 @@ layui.use(['table','layer','form'], function(){
 	    var data = obj.data;
 	    if(obj.event === 'detail'){
     		var id = data['id'];
-	      $.get("${ActionShow}"+id,function(data){
-	    	  layer.open({
-		    	  title:'详细信息',
-		    	  type: 1,
-		    	  skin: 'layui-layer-rim', //加上边框
-		    	  //area: ['500px', '350px'], //宽高
-		    	  content: data
-		    	});
+	      $.ajax({
+	    	  type:'POST',
+	    	  url:'${ActionShow}',
+	    	  data:{Id:id},
+	    	  success:function(data){
+		    	  layer.open({
+			    	  title:'详细信息',
+			    	  type: 1,
+			    	  skin: 'layui-layer-rim', //加上边框
+			    	  area: '${width}',
+			    	  content: data
+			    	});
+		      }
 	      });
 	    } else if(obj.event === 'del'){
 	      layer.confirm('是否删除此行数据', function(index){
-	    	  $.get('${ActionDel}'+data['id'],function(data){
-	    		 if(data=="success") {
-	    			obj.del();
-	    		    layer.close(index);
-	    		 }
+	    	  $.ajax({
+	    		  url:'${ActionDel}',
+	    		  type:'POST',
+	    		  data:{Id:data['id']},
+	    		  success:function(data){
+	    			  if(data=="success") {
+    				  table.reload('demo', {
+        				  url: '${ActionFind}'
+        				  ,where: {} //设定异步数据接口的额外参数
+        				  //,height: 300
+        				});
+	  	    		    layer.close(index);
+	  	    		  	layer.msg('删除成功');
+	  	    		 }else{
+	  	    			layer.msg('删除失败'); 
+	  	    		 }
+	    		  }
 	    	  });
 	      });
 	    } else if(obj.event === 'edit'){
-	      $.get('${ActionEditPage}'+data['id'],function(data){
-	    	  var html = "<div style='padding:10px;'>"+data+"</div>";
-	    	  layer.open({
-	    	        type: 1,
-	    	        btn: ['确定','取消'],
-	    	        title: "修改数据",
-	    	        area: ["460px", "250px"],
-	    	        content: html,
-	    	        yes: function (index) {
-	    	        	 var Data = $('#EditIpAddress').serialize();
-	    	        	 var url = "${ActionEdit}"+Data;
-	    	        	 $.get(url,function(data){
-	    	        		if(data=="success"){
-	    	        			layer.msg('修改成功');
-	    	        			layer.close(index);
-	    	        			table.reload('demo', {
-    	        				  url: '${ActionFind}'
-    	        				  ,where: {} //设定异步数据接口的额外参数
-    	        				  //,height: 300
-    	        				});
-	    	        		}else{
-	    	        			layer.msg('修改失败');
-	    	        		}
-	    	        	 });
-	    	            return false;
-	    	        },btn2: function (index) {
-	    	            layer.close(index);
-	    	        }
-	    	    });
+	      $.ajax({
+	    	  url:'${ActionEditPage}',
+	    	  type:'POST',
+	    	  data:{Type:'edit',Id:data['id']},
+	    	  success:function(data){
+	    		  var html = "<div style='padding:10px;'>"+data+"</div>";
+		    	  layer.open({
+		    	        type: 1,
+		    	        btn: ['确定','取消'],
+		    	        title: "修改数据",
+		    	        area: "${width}",
+		    	        content: html,
+		    	        yes: function (index) {
+		    	        	 var Data = $('#EditIpAddress').serialize();
+		    	        	 var url = "${ActionEdit}";
+		    	        	 $.ajax({
+		    	        		 url:url,
+		    	        		 type:'POST',
+		    	        		 data:Data,
+		    	        		 success:function(data){
+		 	    	        		if(data=="success"){
+			    	        			layer.msg('修改成功');
+			    	        			layer.close(index);
+			    	        			table.reload('demo', {
+		    	        				  url: '${ActionFind}'
+		    	        				  ,where: {} //设定异步数据接口的额外参数
+		    	        				  //,height: 300
+		    	        				});
+			    	        		}else{
+			    	        			layer.msg('修改失败');
+			    	        		}
+		    	        	 	}
+		    	        	 });
+		    	        	 	
+		    	            return false;
+		    	        },btn2: function (index) {
+		    	            layer.close(index);
+		    	        }
+		    	    });
+	    	  }
 	      });
 	    }
 	  });
@@ -151,25 +180,27 @@ layui.use(['table','layer','form'], function(){
 		    	        type: 1,
 		    	        btn: ['确定','取消'],
 		    	        title: "新增数据",
-		    	        //area: ["460px", "250px"],
+		    	        area: "${width}",
 		    	        content: html,
-		    	        yes: function (index) {
+		    	        yes: function (box) {
 		    	        	 var Data = $('#EditIpAddress').serializeArray();
-		    	        	 var Json = {};
+		    	        	 var Json = "";
 		    	        	 for(var index in Data){
 		    	        		 var line = Data[index];
-		    	                 eval("Json."+line.name+"='" + line.value+"'");
+		    	        		 if(index==0){
+		    	        			 Json+=line.name+":'" + line.value+"'";
+		    	        		 }
+		    	        		 Json+=','+line.name+":'" + line.value+"'";
 		    	        	 }
 		    	        	 var url = "${ActionAdd}";
 		    	        	 $.ajax({
-		    	        		 contentType: 'application/json;charset=UTF-8',
 		    	        		 type:'POST',
 		    	        		 url:url,
-		    	        		 data:Json,
+		    	        		 data:eval('({'+Json+'})'),
 		    	        		 success:function(data){
 				    	        		if(data=="success"){
+				    	        			layer.close(box);
 				    	        			layer.msg('新增成功');
-				    	        			layer.close(index);
 				    	        			table.reload('demo', {
 			    	        				  url: '${ActionFind}'
 			    	        				  ,where: {} //设定异步数据接口的额外参数
@@ -180,24 +211,9 @@ layui.use(['table','layer','form'], function(){
 				    	        		}
 				    	        	 }
 		    	        	 });
-		    	        	 console.log(Json);
-		    	        	 /**$.post(url,{json:Json},function(data){
-		    	        		if(data=="success"){
-		    	        			layer.msg('新增成功');
-		    	        			layer.close(index);
-		    	        			table.reload('demo', {
-	    	        				  url: '${ActionFind}'
-	    	        				  ,where: {} //设定异步数据接口的额外参数
-	    	        				  //,height: 300
-	    	        				});
-		    	        		}else{
-		    	        			layer.msg('新增失败');
-		    	        		}
-		    	        	 });**/
-		    	        	 //console.log(url);
 		    	            return false;
-		    	        },btn2: function (index) {
-		    	            layer.close(index);
+		    	        },btn2: function (box) {
+		    	            layer.close(box);
 		    	        }
 		    	    });
 		      });

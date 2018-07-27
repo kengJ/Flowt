@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.MessageFormat;
 
 import org.junit.Test;
 
@@ -62,8 +63,10 @@ public class test {
 	
 	@Test
 	public void testStr(){
-		String str = "123456";
-		System.out.println(StrUtil.FormatFirstCharUp(str));
+		//String Key = ;
+		//String Sql = ;
+		Object[] params = {"'%123456%'"};
+		System.out.println(MessageFormat.format("from Menu where KeyName like {0}", params));
 	}
 	
 	@Test

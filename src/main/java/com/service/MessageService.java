@@ -7,7 +7,7 @@ import com.model.Message;
 import com.repository.MessageRepository;
 
 @Service
-public class MessageService implements BasicService<Message>{
+public class MessageService extends BasicServiceImpl<Message> implements BasicService<Message>{
 
 	@Autowired
 	private MessageRepository messageRepository;

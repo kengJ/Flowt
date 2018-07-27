@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.model.InterceptedLog;
 import com.repository.InterceptedLogRepository;
 @Service
-public class InterceptedLogService implements BasicService<InterceptedLog>{
+public class InterceptedLogService extends BasicServiceImpl<InterceptedLog> implements BasicService<InterceptedLog>{
 
 	@Autowired
 	private InterceptedLogRepository interceptedLogRepository;

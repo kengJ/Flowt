@@ -11,7 +11,7 @@ import com.util.MessageBox;
 
 @Service
 //@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.READ_COMMITTED,timeout=1000,readOnly=false)
-public class UserService implements BasicService<User>{
+public class UserService extends BasicServiceImpl<User> implements BasicService<User>{
 
 	@Autowired(required = true)
     private UserRepositoryImpl userRepositoryImpl;

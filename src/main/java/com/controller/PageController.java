@@ -102,6 +102,7 @@ public class PageController {
 		ModelAndView mv = new ModelAndView("Page/BasicPage");
 		mv.addObject("title", Title);//获取标题
 		mv.addObject("tip", Tip);//获取提示
+		mv.addObject("width", "500px");//获取提示
 		mv.addObject("action", MessageTable.getName());
 		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
 		List<Map<String, String>> Detials = new ArrayList<>();

@@ -9,7 +9,7 @@ import com.model.Computer;
 import com.repository.ComputerRepository;
 
 @Service
-public class ComputerService implements BasicService<Computer>{
+public class ComputerService extends BasicServiceImpl<Computer> implements BasicService<Computer>{
 
 	@Autowired
 	private ComputerRepository computerRepository;
@@ -71,5 +71,14 @@ public class ComputerService implements BasicService<Computer>{
 	
 	public List<Computer> FindByKey(String Key){
 		return computerRepository.FindByHql("from Computer where LoginName like '%"+Key+"%' or Ip like '%"+Key+"%' or UserCode like '%"+Key+"%' or UserName like '%"+Key+"%' ");
+	}
+
+	@Override
+	public boolean DeleteById(String Id) {
+		Computer Computer = FindById(Id);
+		if(Computer!=null){
+			Delete(Computer);
+		}
+		return false;
 	}
 }

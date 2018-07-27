@@ -3,33 +3,98 @@ package com.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.model.Computer;
 import com.model.Menu;
+import com.service.BasicService;
 import com.service.MenuService;
 
 @Controller
 @RequestMapping("/Menu")
-public class MenuController implements BasicController<Menu>{
+public class MenuController extends BasicControllerImpl<Menu>{
 
 	@Autowired
 	private MenuService menuService;
 
+	@Override
+	public BasicService<Menu> GetService() {
+		return menuService;
+	}
+
 	@RequestMapping(value="/FindAll")
 	@ResponseBody
 	public Map<String, Object> FindAll(String page,String limit) {
-		List<Menu> data = menuService.FindAll();
+		return super.FindAll(page, limit);
+	}
+
+	@RequestMapping(value="/FindById",method=RequestMethod.POST)
+	public ModelAndView FindById(@RequestParam Map<String, Object> Json) {
+		/**String Id = (String) Json.get("Id");
+		String Type = (String) Json.get("Type");
+		Menu Menu = menuService.FindById(Id);
+		ModelAndView mv = null;
+		if(Type==""||Type.equals("")|Type==null){
+			mv = new ModelAndView("forward:/Page/Show");
+		}else{
+			mv = new ModelAndView("forward:/Page/Edit");
+		}
+		mv.addObject("result", Menu);
+		return mv;**/
+		return super.FindById(Json);
+	}
+
+	@RequestMapping(value="/Add",method=RequestMethod.POST)
+	@ResponseBody
+	public String Add(@RequestParam  Map<String, Object> result){
+		/**
+		try{
+			menuService.Add(Menu);
+			return "success";
+		}catch (Exception e) {
+			return "error";
+		}**/
+		Menu Menu = new Menu((String)result.get("Name"),(String)result.get("Title"),(String)result.get("Memo"),Integer.parseInt((String)result.get("OrderBy")));
+		return super.Add(Menu);
+	}
+
+	@RequestMapping(value="/Del",method=RequestMethod.POST)
+	@ResponseBody
+	public String Del(String Id) {
+		/**try {
+			menuService.DeleteByKey(Id);
+			return "success";
+		} catch (Exception e) {
+			return "error";
+		}**/
+		return super.Del(Id);
+	}
+
+	@RequestMapping(value="/Edit",method=RequestMethod.POST)
+	@ResponseBody
+	public String Edit(@RequestParam Map<String, Object> Json) {
+		String Id = (String) Json.get("Id");
+		if(Id==null){
+			Id = "";
+		}
+		Menu menu = menuService.FindById(Id);
+		menu.setName((String)Json.get("Name"));
+		menu.setTitle((String)Json.get("Title"));
+		menu.setMemo((String)Json.get("Memo"));
+		menu.setOrderBy(Integer.parseInt((String)Json.get("OrderBy")));
+		return super.Edit(menu)?"success":"error";
+	}
+	
+	@RequestMapping(value="/FindByKey")
+	@ResponseBody
+	public Map<String,Object> FindByKey(String keyword ,String page,String limit){
+		System.out.println(keyword);
+		List<Menu> data = super.FindByKey(keyword);
+		System.out.println(data);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("code", "");
 		result.put("msg", "");
@@ -38,31 +103,4 @@ public class MenuController implements BasicController<Menu>{
 		return result;
 	}
 
-	@RequestMapping(value="/FindById")
-	public ModelAndView FindById(@RequestParam(defaultValue="",name="Type")String Type, @RequestParam(name="Id")String Id) {
-		Menu Menu = menuService.FindById(Id);
-		ModelAndView mv = null;
-		if(Type==""||Type.equals("")){
-			mv = new ModelAndView("forward:/Page/Show");
-		}else{
-			mv = new ModelAndView("forward:/Page/Edit");
-		}
-		mv.addObject("result", Menu);
-		return mv;
-	}
-
-	@RequestMapping(value="/Add",method=RequestMethod.POST)
-	@ResponseBody
-	public String Add(@RequestBody Map<String, String> Json){
-		System.out.println(Json);
-		/**Menu Menu = new Menu((String)request.getAttribute("Name"),(String)request.getAttribute("Title"),(String)request.getAttribute("Memo"),Integer.parseInt((String)request.getAttribute("Name")));
-		try{
-			menuService.Add(Menu);
-			return "success";
-		}catch (Exception e) {
-			return "error";
-		}**/
-		return "";
-	}
-	
 }

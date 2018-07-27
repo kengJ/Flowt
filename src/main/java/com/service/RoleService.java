@@ -9,7 +9,7 @@ import com.model.Role;
 import com.repository.RoleRepository;
 
 @Service
-public class RoleService implements BasicService<Role> {
+public class RoleService extends BasicServiceImpl<Role> implements BasicService<Role> {
 
 	@Autowired
 	private RoleRepository roleRepository;

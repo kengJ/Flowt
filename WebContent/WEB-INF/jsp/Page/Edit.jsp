@@ -19,7 +19,7 @@
       <input type="text" name="Ip" required value="${ip}" placeholder="请输入IP地址" autocomplete="off" class="layui-input">
     </div>
 </div>-->
-
+<c:out value="${width}"></c:out>
 <c:forEach var="line" items="${data}">
 	<c:choose>
 	    <c:when test="${line.name eq \"Id\"}">  

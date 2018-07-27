@@ -8,7 +8,7 @@ import com.model.SystemType;
 import com.repository.SystemTypeRepository;
 
 @Service
-public class SystemTypeService implements BasicService<SystemType>{
+public class SystemTypeService extends BasicServiceImpl<SystemType> implements BasicService<SystemType>{
 	
 	@Autowired
 	private SystemTypeRepository systemTypeRepository;

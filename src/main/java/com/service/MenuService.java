@@ -1,19 +1,25 @@
 package com.service;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.Menu;
+import com.repository.BasicRepository;
 import com.repository.MenuRepository;
 
 @Service
-public class MenuService implements BasicService<Menu>{
+public class MenuService extends BasicServiceImpl<Menu> implements BasicService<Menu>{
 
 	@Autowired
 	private MenuRepository menuRepository;
 
+	public BasicRepository<Menu> GetRepository(){
+		return menuRepository;
+	}
+	
 	@Override
 	public boolean Add(Menu o) {
 		menuRepository.Save(o);
@@ -22,8 +28,14 @@ public class MenuService implements BasicService<Menu>{
 
 	@Override
 	public boolean Delete(Menu o) {
-		// TODO Auto-generated method stub
-		return false;
+		menuRepository.Delete(o);
+		return true;
+	}
+	
+	public boolean DeleteByKey(String Id){
+		Menu menu = FindById(Id);
+		Delete(menu);
+		return true;
 	}
 
 	@Override
@@ -31,10 +43,10 @@ public class MenuService implements BasicService<Menu>{
 		menuRepository.Update(o);
 		return true;
 	}
-
+	
 	@Override
 	public List<Menu> FindAll() {
-		return menuRepository.FindByHql("from Menu");
+		return menuRepository.FindByHql("from Menu Order by OrderBy,Id");
 	}
 
 	@Override
@@ -44,5 +56,14 @@ public class MenuService implements BasicService<Menu>{
 			return Menus.get(0);
 		}
 		return null;
+	}
+	
+	public List<Menu> FindByKey(String Key) {
+		System.out.println(Key);
+		Key = "'%"+Key+"%'";
+		System.out.println(Key);
+		Object[] subsql = {Key};
+		String Sql = MessageFormat.format("from Menu where Memo like {0} or Name like {0} or Title like {0}", subsql);
+		return super.FindByKey(Sql);
 	}
 }
