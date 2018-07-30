@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.model.Computer;
 
 @Repository
-public class ComputerRepository extends BasicRepository<Computer>{
+public class ComputerRepository extends BasicRepository2<Computer>{
 
 }

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.model.Role;
 
 @Repository
-public class RoleRepository extends BasicRepository<Role> {
+public class RoleRepository extends BasicRepository2<Role> {
 	
 }

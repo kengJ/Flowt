@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.Menu;
-import com.repository.BasicRepository;
+import com.repository.BasicRepository2;
 import com.repository.MenuRepository;
 
 @Service
@@ -16,7 +16,7 @@ public class MenuService extends BasicServiceImpl<Menu> implements BasicService<
 	@Autowired
 	private MenuRepository menuRepository;
 
-	public BasicRepository<Menu> GetRepository(){
+	public BasicRepository2<Menu> GetRepository(){
 		return menuRepository;
 	}
 	

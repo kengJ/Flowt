@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.model.MessageTable;
 
 @Repository
-public class MessageTableRepository extends BasicRepository<MessageTable>{
+public class MessageTableRepository extends BasicRepository2<MessageTable>{
 
 }

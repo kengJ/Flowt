@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.model.ExcelTable;
 
 @Repository
-public class ExcelTableRepository extends BasicRepository<ExcelTable>{
+public class ExcelTableRepository extends BasicRepository2<ExcelTable>{
 	
 	public ExcelTable Find(String Id){
 		String Hql = "from ExcelTable where Id='"+Id+"'";

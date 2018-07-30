@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.model.SqlMessage;
 
 @Repository
-public class SqlMessageRepository extends BasicRepository<SqlMessage> {
+public class SqlMessageRepository extends BasicRepository2<SqlMessage> {
 	
 	public boolean Save(SqlMessage sqlMessage){
 		if(getCurrentSession().createQuery("from SqlMessage where Memo='"+sqlMessage.getMemo()+"'").list().size()<=0){
