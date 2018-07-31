@@ -8,7 +8,15 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
- 	
+ 	<!--HiddenHttpMethodFilter 可以把post请求转化成delete或post请求  -->
+ 	<filter>
+ 		<filter-name>HiddenHttpMethodFilter</filter-name>
+ 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+ 	</filter>
+ 	<filter-mapping>
+ 		<filter-name>HiddenHttpMethodFilter</filter-name>
+ 		<url-pattern>/*</url-pattern>
+ 	</filter-mapping>
 	<!--解决编码的过滤器-->  
 	<filter>  
 		<filter-name>CharactorEncodingFilter</filter-name>  
