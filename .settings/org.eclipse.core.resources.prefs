@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/jsp/index.jsp=UTF-8
-encoding//src/main/java/com/service/UserService.java=UTF-8
+encoding//src/main/java/com/service/impl/UserServiceImpl.java=UTF-8
 encoding//src/main/java/com/util/SqlServerTool.java=UTF-8
 encoding//src/main/resources/log4j.properties=UTF-8
 encoding/<project>=UTF-8
