@@ -23,6 +23,17 @@ public class MessageTableServiceImpl extends BasicServiceImpl<MessageTable> impl
 	public IBasicRepository<MessageTable> GetBasicRepository() {
 		return messageTableRepository;
 	}
+
+	@Override
+	public MessageTable FindMessageTable(String ActionName) {
+		MessageTable data = null;
+		try {
+			data =  messageTableRepository.FindByHql(String.format("from MessageTable where Type = 'Basic' and Name='%s' order by Id", ActionName)).get(0);
+		} catch (Exception e) {
+			
+		}
+		return data;
+	}
 	
 	/**public MessageTable  getMessageTable(String KeyName){
 		MessageTable data = null;

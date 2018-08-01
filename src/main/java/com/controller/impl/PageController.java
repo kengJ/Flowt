@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.model.MessageTable;
@@ -17,7 +16,6 @@ import com.service.IMessageTableService;
 import com.util.ServerTool;
 import com.util.StrUtil;
 
-@Controller
 @RequestMapping(value="/Page")
 public class PageController {
 	
@@ -45,7 +43,7 @@ public class PageController {
 		try {
 			String ActionName = request.getAttribute("result").getClass().getSimpleName();
 			//System.out.println(ActionName);
-			MessageTable MessageTable =messageTableService.getMessageTable(ActionName);
+			MessageTable MessageTable =messageTableService.FindMessageTable(ActionName);
 			Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
 			List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
 			//把表字段配置信息匹配到request传过来的数据，并封装到list里
@@ -73,10 +71,8 @@ public class PageController {
 	 */
 	@RequestMapping(value="/Show")
 	public ModelAndView ShowPage(HttpServletRequest request){
-		System.out.println(request.getAttribute("result").getClass().getSimpleName());
 		//获取表字段配置信息
-		MessageTable MessageTable =messageTableService.getMessageTable(request.getAttribute("result").getClass().getSimpleName());
-		System.out.println(request.getAttribute("result"));
+		MessageTable MessageTable =messageTableService.FindMessageTable(request.getAttribute("result").getClass().getSimpleName());
 		Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
 		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
 		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
@@ -96,7 +92,7 @@ public class PageController {
 	@RequestMapping(value="/Index")
 	public ModelAndView IndexPage(String ActionName){
 		String Action = StrUtil.FormatFirstCharUp(ActionName);
-		MessageTable MessageTable = messageTableService.getMessageTable(Action);
+		MessageTable MessageTable = messageTableService.FindMessageTable(Action);
 		String Title = MessageTable.getTitle();
 		String Tip = MessageTable.getTip();
 		ModelAndView mv = new ModelAndView("Page/BasicPage");
@@ -124,7 +120,7 @@ public class PageController {
 	public ModelAndView AddPage(String ActionName){
 		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
 		String Action = StrUtil.FormatFirstCharUp(ActionName);
-		MessageTable MessageTable = messageTableService.getMessageTable(Action);
+		MessageTable MessageTable = messageTableService.FindMessageTable(Action);
 		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
 		for(MessageTableDetial MessageTableDetial : MessageTableDetials){
 			if(MessageTableDetial.getIsAdd()==1){
