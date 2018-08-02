@@ -1,27 +1,27 @@
 package com.controller.impl;
 
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.IExcelTableController;
 import com.model.ExcelTable;
-import com.service.IExcelTableService;
-import com.service.ISqlMessageService;
+import com.service.ExcelTableService;
+import com.service.SqlMessageService;
 
-
+@Controller
 @RequestMapping("/ExcelTable")
 public class ExcelTableControllerImpl extends BasicControllerImpl<ExcelTable> implements IExcelTableController{
 
 	@SuppressWarnings("unused")
 	@Autowired
-	private ISqlMessageService sqlMessageService;
+	private SqlMessageService sqlMessageService;
 	
 	@Autowired
-	private IExcelTableService excelTableService;
+	private ExcelTableService excelTableService;
 
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
@@ -36,8 +36,8 @@ public class ExcelTableControllerImpl extends BasicControllerImpl<ExcelTable> im
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public List<ExcelTable> FindByKey(String keyword) {
-		return excelTableService.FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(excelTableService.FindByKey(keyword));
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)

@@ -2,26 +2,28 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.model.User;
-import com.repository.IBasicRepository;
+import com.repository.BasicRepository;
 import com.repository.impl.UserRepositoryImpl;
-import com.service.IUserService;
+import com.service.UserService;
 
-
+@Service(value="userService")
 //@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.READ_COMMITTED,timeout=1000,readOnly=false)
-public class UserServiceImpl extends BasicServiceImpl<User> implements IUserService{
+public class UserServiceImpl extends BasicServiceImpl<User> implements UserService{
 
 	@Autowired(required = true)
     private UserRepositoryImpl userRepositoryImpl;
 
 	@Override
 	public List<User> FindByKey(String Key) {
-		// TODO Auto-generated method stub
-		return null;
+		String Hql = "from User where UserName like '%"+Key+"%' or Password like '%"+Key+"%'";
+		return userRepositoryImpl.FindByHql(Hql);
 	}
 
 	@Override
-	public IBasicRepository<User> GetBasicRepository() {
+	public BasicRepository<User> GetBasicRepository() {
 		return userRepositoryImpl;
 	}
 	

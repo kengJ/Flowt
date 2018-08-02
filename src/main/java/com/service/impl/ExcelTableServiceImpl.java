@@ -2,15 +2,17 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.ExcelTable;
-import com.repository.IBasicRepository;
-import com.repository.IExcelTableRepository;
-import com.service.IExcelTableService;
+import org.springframework.stereotype.Service;
 
-public class ExcelTableServiceImpl extends BasicServiceImpl<ExcelTable> implements IExcelTableService{
+import com.model.ExcelTable;
+import com.repository.BasicRepository;
+import com.repository.ExcelTableRepository;
+import com.service.ExcelTableService;
+@Service(value="excelTableService")
+public class ExcelTableServiceImpl extends BasicServiceImpl<ExcelTable> implements ExcelTableService{
 
 	@Autowired
-	private IExcelTableRepository excelTableRepository;
+	private ExcelTableRepository excelTableRepository;
 
 	@Override
 	public List<ExcelTable> FindByKey(String Key) {
@@ -19,7 +21,7 @@ public class ExcelTableServiceImpl extends BasicServiceImpl<ExcelTable> implemen
 	}
 
 	@Override
-	public IBasicRepository<ExcelTable> GetBasicRepository() {
+	public BasicRepository<ExcelTable> GetBasicRepository() {
 		return excelTableRepository;
 	}
 	

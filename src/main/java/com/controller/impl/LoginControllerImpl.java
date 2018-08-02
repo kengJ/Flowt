@@ -1,26 +1,27 @@
 package com.controller.impl;
 
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.ILoginController;
 import com.model.User;
-import com.service.ILoginService;
-import com.service.IMenuService;
+import com.service.LoginService;
+import com.service.MenuService;
 
+@Controller
 @RequestMapping("/Login")
 public class LoginControllerImpl extends BasicControllerImpl<User> implements ILoginController {
 
 	@Autowired
-	private ILoginService loginService;
+	private LoginService loginService;
 	
-	@SuppressWarnings("unused")
 	@Autowired
-	private IMenuService menuService;
+	private MenuService menuService;
 
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
@@ -35,8 +36,8 @@ public class LoginControllerImpl extends BasicControllerImpl<User> implements IL
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public List<User> FindByKey(String keyword) {
-		return loginService.FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(loginService.FindByKey(keyword));
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)
@@ -51,6 +52,18 @@ public class LoginControllerImpl extends BasicControllerImpl<User> implements IL
 
 	public User FindById(String Id) {
 		return loginService.FindById(Id);
+	}
+	
+	@RequestMapping(value="/Login",method=RequestMethod.POST)
+	public ModelAndView Login(@RequestParam String UserName,@RequestParam String Password) {
+		ModelAndView mv = new ModelAndView("redirect:Login");
+		User User = loginService.FindUser(UserName, Password);
+		if(User!=null) {
+			mv.setViewName("LayUiIndex");
+			mv.addObject("menus", menuService.FindAll());
+			mv.addObject("user", User);
+		}
+		return mv;
 	}
 	
 //	@RequestMapping(value="/LoginPage")

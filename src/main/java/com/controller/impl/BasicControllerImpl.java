@@ -56,7 +56,7 @@ public abstract class BasicControllerImpl<T> implements IBasicController<T> {
 		String Id = (String) Json.get("Id");
 		String Type = (String) Json.get("Type");
 		T Data = FindById(Id);
-		if(Type==""||Type.equals("")|Type==null){
+		if(Type==null){
 			return ForwardShowPage(Data);
 		}else{
 			return ForwardEditPage(Data);

@@ -3,24 +3,28 @@ package com.controller.impl;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.IMenuController;
 import com.model.Menu;
-import com.service.IMenuService;
+import com.service.MenuService;
 
+@Controller
 @RequestMapping("/Menu")
 public class MenuControllerImpl extends BasicControllerImpl<Menu> implements IMenuController{
 
 	@Autowired
-	private IMenuService menuService;
+	private MenuService menuService;
 
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
-		return LayUiListFormat(menuService.FindAll());
+		List<Menu> Data = menuService.FindAll();
+		Map<String, Object> Result = LayUiListFormat(Data);
+		return Result;
 	}
 
 	@RequestMapping(value="/FindById",method=RequestMethod.POST)
@@ -30,8 +34,8 @@ public class MenuControllerImpl extends BasicControllerImpl<Menu> implements IMe
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public List<Menu> FindByKey(String keyword) {
-		return menuService.FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(menuService.FindByKey(keyword));
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)

@@ -7,20 +7,21 @@ import java.util.Map;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.model.MessageTable;
 import com.model.MessageTableAction;
 import com.model.MessageTableDetial;
-import com.service.IMessageTableService;
+import com.service.MessageTableService;
 import com.util.ServerTool;
 import com.util.StrUtil;
-
+@Controller
 @RequestMapping(value="/Page")
 public class PageController {
 	
 	@Autowired
-	private IMessageTableService messageTableService;
+	private MessageTableService messageTableService;
 	
 	@RequestMapping(value="/ComputerEditPage")
 	public ModelAndView ComputerEditPage(String Id,String Ip,String LoginName){
@@ -42,18 +43,19 @@ public class PageController {
 		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
 		try {
 			String ActionName = request.getAttribute("result").getClass().getSimpleName();
-			//System.out.println(ActionName);
 			MessageTable MessageTable =messageTableService.FindMessageTable(ActionName);
 			Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
 			List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
 			//把表字段配置信息匹配到request传过来的数据，并封装到list里
 			for(MessageTableDetial mtd : MessageTableDetials ) {
-				if(mtd.getIsEdit()==1){
-					Map<String, String> line = new HashMap<String, String>();
-					line.put("title", mtd.getTitle());
-					line.put("Value", Data.get(mtd.getName()));
-					line.put("name", mtd.getName());
-					ResultData.add(line);
+				if(mtd.getName()!=null&!mtd.getName().equals("")){
+					if(mtd.getIsEdit()==1){
+						Map<String, String> line = new HashMap<String, String>();
+						line.put("title", mtd.getTitle());
+						line.put("Value", Data.get(mtd.getName()));
+						line.put("name", mtd.getName());
+						ResultData.add(line);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -76,13 +78,14 @@ public class PageController {
 		Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
 		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
 		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
-		//System.out.println(MessageTableDetials);
 		//把表字段配置信息匹配到request传过来的数据，并封装到list里
 		for(MessageTableDetial mtd : MessageTableDetials ) {
-			Map<String, String> line = new HashMap<String, String>();
-			line.put("title", mtd.getTitle());
-			line.put("Value", Data.get(mtd.getName()));
-			ResultData.add(line);
+			if(mtd.getName()!=null&!mtd.getName().equals("")){
+				Map<String, String> line = new HashMap<String, String>();
+				line.put("title", mtd.getTitle());
+				line.put("Value", Data.get(mtd.getName()));
+				ResultData.add(line);	
+			}
 		}
 		ModelAndView mv = new ModelAndView("Page/Show");
 		mv.addObject("data", ResultData);
@@ -130,8 +133,19 @@ public class PageController {
 				ResultData.add(line);
 			}
 		}
+		System.out.println(MessageTableDetials);
 		ModelAndView mv = new ModelAndView("Page/AddPage");
 		mv.addObject("data", ResultData);
 		return mv;
+	}
+	
+	@RequestMapping(value="/LoginPage")
+	public String LoginPage(){
+		return "Login/UiTest";
+	}
+	
+	@RequestMapping("/Logout")
+	public String Ladyout(){
+		return "Login/UiTest";
 	}
 }

@@ -1,10 +1,8 @@
 package com.model;
 
-import java.util.List;
+import java.util.Set;
 import org.hibernate.annotations.OrderBy;
-
 import lombok.Data;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,13 +32,13 @@ public class Menu {
 	@Column(name="Memo")
 	private String Memo;
 	
-	@Column(name="OrderBy")
-	private int OrderBy;
+	@Column(name="OrderNo")
+	private int OrderNo;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "Menu_id")
-	@OrderBy(clause="OrderNo,Id")
-	private List<MessageTable> MessageTables;
+	@OrderBy(clause="OrderNo asc")
+	private Set<MessageTable> MessageTables;
 
 	public Long getId() {
 		return Id;
@@ -75,34 +73,34 @@ public class Menu {
 	}
 
 	public int getOrderBy() {
-		return OrderBy;
+		return OrderNo;
 	}
 
-	public void setOrderBy(int orderBy) {
-		OrderBy = orderBy;
+	public void setOrderBy(int orderNo) {
+		OrderNo = orderNo;
 	}
 
-	public List<MessageTable> getMessageTables() {
+	public Set<MessageTable> getMessageTables() {
 		return MessageTables;
 	}
 
-	public void setMessageTables(List<MessageTable> messageTables) {
+	public void setMessageTables(Set<MessageTable> messageTables) {
 		MessageTables = messageTables;
 	}
 
 	@Override
 	public String toString() {
-		return "Menu [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Memo=" + Memo + ", OrderBy=" + OrderBy
+		return "Menu [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Memo=" + Memo + ", OrderBy=" + OrderNo
 				+ ", MessageTables=" + MessageTables + "]";
 	}
 
-	public Menu(Long id, String name, String title, String memo, int orderBy, List<MessageTable> messageTables) {
+	public Menu(Long id, String name, String title, String memo, int orderNo, Set<MessageTable> messageTables) {
 		super();
 		Id = id;
 		Name = name;
 		Title = title;
 		Memo = memo;
-		OrderBy = orderBy;
+		OrderNo = orderNo;
 		MessageTables = messageTables;
 	}
 
@@ -110,12 +108,12 @@ public class Menu {
 		super();
 	}
 
-	public Menu(String name, String title, String memo, int orderBy) {
+	public Menu(String name, String title, String memo, int orderNo) {
 		super();
 		Name = name;
 		Title = title;
 		Memo = memo;
-		OrderBy = orderBy;
+		OrderNo = orderNo;
 	}
 	
 	

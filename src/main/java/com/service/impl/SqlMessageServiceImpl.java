@@ -2,15 +2,17 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.SqlMessage;
-import com.repository.IBasicRepository;
-import com.repository.ISqlMessageRepository;
-import com.service.ISqlMessageService;
+import org.springframework.stereotype.Service;
 
-public class SqlMessageServiceImpl extends BasicServiceImpl<SqlMessage> implements ISqlMessageService {
+import com.model.SqlMessage;
+import com.repository.BasicRepository;
+import com.repository.SqlMessageRepository;
+import com.service.SqlMessageService;
+@Service(value="sqlMessageService")
+public class SqlMessageServiceImpl extends BasicServiceImpl<SqlMessage> implements SqlMessageService {
 
 	@Autowired
-	private ISqlMessageRepository sqlMessageRepository;
+	private SqlMessageRepository sqlMessageRepository;
 
 	@Override
 	public List<SqlMessage> FindByKey(String Key) {
@@ -19,7 +21,7 @@ public class SqlMessageServiceImpl extends BasicServiceImpl<SqlMessage> implemen
 	}
 
 	@Override
-	public IBasicRepository<SqlMessage> GetBasicRepository() {
+	public BasicRepository<SqlMessage> GetBasicRepository() {
 		return sqlMessageRepository;
 	}
 	

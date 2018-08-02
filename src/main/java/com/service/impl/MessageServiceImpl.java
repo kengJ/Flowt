@@ -2,15 +2,17 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.Message;
-import com.repository.IBasicRepository;
-import com.repository.IMessageRepository;
-import com.service.IMessageService;
+import org.springframework.stereotype.Service;
 
-public class MessageServiceImpl extends BasicServiceImpl<Message> implements IMessageService{
+import com.model.Message;
+import com.repository.BasicRepository;
+import com.repository.MessageRepository;
+import com.service.MessageService;
+@Service(value="messageService")
+public class MessageServiceImpl extends BasicServiceImpl<Message> implements MessageService{
 
 	@Autowired
-	private IMessageRepository messageRepository;
+	private MessageRepository messageRepository;
 
 	@Override
 	public List<Message> FindByKey(String Key) {
@@ -19,7 +21,7 @@ public class MessageServiceImpl extends BasicServiceImpl<Message> implements IMe
 	}
 
 	@Override
-	public IBasicRepository<Message> GetBasicRepository() {
+	public BasicRepository<Message> GetBasicRepository() {
 		return messageRepository;
 	}
 	

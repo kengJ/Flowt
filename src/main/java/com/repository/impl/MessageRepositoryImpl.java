@@ -1,7 +1,9 @@
 package com.repository.impl;
 
-import com.model.Message;
-import com.repository.IMessageRepository;
+import org.springframework.stereotype.Repository;
 
-public class MessageRepositoryImpl extends BasicRepositoryImpl<Message> implements IMessageRepository {
+import com.model.Message;
+import com.repository.MessageRepository;
+@Repository(value="messageRepository")
+public class MessageRepositoryImpl extends BasicRepositoryImpl<Message> implements MessageRepository {
 }

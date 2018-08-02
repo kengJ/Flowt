@@ -3,20 +3,21 @@ package com.controller.impl;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.ISystemTypeController;
 import com.model.SystemType;
-import com.service.ISystemTypeService;
+import com.service.SystemTypeService;
 
-
+@Controller
 @RequestMapping(value="/SystemType")
 public class SystemTypeControllerImpl extends BasicControllerImpl<SystemType> implements ISystemTypeController {
 
 	@Autowired
-	private ISystemTypeService systemTypeService;
+	private SystemTypeService systemTypeService;
 
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
@@ -31,10 +32,10 @@ public class SystemTypeControllerImpl extends BasicControllerImpl<SystemType> im
 		return ForwardEditOrShow(Json);
 	}
 
-	@RequestMapping(value="/FindById",method=RequestMethod.POST)
+	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public List<SystemType> FindByKey(String keyword) {
-		return systemTypeService.FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(systemTypeService.FindByKey(keyword));
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)

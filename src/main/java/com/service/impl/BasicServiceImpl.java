@@ -1,14 +1,14 @@
 package com.service.impl;
 
 import java.util.List;
-import com.repository.IBasicRepository;
-import com.service.IBasicService;
+import com.repository.BasicRepository;
+import com.service.BasicService;
 
-public abstract class  BasicServiceImpl<T> implements IBasicService<T>{
+public abstract class  BasicServiceImpl<T> implements BasicService<T>{
 	
 	private Class<T> entityClass;
 
-	public abstract  IBasicRepository<T> GetBasicRepository();
+	public abstract  BasicRepository<T> GetBasicRepository();
 	
 	@SuppressWarnings("unused")
 	private String GetEntityClassName(){

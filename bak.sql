@@ -103,16 +103,17 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Memo` varchar(255) DEFAULT NULL,
   `Name` varchar(255) DEFAULT NULL,
-  `OrderBy` int(11) DEFAULT NULL,
+  `OrderNo` int(11) DEFAULT NULL,
   `Title` varchar(255) DEFAULT NULL,
+  `OrderBy` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  flowt.menu 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT IGNORE INTO `menu` (`Id`, `Memo`, `Name`, `OrderBy`, `Title`) VALUES
-	(1, '系统设置', '系统设置', 11, '系统设置'),
-	(8, '菜单设置', '菜单设置', 0, '菜单设置');
+INSERT IGNORE INTO `menu` (`Id`, `Memo`, `Name`, `OrderNo`, `Title`, `OrderBy`) VALUES
+	(1, '系统设置', '系统设置', 0, '系统设置', 0),
+	(8, '菜单设置', '菜单设置', 1, '菜单设置', 0);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
 -- 导出  表 flowt.message 结构
@@ -142,14 +143,15 @@ CREATE TABLE IF NOT EXISTS `messagetable` (
   PRIMARY KEY (`Id`),
   KEY `FK_aayjedu9m054so23lv4l4boky` (`Menu_id`),
   CONSTRAINT `FK_aayjedu9m054so23lv4l4boky` FOREIGN KEY (`Menu_id`) REFERENCES `menu` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  flowt.messagetable 的数据：~3 rows (大约)
 /*!40000 ALTER TABLE `messagetable` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetable` (`Id`, `Memo`, `Name`, `Type`, `Title`, `Url`, `OrderNo`, `Menu_id`, `Tip`) VALUES
 	(1, NULL, 'Computer', 'Basic', '准入IP地址设置', '/PageIndex/IndexPage/Computer', 0, 1, '说明:<br/>1.系统登录时会进行Ip检查，准入IP里没有信息是不可以访问的<br/>2.查询功能可查询所有列'),
 	(2, NULL, 'User', 'Basic', '用户设置', '/PageIndex/IndexPage/User', 0, 1, NULL),
-	(3, NULL, 'Menu', 'Basic', '菜单管理', '/PageIndex/IndexPage/Menu', 0, 8, '说明:<br/>1.顺序编号值越越靠后');
+	(3, NULL, 'Menu', 'Basic', '菜单管理', '/PageIndex/IndexPage/Menu', 0, 8, '说明:<br/>1.顺序编号值越越靠前'),
+	(4, NULL, 'MessageTable', 'Basic', '子菜单管理', '/PageIndex/IndexPage/MessageTable', 0, 8, '说明:<br/>1.顺序编号值越越靠前');
 /*!40000 ALTER TABLE `messagetable` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetableaction 结构
@@ -163,27 +165,27 @@ CREATE TABLE IF NOT EXISTS `messagetableaction` (
   PRIMARY KEY (`Id`),
   KEY `FK_n7wpqnj2yubnjt6xlgahg1vkj` (`MessageTable_id`),
   CONSTRAINT `FK_n7wpqnj2yubnjt6xlgahg1vkj` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  flowt.messagetableaction 的数据：~24 rows (大约)
 /*!40000 ALTER TABLE `messagetableaction` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetableaction` (`Id`, `ActionName`, `Name`, `Type`, `Url`, `MessageTable_id`) VALUES
 	(1, 'Computer', '查询所有', 'Find', '/Computer/FindAll', 1),
-	(2, 'Computer', '显示详细信息', 'Show', '/Computer/FindById?Id=', 1),
-	(3, 'Computer', '删除信息', 'Del', '/Computer/Del?Id=', 1),
-	(4, 'Computer', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Computer', 1),
-	(5, 'Computer', '编辑页面', 'EditPage', '/Computer/FindById?Type=edit&Id=', 1),
-	(6, 'Computer', '增加信息', 'Add', '/Computer/Add?', 1),
-	(7, 'Computer', '编辑信息', 'Edit', '/Computer/Update?', 1),
+	(2, 'Computer', '显示详细信息', 'Show', '/Computer/FindById', 1),
+	(3, 'Computer', '删除信息', 'Del', '/Computer/Del', 1),
+	(4, 'Computer', '增加页面', 'AddPage', '/Page/AddPage', 1),
+	(5, 'Computer', '编辑页面', 'EditPage', '/Computer/FindById', 1),
+	(6, 'Computer', '增加信息', 'Add', '/Computer/Add', 1),
+	(7, 'Computer', '编辑信息', 'Edit', '/Computer/Update', 1),
 	(8, 'Computer', '按条件查询', 'FindByKey', '/Computer/FindAll', 1),
-	(9, 'User', '增加页面', 'AddPage', '/Page/AddPage?ActionName=User', 2),
+	(9, 'User', '增加页面', 'AddPage', '/Page/AddPage', 2),
 	(10, 'User', '查询所有', 'Find', '/User/FindAll', 2),
-	(11, 'User', '按条件查询', 'FindByKey', '/User/FindAll', 2),
-	(12, 'User', '显示详细信息', 'Show', '/User/FindById?Id=', 2),
-	(13, 'User', '编辑页面', 'EditPage', '/User/FindById?Type=edit&Id=', 2),
-	(14, 'User', '删除信息', 'Del', '/User/Del?Id=', 2),
-	(15, 'User', '增加信息', 'Add', '/User/Add?', 2),
-	(16, 'User', '修改信息', 'Edit', '/User/Update?', 2),
+	(11, 'User', '按条件查询', 'FindByKey', '/User/FindByKey', 2),
+	(12, 'User', '显示详细信息', 'Show', '/User/FindById', 2),
+	(13, 'User', '编辑页面', 'EditPage', '/User/FindById', 2),
+	(14, 'User', '删除信息', 'Del', '/User/Del', 2),
+	(15, 'User', '增加信息', 'Add', '/User/Add', 2),
+	(16, 'User', '修改信息', 'Edit', '/User/Update', 2),
 	(17, 'Menu', '查询所有', 'Find', '/Menu/FindAll', 3),
 	(18, 'Menu', '显示详细信息', 'Show', '/Menu/FindById', 3),
 	(19, 'Menu', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Menu', 3),
@@ -191,7 +193,15 @@ INSERT IGNORE INTO `messagetableaction` (`Id`, `ActionName`, `Name`, `Type`, `Ur
 	(21, 'Menu', '删除信息', 'Del', '/Menu/Del', 3),
 	(22, 'Menu', '修改页面', 'EditPage', '/Menu/FindById', 3),
 	(23, 'Menu', '修改数据', 'Edit', '/Menu/Edit', 3),
-	(24, 'Menu', '按条件查询', 'FindByKey', '/Menu/FindByKey', 3);
+	(24, 'Menu', '按条件查询', 'FindByKey', '/Menu/FindByKey', 3),
+	(25, 'MessageTable', '查询所有', 'Find', '/MessageTable/FindAll', 4),
+	(26, 'MessageTable', '显示详细信息', 'Show', '/MessageTable/FindById', 4),
+	(27, 'MessageTable', '增加页面', 'AddPage', '/Page/AddPage', 4),
+	(28, 'MessageTable', '新增数据', 'Add', '/MessageTable/Add', 4),
+	(29, 'MessageTable', '删除信息', 'Del', '/MessageTable/Del', 4),
+	(30, 'MessageTable', '修改页面', 'EditPage', '/MessageTable/FindById', 4),
+	(31, 'MessageTable', '修改数据', 'Edit', '/MessageTable/Edit', 4),
+	(32, 'MessageTable', '按条件查询', 'FindByKey', '/MessageTable/FindByKey', 4);
 /*!40000 ALTER TABLE `messagetableaction` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetabledetial 结构
@@ -208,14 +218,14 @@ CREATE TABLE IF NOT EXISTS `messagetabledetial` (
   PRIMARY KEY (`Id`),
   KEY `FK_16brbwxm07jialhapfje9l5yr` (`MessageTable_id`),
   CONSTRAINT `FK_16brbwxm07jialhapfje9l5yr` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  flowt.messagetabledetial 的数据：~15 rows (大约)
 /*!40000 ALTER TABLE `messagetabledetial` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `MessageTable_id`, `OrderNo`, `IsAdd`, `IsEdit`, `IsShow`) VALUES
 	(1, 'id', 'Id', 'Id', 2, 0, 0, 1, 1),
-	(2, 'userName', 'UserName', '用户名', 2, 0, 0, 1, 1),
-	(3, 'password', 'Password', '密码', 2, 0, 0, 1, 1),
+	(2, 'userName', 'UserName', '用户名', 2, 0, 1, 1, 1),
+	(3, 'password', 'Password', '密码', 2, 0, 1, 1, 1),
 	(4, 'createDate', 'CreateDate', '创建时间', 2, 0, 0, 0, 1),
 	(5, 'updateDate', 'UpdateDate', '更新时间', 2, 0, 0, 0, 1),
 	(6, 'id', 'Id', 'Id', 1, 0, 0, 1, 1),
@@ -227,7 +237,15 @@ INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `Mess
 	(12, 'name', 'Name', '名称', 3, 0, 1, 1, 1),
 	(13, 'title', 'Title', '标题', 3, 0, 1, 1, 1),
 	(14, 'memo', 'Memo', '备注', 3, 0, 1, 1, 1),
-	(15, 'orderBy', 'OrderBy', '顺序编号', 3, 0, 1, 1, 1);
+	(15, 'orderBy', 'OrderBy', '顺序编号', 3, 0, 1, 1, 1),
+	(16, 'id', 'Id', 'Id', 4, 0, 0, 0, 1),
+	(17, 'name', 'Name', '名称', 4, 0, 1, 1, 1),
+	(18, 'type', 'Type', '类型', 4, 0, 1, 1, 1),
+	(20, 'url', 'Url', '链接', 4, 0, 1, 1, 1),
+	(21, 'title', 'Title', '标题', 4, 1, 1, 1, 1),
+	(22, 'orderNo', 'OrderNo', '顺序编号', 4, 1, 1, 1, 1),
+	(23, 'tip', 'Tip', '提示', 4, 0, 1, 1, 1),
+	(24, 'upMenu', '', '上级菜单', 4, 0, 0, 0, 1);
 /*!40000 ALTER TABLE `messagetabledetial` ENABLE KEYS */;
 
 -- 导出  表 flowt.orders 结构
@@ -322,13 +340,13 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   PRIMARY KEY (`Id`),
   KEY `FK_3yhggk8adpg8mwaiiqj4nitnx` (`Role_Id`),
   CONSTRAINT `FK_3yhggk8adpg8mwaiiqj4nitnx` FOREIGN KEY (`Role_Id`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.sys_user 的数据：~3 rows (大约)
+-- 正在导出表  flowt.sys_user 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT IGNORE INTO `sys_user` (`Id`, `CreateDate`, `Password`, `UpdateDate`, `UserName`, `Role`, `Role_Id`) VALUES
 	(1, '2018-06-19 13:38:53', 'admin', '2018-06-19 13:38:53', 'admin', NULL, NULL),
-	(6, '2018-07-10 09:35:13', '12345', '2018-07-10 09:35:13', 'test', NULL, NULL);
+	(8, '2018-08-02 11:59:49', 'test', '2018-08-02 11:59:49', 'test', NULL, NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 
 -- 导出  表 flowt.user_1 结构

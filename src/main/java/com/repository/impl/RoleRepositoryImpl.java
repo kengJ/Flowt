@@ -1,8 +1,10 @@
 package com.repository.impl;
 
-import com.model.Role;
-import com.repository.IRoleRepository;
+import org.springframework.stereotype.Repository;
 
-public class RoleRepositoryImpl extends BasicRepositoryImpl<Role> implements IRoleRepository {
+import com.model.Role;
+import com.repository.RoleRepository;
+@Repository(value="roleRepository")
+public class RoleRepositoryImpl extends BasicRepositoryImpl<Role> implements RoleRepository {
 	
 }

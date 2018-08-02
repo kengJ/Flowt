@@ -2,23 +2,23 @@ package com.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.service.IExcelTableService;
-import com.service.ISqlMessageService;
-import com.service.IUserService;
+import com.service.ExcelTableService;
+import com.service.SqlMessageService;
+import com.service.UserService;
 
 @Controller
 public class TestControllerImpl {
 	@SuppressWarnings("unused")
 	@Autowired(required=true)
-    private IUserService userService;
+    private UserService userService;
 	
 	@SuppressWarnings("unused")
 	@Autowired
-	private ISqlMessageService SqlMessageService;
+	private SqlMessageService SqlMessageService;
 	
 	@SuppressWarnings("unused")
 	@Autowired
-	private IExcelTableService excelTableService;
+	private ExcelTableService excelTableService;
 	
 //	@RequestMapping(value = "/test", method = RequestMethod.GET)
 //	@ResponseBody

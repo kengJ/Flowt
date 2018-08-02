@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.IBasicController;
-import com.service.IBasicService;
+import com.service.BasicService;
 
 public abstract class BasicControllerImpl_bak<T> implements IBasicController<T>{
 
 	/**
 	 * 此函数必须重写
 	 */
-	public IBasicService<T> GetService() {
+	public BasicService<T> GetService() {
 		return null;
 	}
 
@@ -69,8 +69,7 @@ public abstract class BasicControllerImpl_bak<T> implements IBasicController<T>{
 	}**/
 
 	@Override
-	public List<T> FindByKey(String keyword) {
-		System.out.println(keyword);
-		return GetService().FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(GetService().FindByKey(keyword));
 	}
 }

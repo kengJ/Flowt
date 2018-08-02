@@ -1,8 +1,10 @@
 package com.repository.impl;
 
-import com.model.MessageTableDetial;
-import com.repository.IMessageTableDetialRepository;
+import org.springframework.stereotype.Repository;
 
-public class MessageTableDetialRepositoryImpl extends BasicRepositoryImpl<MessageTableDetial> implements IMessageTableDetialRepository{
+import com.model.MessageTableDetial;
+import com.repository.MessageTableDetialRepository;
+@Repository(value="messageTableDetialRepository")
+public class MessageTableDetialRepositoryImpl extends BasicRepositoryImpl<MessageTableDetial> implements MessageTableDetialRepository{
 
 }

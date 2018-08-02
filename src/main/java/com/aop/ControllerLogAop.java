@@ -10,8 +10,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import com.service.IComputerService;
-import com.service.IInterceptedLogService;
+import com.service.ComputerService;
+import com.service.InterceptedLogService;
 import com.util.ServerTool;
 import com.util.StrUtil;
 
@@ -23,10 +23,10 @@ public class ControllerLogAop {
 	private Logger log = Logger.getLogger(ControllerLogAop.class);
 	
 	@Autowired
-	private IComputerService computerService;
+	private ComputerService computerService;
 	
 	@Autowired
-	private IInterceptedLogService interceptedLogService;
+	private InterceptedLogService interceptedLogService;
 	
 	/**
 	 * 拦截controller下所有的请求

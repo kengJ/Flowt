@@ -1,17 +1,22 @@
 package com.repository.impl;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate4.HibernateTemplate;
+import com.repository.BasicRepository;
 
-import com.repository.IBasicRepository;
-
-public class BasicRepositoryImpl<T> implements IBasicRepository<T>{
+public class BasicRepositoryImpl<T> implements BasicRepository<T>{
 	
-	private Class<T> entityClass;  
+	private Class<T> entityClass; 
+	
+	public Class<T> GetEntityClassName(){
+		return entityClass;
+	}
 	
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
@@ -64,7 +69,8 @@ public class BasicRepositoryImpl<T> implements IBasicRepository<T>{
 	}
 	
 	public T Get(String Id) {
-		return hibernateTemplate.get(entityClass, Id);
+		Long id = Long.parseLong(Id);
+		return hibernateTemplate.get(entityClass, id);
 	}
 	
 	public boolean SaveOrUpdate(T o){
@@ -77,13 +83,23 @@ public class BasicRepositoryImpl<T> implements IBasicRepository<T>{
 		
 	}
 
+
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<T> FindAll() {
-		String ClassName = entityClass.getSimpleName();
+		//System.out.println(GetEntityClassName().getSimpleName());
+		String ClassName = GetEntityClassName().getSimpleName();
 		String Hql = "from "+ClassName;
 		List<T> Data = null;
 		Data = getCurrentSession().createQuery(Hql).list();
 		return Data ;
 	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public BasicRepositoryImpl() {
+		super();
+		Type genType = getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        entityClass =  (Class)params[0];
+	}
+	
 }

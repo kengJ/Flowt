@@ -1,23 +1,25 @@
 package com.controller.impl;
 
-import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.controller.IComputerController;
 import com.model.Computer;
-import com.service.IComputerService;
+import com.service.ComputerService;
 
+@Controller
 @RequestMapping("/Computer")
 public class ComputerControllerImpl extends BasicControllerImpl<Computer> implements IComputerController{
 
 	@Autowired
-	private IComputerService computerService;
+	private ComputerService computerService;
 
-	@Override
+	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
 		return LayUiListFormat(computerService.FindAll());
 	}
@@ -28,8 +30,8 @@ public class ComputerControllerImpl extends BasicControllerImpl<Computer> implem
 	}
 
 	@Override
-	public List<Computer> FindByKey(String keyword) {
-		return computerService.FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(computerService.FindByKey(keyword));
 	}
 
 	@Override

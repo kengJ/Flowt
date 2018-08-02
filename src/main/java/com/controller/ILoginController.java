@@ -1,10 +1,8 @@
 package com.controller;
 
-import org.springframework.stereotype.Controller;
-
+import org.springframework.web.servlet.ModelAndView;
 import com.model.User;
 
-@Controller
 public interface ILoginController extends IBasicController<User> {
-
+	ModelAndView Login(String UserName,String Password);
 }

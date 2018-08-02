@@ -3,24 +3,26 @@ package com.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.MessageTable;
-import com.repository.IBasicRepository;
-import com.repository.IMessageTableRepository;
-import com.service.IMessageTableService;
+import org.springframework.stereotype.Service;
 
-public class MessageTableServiceImpl extends BasicServiceImpl<MessageTable> implements IMessageTableService{
+import com.model.MessageTable;
+import com.repository.BasicRepository;
+import com.repository.MessageTableRepository;
+import com.service.MessageTableService;
+@Service(value="messageTableService")
+public class MessageTableServiceImpl extends BasicServiceImpl<MessageTable> implements MessageTableService{
 
 	@Autowired
-	private IMessageTableRepository messageTableRepository;
+	private MessageTableRepository messageTableRepository;
 
 	@Override
 	public List<MessageTable> FindByKey(String Key) {
-		// TODO Auto-generated method stub
-		return null;
+		String Hql = "from MessageTable where Name like '%"+Key+"%' or Type like '%"+Key+"%' or Title like '%"+Key+"%'";
+		return messageTableRepository.FindByHql(Hql);
 	}
 
 	@Override
-	public IBasicRepository<MessageTable> GetBasicRepository() {
+	public BasicRepository<MessageTable> GetBasicRepository() {
 		return messageTableRepository;
 	}
 
@@ -33,6 +35,11 @@ public class MessageTableServiceImpl extends BasicServiceImpl<MessageTable> impl
 			
 		}
 		return data;
+	}
+	
+	@Override
+	public List<MessageTable> FindAll() {
+		return messageTableRepository.FindByHql("from MessageTable Order By OrderNo,Id");
 	}
 	
 	/**public MessageTable  getMessageTable(String KeyName){

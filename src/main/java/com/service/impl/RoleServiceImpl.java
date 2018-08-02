@@ -2,15 +2,17 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.Role;
-import com.repository.IBasicRepository;
-import com.repository.IRoleRepository;
-import com.service.IRoleService;
+import org.springframework.stereotype.Service;
 
-public class RoleServiceImpl extends BasicServiceImpl<Role> implements IRoleService {
+import com.model.Role;
+import com.repository.BasicRepository;
+import com.repository.RoleRepository;
+import com.service.RoleService;
+@Service(value="roleService")
+public class RoleServiceImpl extends BasicServiceImpl<Role> implements RoleService {
 
 	@Autowired
-	private IRoleRepository roleRepository;
+	private RoleRepository roleRepository;
 
 	@Override
 	public List<Role> FindByKey(String Key) {
@@ -19,7 +21,7 @@ public class RoleServiceImpl extends BasicServiceImpl<Role> implements IRoleServ
 	}
 
 	@Override
-	public IBasicRepository<Role> GetBasicRepository() {
+	public BasicRepository<Role> GetBasicRepository() {
 		return roleRepository;
 	}
 	

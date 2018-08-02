@@ -1,8 +1,10 @@
 package com.repository.impl;
 
-import com.model.Computer;
-import com.repository.IComputerRepository;
+import org.springframework.stereotype.Repository;
 
-public class ComputerRepositoryImpl extends BasicRepositoryImpl<Computer> implements IComputerRepository{
+import com.model.Computer;
+import com.repository.ComputerRepository;
+@Repository(value="computerRepository")
+public class ComputerRepositoryImpl extends BasicRepositoryImpl<Computer> implements ComputerRepository{
 
 }

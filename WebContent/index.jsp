@@ -5,7 +5,7 @@
 	pageContext.setAttribute("error", request.getParameter("error-box"));
 %>
 <%
-response.sendRedirect("Login/LoginPage");
+response.sendRedirect("Page/LoginPage");
 %>
 <!DOCTYPE html>
 <html>

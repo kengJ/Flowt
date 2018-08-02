@@ -9,8 +9,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
 
-import org.junit.Test;
+import javax.annotation.Resource;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import com.service.MenuService;
 import com.util.StrUtil;
 
 public class test {
@@ -74,5 +80,12 @@ public class test {
 		
 		String name = "123";
 		System.out.println(StrUtil.IsBasicType(name));
+	}
+	
+	@Test
+	public void testBean(){
+		ApplicationContext ac = new FileSystemXmlApplicationContext("classpath:spring.xml");
+		MenuService o = ac.getBean(MenuService.class);
+		System.out.println(o.FindAll());
 	}
 }

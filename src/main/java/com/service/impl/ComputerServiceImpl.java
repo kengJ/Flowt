@@ -2,18 +2,20 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.Computer;
-import com.repository.IBasicRepository;
-import com.repository.IComputerRepository;
-import com.service.IComputerService;
+import org.springframework.stereotype.Service;
 
-public class ComputerServiceImpl extends BasicServiceImpl<Computer> implements IComputerService{
+import com.model.Computer;
+import com.repository.BasicRepository;
+import com.repository.ComputerRepository;
+import com.service.ComputerService;
+@Service(value="computerService")
+public class ComputerServiceImpl extends BasicServiceImpl<Computer> implements ComputerService{
 
 	@Autowired
-	private IComputerRepository computerRepository;
+	private ComputerRepository computerRepository;
 
 	@Override
-	public IBasicRepository<Computer> GetBasicRepository() {
+	public BasicRepository<Computer> GetBasicRepository() {
 		return computerRepository;
 	}
 

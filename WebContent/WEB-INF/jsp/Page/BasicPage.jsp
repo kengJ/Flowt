@@ -22,15 +22,18 @@
    		</c:if>
    		<c:if test="${not empty ActionFindByKey }">
 	   		<div class="layui-col-md4">
-		   		<input type="text" id="keyword" required  placeholder="请输入查询内容" autocomplete="off" class="layui-input">
+		   		<input type="text" id="keyword" placeholder="请输入查询内容" autocomplete="off" class="layui-input">
 		   	</div>
-		   	<div class="layui-col-md4">
+		   	<div class="layui-col-md1">
 		   		<button class="layui-btn layui-btn-normal" id="btn-select"><i class="layui-icon layui-icon-search"></i> 查询</button>
 		   	</div>
+		   	<div class="layui-col-md1">
+		   		<button class="layui-btn layui-btn-normal" id="btn-clean"><i class="layui-icon layui-icon-refresh"></i> 清楚</button>
+   			</div>
    		</c:if>
    	</div>
    	
-   	<table class="layui-table" id="demo" lay-filter="demo">
+   	<table class="layui-table" id="demo" lay-filter="demo" lay-size="sm">
    	</table>
    	<script type="text/html" id="barDemo">
 		<c:if test="${not empty ActionShow }">
@@ -61,7 +64,7 @@ var cols = new Array();
 	test.title=line[1].split('=')[1];
 	cols.push(test);
 </c:forEach>
-cols.push({field: 'action', title: '操作',toolbar:"#barDemo"});
+cols.push({field: 'action', title: '操作',toolbar:"#barDemo",width:200});
 layui.use(['table','layer','form'], function(){
 	  var table = layui.table;
 	  var layer = layui.layer;
@@ -70,6 +73,7 @@ layui.use(['table','layer','form'], function(){
 	  table.render({
 	    elem: '#demo'
 	    ,height: 315
+	    ,method: 'post'
 	    ,url: "${ActionFind}" //数据接口
 	    ,page: true //开启分页
 	    ,text:'无数据'
@@ -129,10 +133,11 @@ layui.use(['table','layer','form'], function(){
 	    	  });
 	      });
 	    } else if(obj.event === 'edit'){
+	    	var id = data['id'];
 	      $.ajax({
 	    	  url:'${ActionEditPage}',
 	    	  type:'POST',
-	    	  data:{Type:'edit',Id:data['id']},
+	    	  data:{Type:'edit',Id:id},
 	    	  success:function(data){
 	    		  var html = "<div style='padding:10px;'>"+data+"</div>";
 		    	  layer.open({
@@ -173,9 +178,13 @@ layui.use(['table','layer','form'], function(){
 	    }
 	  });
 	
-		$('#btn-add').click(function(){
-			$.get('${ActionAddPage}',function(data){
-		    	  var html = "<div style='padding:10px;'>"+data+"</div>";
+	$('#btn-add').click(function(){
+		$.ajax({
+			url:'${ActionAddPage}',
+			type:'POST',
+	    	data:{ActionName:'${action}'},
+			success:function(data){
+				var html = "<div style='padding:10px;'>"+data+"</div>";
 		    	  layer.open({
 		    	        type: 1,
 		    	        btn: ['确定','取消'],
@@ -215,8 +224,18 @@ layui.use(['table','layer','form'], function(){
 		    	        },btn2: function (box) {
 		    	            layer.close(box);
 		    	        }
-		    	    });
-		      });
-		});
+		    	    });// layer.open
+		}//success function
+		});//ajax ActionAddPage
+	});//click
+	
+	$('#btn-clean').click(function(){
+		$('#keyword').val('');
+		table.reload('demo', {
+			  url: '${ActionFind}'
+			  ,where: {} //设定异步数据接口的额外参数
+			  //,height: 300
+			});
 	});
+});
 </script>

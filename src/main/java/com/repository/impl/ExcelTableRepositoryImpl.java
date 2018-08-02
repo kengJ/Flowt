@@ -1,9 +1,11 @@
 package com.repository.impl;
 
-import com.model.ExcelTable;
-import com.repository.IExcelTableRepository;
+import org.springframework.stereotype.Repository;
 
-public class ExcelTableRepositoryImpl extends BasicRepositoryImpl<ExcelTable> implements IExcelTableRepository{
+import com.model.ExcelTable;
+import com.repository.ExcelTableRepository;
+@Repository(value="excelTableRepository")
+public class ExcelTableRepositoryImpl extends BasicRepositoryImpl<ExcelTable> implements ExcelTableRepository{
 	
 	/**public ExcelTable Find(String Id){
 		String Hql = "from ExcelTable where Id='"+Id+"'";

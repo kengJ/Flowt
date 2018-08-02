@@ -1,8 +1,10 @@
 package com.repository.impl;
 
-import com.model.SystemType;
-import com.repository.ISystemTypeRepository;
+import org.springframework.stereotype.Repository;
 
-public class SystemTypeRepositoryImpl extends BasicRepositoryImpl<SystemType> implements ISystemTypeRepository{
+import com.model.SystemType;
+import com.repository.SystemTypeRepository;
+@Repository(value="systemTypeRepository")
+public class SystemTypeRepositoryImpl extends BasicRepositoryImpl<SystemType> implements SystemTypeRepository{
 
 }

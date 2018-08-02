@@ -3,19 +3,21 @@ package com.controller.impl;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.ISqlMessageController;
 import com.model.SqlMessage;
-import com.service.ISqlMessageService;
+import com.service.SqlMessageService;
 
+@Controller
 @RequestMapping("/SqlMessage")
 public class SqlMessageControllerImpl extends BasicControllerImpl<SqlMessage> implements ISqlMessageController {
 	
 	@Autowired
-	private ISqlMessageService sqlMessageService;
+	private SqlMessageService sqlMessageService;
 
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
@@ -31,11 +33,11 @@ public class SqlMessageControllerImpl extends BasicControllerImpl<SqlMessage> im
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public List<SqlMessage> FindByKey(String keyword) {
-		return sqlMessageService.FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(sqlMessageService.FindByKey(keyword));
 	}
 
-	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
+	@RequestMapping(value="/Del",method=RequestMethod.POST)
 	@ResponseBody
 	public String Del(String Id) {
 		return LayuiFormatResult(sqlMessageService.DeleteById(Id));

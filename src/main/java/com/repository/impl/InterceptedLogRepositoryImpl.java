@@ -1,8 +1,10 @@
 package com.repository.impl;
 
-import com.model.InterceptedLog;
-import com.repository.IInterceptedLogRepository;
+import org.springframework.stereotype.Repository;
 
-public class InterceptedLogRepositoryImpl extends BasicRepositoryImpl<InterceptedLog> implements IInterceptedLogRepository {
+import com.model.InterceptedLog;
+import com.repository.InterceptedLogRepository;
+@Repository(value="interceptedLogRepository")
+public class InterceptedLogRepositoryImpl extends BasicRepositoryImpl<InterceptedLog> implements InterceptedLogRepository {
 
 }

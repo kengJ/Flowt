@@ -37,17 +37,19 @@ public class ServiceLogAop {
 	 * 2.返回空值
 	 * @param joinPoint
 	 * @param ex
+	 * @throws Throwable 
 	 */
 	@Around("FindFuncExpression()")
-	public Object ServiceExctionForFind(ProceedingJoinPoint proceedingJoinPoint){
+	public Object ServiceExctionForFind(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
 		String MethodName = proceedingJoinPoint.getSignature().getName();
 		List<Object> Args = Arrays.asList(proceedingJoinPoint.getArgs());
 		Object Result = null;
-		try {
-			Result = proceedingJoinPoint.proceed();
-		} catch (Throwable e) {
-			log.error("Method "+MethodName+" and args is "+ Args +" have a expection is "+e.toString());
-		}
+		Result = proceedingJoinPoint.proceed();
+//		try {
+//			Result = proceedingJoinPoint.proceed();
+//		} catch (Throwable e) {
+//			log.error("Method "+MethodName+" and args is "+ Args +" have a expection is "+e.toString());
+//		}
 		return Result;
 	}
 }

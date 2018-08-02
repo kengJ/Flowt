@@ -3,6 +3,7 @@ package com.controller.impl;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,13 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.IUserController;
 import com.model.User;
-import com.service.IUserService;
-
+import com.service.UserService;
+@Controller
 @RequestMapping(value="/User")
 public class UserController extends BasicControllerImpl<User> implements IUserController {
 
 	@Autowired
-	private IUserService userService;
+	private UserService userService;
 
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
@@ -32,8 +33,8 @@ public class UserController extends BasicControllerImpl<User> implements IUserCo
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public List<User> FindByKey(String keyword) {
-		return userService.FindByKey(keyword);
+	public Map<String, Object> FindByKey(String keyword) {
+		return LayUiListFormat(userService.FindByKey(keyword));
 	}
 
 	@RequestMapping(value="/Add",method=RequestMethod.POST)

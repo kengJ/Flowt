@@ -2,16 +2,18 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.User;
-import com.repository.IBasicRepository;
-import com.repository.IUserRepository;
-import com.service.ILoginService;
+import org.springframework.stereotype.Service;
 
-public class LoginServiceImpl extends BasicServiceImpl<User> implements ILoginService {
+import com.model.User;
+import com.repository.BasicRepository;
+import com.repository.UserRepository;
+import com.service.LoginService;
+@Service(value="loginService")
+public class LoginServiceImpl extends BasicServiceImpl<User> implements LoginService {
 
 	@SuppressWarnings("rawtypes")
 	@Autowired
-	private IUserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Override
 	public List<User> FindByKey(String Key) {
@@ -21,8 +23,12 @@ public class LoginServiceImpl extends BasicServiceImpl<User> implements ILoginSe
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public IBasicRepository<User> GetBasicRepository() {
+	public BasicRepository<User> GetBasicRepository() {
 		return userRepository;
+	}
+	
+	public User FindUser(String UserName,String Password) {
+		return userRepository.FindUser(UserName, Password);
 	}
 	
 	/**public boolean AddUser(String UserName,String Password){

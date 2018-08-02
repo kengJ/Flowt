@@ -3,15 +3,17 @@ package com.service.impl;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.InterceptedLog;
-import com.repository.IBasicRepository;
-import com.repository.IInterceptedLogRepository;
-import com.service.IInterceptedLogService;
+import org.springframework.stereotype.Service;
 
-public class InterceptedLogServiceImlp extends BasicServiceImpl<InterceptedLog> implements IInterceptedLogService{
+import com.model.InterceptedLog;
+import com.repository.BasicRepository;
+import com.repository.InterceptedLogRepository;
+import com.service.InterceptedLogService;
+@Service(value="interceptedLogService")
+public class InterceptedLogServiceImlp extends BasicServiceImpl<InterceptedLog> implements InterceptedLogService{
 
 	@Autowired
-	private IInterceptedLogRepository interceptedLogRepository;
+	private InterceptedLogRepository interceptedLogRepository;
 
 	@Override
 	public List<InterceptedLog> FindByKey(String Key) {
@@ -20,7 +22,7 @@ public class InterceptedLogServiceImlp extends BasicServiceImpl<InterceptedLog> 
 	}
 
 	@Override
-	public IBasicRepository<InterceptedLog> GetBasicRepository() {
+	public BasicRepository<InterceptedLog> GetBasicRepository() {
 		return interceptedLogRepository;
 	}
 

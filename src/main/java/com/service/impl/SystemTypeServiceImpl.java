@@ -2,15 +2,17 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.model.SystemType;
-import com.repository.IBasicRepository;
-import com.repository.ISystemTypeRepository;
-import com.service.ISystemTypeService;
+import org.springframework.stereotype.Service;
 
-public class SystemTypeServiceImpl extends BasicServiceImpl<SystemType> implements ISystemTypeService{
+import com.model.SystemType;
+import com.repository.BasicRepository;
+import com.repository.SystemTypeRepository;
+import com.service.SystemTypeService;
+@Service(value="systemTypeService")
+public class SystemTypeServiceImpl extends BasicServiceImpl<SystemType> implements SystemTypeService{
 	
 	@Autowired
-	private ISystemTypeRepository systemTypeRepository;
+	private SystemTypeRepository systemTypeRepository;
 
 	@Override
 	public List<SystemType> FindByKey(String Key) {
@@ -19,7 +21,7 @@ public class SystemTypeServiceImpl extends BasicServiceImpl<SystemType> implemen
 	}
 
 	@Override
-	public IBasicRepository<SystemType> GetBasicRepository() {
+	public BasicRepository<SystemType> GetBasicRepository() {
 		return systemTypeRepository;
 	}
 

@@ -1,9 +1,11 @@
 package com.repository.impl;
 
-import com.model.SqlMessage;
-import com.repository.ISqlMessageRepository;
+import org.springframework.stereotype.Repository;
 
-public class SqlMessageRepositoryImpl extends BasicRepositoryImpl<SqlMessage> implements ISqlMessageRepository {
+import com.model.SqlMessage;
+import com.repository.SqlMessageRepository;
+@Repository(value="sqlMessageRepository")
+public class SqlMessageRepositoryImpl extends BasicRepositoryImpl<SqlMessage> implements SqlMessageRepository {
 	
 	/**public boolean Save(SqlMessage sqlMessage){
 		if(getCurrentSession().createQuery("from SqlMessage where Memo='"+sqlMessage.getMemo()+"'").list().size()<=0){

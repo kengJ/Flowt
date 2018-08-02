@@ -2,15 +2,17 @@ package com.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.model.Menu;
-import com.repository.IBasicRepository;
-import com.repository.IMenuRepository;
-import com.service.IMenuService;
+import com.repository.BasicRepository;
+import com.repository.MenuRepository;
+import com.service.MenuService;
 
-public class MenuServiceImpl extends BasicServiceImpl<Menu> implements IMenuService{
+@Service
+public class MenuServiceImpl extends BasicServiceImpl<Menu> implements MenuService{
 
 	@Autowired
-	private IMenuRepository menuRepository;
+	private MenuRepository menuRepository;
 
 	@Override
 	public List<Menu> FindByKey(String Key) {
@@ -19,7 +21,7 @@ public class MenuServiceImpl extends BasicServiceImpl<Menu> implements IMenuServ
 	}
 
 	@Override
-	public IBasicRepository<Menu> GetBasicRepository() {
+	public BasicRepository<Menu> GetBasicRepository() {
 		return menuRepository;
 	}
 
