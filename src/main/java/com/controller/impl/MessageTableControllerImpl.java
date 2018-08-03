@@ -62,7 +62,7 @@ public class MessageTableControllerImpl extends BasicControllerImpl<MessageTable
 			Map<String,String> LineData = new HashMap<>();
 			LineData.put("id", Line.getId().toString());
 			LineData.put("name", Line.getName());
-			LineData.put("upMenu", Line.getMenu().getName());
+			LineData.put("upMenu", messageTableService.FindMenuName(Line.getId().toString()));
 			LineData.put("url", Line.getUrl());
 			LineData.put("title", Line.getTitle());
 			LineData.put("type", Line.getType());//orderNo
@@ -84,5 +84,11 @@ public class MessageTableControllerImpl extends BasicControllerImpl<MessageTable
 			result.put("data", new ArrayList<Map<String,String>>());
 		}
 		return result;
+	}
+
+	@RequestMapping(value="/Add",method=RequestMethod.POST)
+	@ResponseBody
+	public String Add(String Name, String Type, String Url, String Tip, String Title, String OrderNo) {
+		return Add(new MessageTable(Name, Type, Url, Title, Integer.parseInt(OrderNo), Tip));
 	}
 }

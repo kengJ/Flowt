@@ -35,7 +35,7 @@ public abstract class BasicControllerImpl<T> implements IBasicController<T> {
 	 * layui 前端框架返回专用格式
 	 */
 	@Override
-	public Map<String, Object> LayUiListFormat(List<T> Data) {
+	public Map<String, Object> LayUiListFormat(List<T> Data,String page, String limit) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		//判断是否有数据
 		if(Data!=null&Data.size()>0){

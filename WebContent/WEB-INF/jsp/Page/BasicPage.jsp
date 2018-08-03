@@ -16,7 +16,7 @@
   	</c:if>
    	<div class="layui-row layui-col-space10"">
    		<c:if test="${not empty ActionAddPage }">
-	   		<div class="layui-col-md2">
+	   		<div class="layui-col-md1">
 		   		<button class="layui-btn layui-btn-normal" id="btn-add"><i class="layui-icon layui-icon-add-circle-fine"></i> 新增</button>
 		   	</div>
    		</c:if>
@@ -28,7 +28,7 @@
 		   		<button class="layui-btn layui-btn-normal" id="btn-select"><i class="layui-icon layui-icon-search"></i> 查询</button>
 		   	</div>
 		   	<div class="layui-col-md1">
-		   		<button class="layui-btn layui-btn-normal" id="btn-clean"><i class="layui-icon layui-icon-refresh"></i> 清楚</button>
+		   		<button class="layui-btn layui-btn-normal" id="btn-clean"><i class="layui-icon layui-icon-refresh"></i> 清除</button>
    			</div>
    		</c:if>
    	</div>
@@ -71,8 +71,7 @@ layui.use(['table','layer','form'], function(){
 	  var form = layui.form;
 	  //第一个实例
 	  table.render({
-	    elem: '#demo'
-	    ,height: 315
+	    elem: '#demo'	
 	    ,method: 'post'
 	    ,url: "${ActionFind}" //数据接口
 	    ,page: true //开启分页

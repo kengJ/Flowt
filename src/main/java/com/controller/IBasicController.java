@@ -12,7 +12,7 @@ public interface IBasicController<T> {
 	String Add(T o);
 	ModelAndView ForwardEditPage(T o);
 	ModelAndView ForwardShowPage(T o);
-	Map<String, Object> LayUiListFormat(List<T> Data);
+	Map<String, Object> LayUiListFormat(List<T> Data,String page, String limit);
 	ModelAndView ForwardEditOrShow(Map<String, Object> Json);
 	T FindById(String Id);
 	String LayuiFormatResult(boolean Result);

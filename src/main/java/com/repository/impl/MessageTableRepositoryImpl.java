@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.model.MessageTable;
 import com.repository.MessageTableRepository;
-@Repository(value="messageTableRepository")
+@Repository
 public class MessageTableRepositoryImpl extends BasicRepositoryImpl<MessageTable> implements MessageTableRepository{
 
 }

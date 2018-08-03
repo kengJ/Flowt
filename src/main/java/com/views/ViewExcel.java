@@ -22,7 +22,6 @@ public class ViewExcel extends AbstractExcelView   {
 	protected void buildExcelDocument(Map<String, Object> model,  
         HSSFWorkbook workbook, HttpServletRequest request,  
         HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
 		//获取日期
 		Date now =new Date();//获取日期
 		SimpleDateFormat data = new SimpleDateFormat("yyyyMMddHHmmss");

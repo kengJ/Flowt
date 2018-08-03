@@ -143,15 +143,16 @@ CREATE TABLE IF NOT EXISTS `messagetable` (
   PRIMARY KEY (`Id`),
   KEY `FK_aayjedu9m054so23lv4l4boky` (`Menu_id`),
   CONSTRAINT `FK_aayjedu9m054so23lv4l4boky` FOREIGN KEY (`Menu_id`) REFERENCES `menu` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetable 的数据：~3 rows (大约)
+-- 正在导出表  flowt.messagetable 的数据：~4 rows (大约)
 /*!40000 ALTER TABLE `messagetable` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetable` (`Id`, `Memo`, `Name`, `Type`, `Title`, `Url`, `OrderNo`, `Menu_id`, `Tip`) VALUES
 	(1, NULL, 'Computer', 'Basic', '准入IP地址设置', '/PageIndex/IndexPage/Computer', 0, 1, '说明:<br/>1.系统登录时会进行Ip检查，准入IP里没有信息是不可以访问的<br/>2.查询功能可查询所有列'),
 	(2, NULL, 'User', 'Basic', '用户设置', '/PageIndex/IndexPage/User', 0, 1, NULL),
 	(3, NULL, 'Menu', 'Basic', '菜单管理', '/PageIndex/IndexPage/Menu', 0, 8, '说明:<br/>1.顺序编号值越越靠前'),
-	(4, NULL, 'MessageTable', 'Basic', '子菜单管理', '/PageIndex/IndexPage/MessageTable', 0, 8, '说明:<br/>1.顺序编号值越越靠前');
+	(4, NULL, 'MessageTable', 'Basic', '子菜单管理', '/PageIndex/IndexPage/MessageTable', 0, 8, '说明:<br/>1.顺序编号值越越靠前'),
+	(6, NULL, 'MessageTableDetial', 'Basic', '菜单明细', '/PageIndex/IndexPage/MessageTableDetial', 0, 8, '');
 /*!40000 ALTER TABLE `messagetable` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetableaction 结构
@@ -165,9 +166,9 @@ CREATE TABLE IF NOT EXISTS `messagetableaction` (
   PRIMARY KEY (`Id`),
   KEY `FK_n7wpqnj2yubnjt6xlgahg1vkj` (`MessageTable_id`),
   CONSTRAINT `FK_n7wpqnj2yubnjt6xlgahg1vkj` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetableaction 的数据：~24 rows (大约)
+-- 正在导出表  flowt.messagetableaction 的数据：~32 rows (大约)
 /*!40000 ALTER TABLE `messagetableaction` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetableaction` (`Id`, `ActionName`, `Name`, `Type`, `Url`, `MessageTable_id`) VALUES
 	(1, 'Computer', '查询所有', 'Find', '/Computer/FindAll', 1),
@@ -201,7 +202,15 @@ INSERT IGNORE INTO `messagetableaction` (`Id`, `ActionName`, `Name`, `Type`, `Ur
 	(29, 'MessageTable', '删除信息', 'Del', '/MessageTable/Del', 4),
 	(30, 'MessageTable', '修改页面', 'EditPage', '/MessageTable/FindById', 4),
 	(31, 'MessageTable', '修改数据', 'Edit', '/MessageTable/Edit', 4),
-	(32, 'MessageTable', '按条件查询', 'FindByKey', '/MessageTable/FindByKey', 4);
+	(32, 'MessageTable', '按条件查询', 'FindByKey', '/MessageTable/FindByKey', 4),
+	(55, 'MessageTableDetial', '查询所有', 'Find', '/MessageTableDetial/FindAll', 6),
+	(56, 'MessageTableDetial', '显示详细信息', 'Show', '/Menu/FindById', 6),
+	(57, 'MessageTableDetial', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Menu', 6),
+	(58, 'MessageTableDetial', '新增数据', 'Add', '/Menu/Add', 6),
+	(59, 'MessageTableDetial', '删除信息', 'Del', '/Menu/Del', 6),
+	(60, 'MessageTableDetial', '修改页面', 'EditPage', '/Menu/FindById', 6),
+	(61, 'MessageTableDetial', '修改数据', 'Edit', '/Menu/Edit', 6),
+	(62, 'MessageTableDetial', '按条件查询', 'FindByKey', '/Menu/FindByKey', 6);
 /*!40000 ALTER TABLE `messagetableaction` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetabledetial 结构
@@ -218,9 +227,9 @@ CREATE TABLE IF NOT EXISTS `messagetabledetial` (
   PRIMARY KEY (`Id`),
   KEY `FK_16brbwxm07jialhapfje9l5yr` (`MessageTable_id`),
   CONSTRAINT `FK_16brbwxm07jialhapfje9l5yr` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetabledetial 的数据：~15 rows (大约)
+-- 正在导出表  flowt.messagetabledetial 的数据：~23 rows (大约)
 /*!40000 ALTER TABLE `messagetabledetial` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `MessageTable_id`, `OrderNo`, `IsAdd`, `IsEdit`, `IsShow`) VALUES
 	(1, 'id', 'Id', 'Id', 2, 0, 0, 1, 1),
@@ -245,7 +254,15 @@ INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `Mess
 	(21, 'title', 'Title', '标题', 4, 1, 1, 1, 1),
 	(22, 'orderNo', 'OrderNo', '顺序编号', 4, 1, 1, 1, 1),
 	(23, 'tip', 'Tip', '提示', 4, 0, 1, 1, 1),
-	(24, 'upMenu', '', '上级菜单', 4, 0, 0, 0, 1);
+	(24, 'upMenu', '', '上级菜单', 4, 0, 0, 0, 1),
+	(25, 'id', 'Id', 'Id', 6, 0, 0, 1, 1),
+	(26, 'name', 'Name', '名称', 6, 0, 1, 1, 1),
+	(27, 'title', 'Title', '标题', 6, 0, 1, 1, 1),
+	(28, 'isEdit', 'IsEdit', '是否编辑', 6, 0, 1, 1, 1),
+	(29, 'orderNo', 'OrderNo', '顺序编号', 6, 0, 1, 1, 1),
+	(32, 'key', 'KeyName', '关键字', 6, 0, 1, 1, 1),
+	(33, 'isAdd', 'IsAdd', '是否新增', 6, 0, 1, 1, 1),
+	(34, 'isShow', 'IsShow', '是否显示详细信息', 6, 0, 1, 1, 1);
 /*!40000 ALTER TABLE `messagetabledetial` ENABLE KEYS */;
 
 -- 导出  表 flowt.orders 结构

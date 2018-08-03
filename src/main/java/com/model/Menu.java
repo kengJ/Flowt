@@ -36,8 +36,7 @@ public class Menu {
 	private int OrderNo;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@JoinColumn(name = "Menu_id")
-	@OrderBy(clause="OrderNo asc")
+	@JoinColumn(name="Menu_id")
 	private Set<MessageTable> MessageTables;
 
 	public Long getId() {

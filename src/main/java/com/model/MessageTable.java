@@ -1,4 +1,5 @@
 package com.model;
+
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -12,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.OrderBy;
-
 import lombok.Data;
 
 @Entity
@@ -53,7 +53,7 @@ public class MessageTable {
 	
 	@Column(name="Tip")
 	private String Tip;
-
+	
 	public Long getId() {
 		return Id;
 	}
@@ -136,11 +136,19 @@ public class MessageTable {
 		MessageTableActions = messageTableActions;
 	}
 	
-	@Override
-	public String toString() {
-		return "MessageTable [Id=" + Id + ", Name=" + Name + ", Type=" + Type + ", Memo=" + Memo + ", Url=" + Url
-				+ ", Title=" + Title + ", OrderNo=" + OrderNo + ", MessageTableDetial=" + MessageTableDetial
-				+ ", MessageTableActions=" + MessageTableActions + ", Tip=" + Tip + "]";
+	public MessageTable() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MessageTable(String name, String type, String url, String title, int orderNo, String tip) {
+		super();
+		Name = name;
+		Type = type;
+		Url = url;
+		Title = title;
+		OrderNo = orderNo;
+		Tip = tip;
 	}
 
 	public MessageTable(Long id, String name, String type, String memo, String url, String title, int orderNo,
@@ -159,8 +167,10 @@ public class MessageTable {
 		Tip = tip;
 	}
 
-	public MessageTable() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return "MessageTable [Id=" + Id + ", Name=" + Name + ", Type=" + Type + ", Memo=" + Memo + ", Url=" + Url
+				+ ", Title=" + Title + ", OrderNo=" + OrderNo + ", MessageTableDetial=" + MessageTableDetial
+				+ ", MessageTableActions=" + MessageTableActions + ", Tip=" + Tip +  "]";
 	}
 }

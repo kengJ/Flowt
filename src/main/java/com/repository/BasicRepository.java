@@ -2,6 +2,7 @@ package com.repository;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,4 +15,5 @@ public interface BasicRepository<T> {
 	boolean SaveOrUpdate(T o);
 	List<T> FindAll();
 	List<T> FindByHql(String Hql);
+	Session getCurrentSession();
 }

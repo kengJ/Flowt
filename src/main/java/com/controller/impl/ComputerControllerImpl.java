@@ -21,7 +21,7 @@ public class ComputerControllerImpl extends BasicControllerImpl<Computer> implem
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
-		return LayUiListFormat(computerService.FindAll());
+		return LayUiListFormat(computerService.FindAll(),page,limit);
 	}
 
 	@Override

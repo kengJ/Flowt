@@ -133,7 +133,7 @@ public class PageController {
 				ResultData.add(line);
 			}
 		}
-		System.out.println(MessageTableDetials);
+		//System.out.println(MessageTableDetials);
 		ModelAndView mv = new ModelAndView("Page/AddPage");
 		mv.addObject("data", ResultData);
 		return mv;
