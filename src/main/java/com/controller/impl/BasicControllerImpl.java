@@ -38,11 +38,18 @@ public abstract class BasicControllerImpl<T> implements IBasicController<T> {
 	public Map<String, Object> LayUiListFormat(List<T> Data,String page, String limit) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		//判断是否有数据
-		if(Data!=null&Data.size()>0){
+		if(Data!=null){
+			int Max = Data.size();
+			int StartIndex = (Integer.parseInt(page)-1)*Integer.parseInt(limit);
+			int EndIndex = StartIndex+Integer.parseInt(limit)>Max?Max:StartIndex+Integer.parseInt(limit);
+			List<T> ResultData = new ArrayList<>();
+			for(int i = StartIndex;i<EndIndex;i++){
+				ResultData.add(Data.get(i));
+			}
 			result.put("code", "");
 			result.put("msg", "");
-			result.put("count", Data.size());
-			result.put("data", Data);
+			result.put("count", Max);
+			result.put("data", ResultData);
 		}else{
 			result.put("code", "0");
 			result.put("msg", "没有查到相应的数据");

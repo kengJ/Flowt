@@ -23,7 +23,7 @@ public class MessageTableDetialControllerImpl extends BasicControllerImpl<Messag
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
 		System.out.println(messageTableDetialService.FindAll());
-		return LayUiListFormat(messageTableDetialService.FindAll());
+		return LayUiListFormat(messageTableDetialService.FindAll(),page,limit);
 	}
 
 	@RequestMapping(value="/FindById",method=RequestMethod.POST)
@@ -33,8 +33,8 @@ public class MessageTableDetialControllerImpl extends BasicControllerImpl<Messag
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> FindByKey(String keyword) {
-		return LayUiListFormat(messageTableDetialService.FindByKey(keyword));
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
+		return LayUiListFormat(messageTableDetialService.FindByKey(keyword),page,limit);
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)

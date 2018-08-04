@@ -36,7 +36,7 @@ public class MessageTableControllerImpl extends BasicControllerImpl<MessageTable
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> FindByKey(String keyword) {
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
 		return LayUiListFormat(messageTableService.FindByKey(keyword));
 	}
 

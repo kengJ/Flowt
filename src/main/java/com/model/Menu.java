@@ -1,7 +1,6 @@
 package com.model;
 
-import java.util.Set;
-import org.hibernate.annotations.OrderBy;
+import java.util.List;
 import lombok.Data;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OrderBy;
 
 @Entity
 @Table(name="Menu")
@@ -37,7 +38,8 @@ public class Menu {
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinColumn(name="Menu_id")
-	private Set<MessageTable> MessageTables;
+	@OrderBy(clause="OrderNo,Id")
+	private List<MessageTable> MessageTables;
 
 	public Long getId() {
 		return Id;
@@ -79,11 +81,11 @@ public class Menu {
 		OrderNo = orderNo;
 	}
 
-	public Set<MessageTable> getMessageTables() {
+	public List<MessageTable> getMessageTables() {
 		return MessageTables;
 	}
 
-	public void setMessageTables(Set<MessageTable> messageTables) {
+	public void setMessageTables(List<MessageTable> messageTables) {
 		MessageTables = messageTables;
 	}
 
@@ -93,7 +95,7 @@ public class Menu {
 				+ ", MessageTables=" + MessageTables + "]";
 	}
 
-	public Menu(Long id, String name, String title, String memo, int orderNo, Set<MessageTable> messageTables) {
+	public Menu(Long id, String name, String title, String memo, int orderNo, List<MessageTable> messageTables) {
 		super();
 		Id = id;
 		Name = name;

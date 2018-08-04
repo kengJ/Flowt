@@ -30,8 +30,8 @@ public class ComputerControllerImpl extends BasicControllerImpl<Computer> implem
 	}
 
 	@Override
-	public Map<String, Object> FindByKey(String keyword) {
-		return LayUiListFormat(computerService.FindByKey(keyword));
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
+		return LayUiListFormat(computerService.FindByKey(keyword),page,limit);
 	}
 
 	@Override

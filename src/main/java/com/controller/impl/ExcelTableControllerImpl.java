@@ -26,7 +26,7 @@ public class ExcelTableControllerImpl extends BasicControllerImpl<ExcelTable> im
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
-		return LayUiListFormat(excelTableService.FindAll());
+		return LayUiListFormat(excelTableService.FindAll(),page,limit);
 	}
 
 	@RequestMapping(value="/FindById",method=RequestMethod.POST)
@@ -36,8 +36,8 @@ public class ExcelTableControllerImpl extends BasicControllerImpl<ExcelTable> im
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> FindByKey(String keyword) {
-		return LayUiListFormat(excelTableService.FindByKey(keyword));
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
+		return LayUiListFormat(excelTableService.FindByKey(keyword),page,limit);
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)

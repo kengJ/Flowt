@@ -17,7 +17,8 @@ public class MessageTableDetialServiceImpl extends BasicServiceImpl<MessageTable
 	private MessageTableDetialRepository messageTableDetialRepository;
 	
 	public List<MessageTableDetial> FindByKey(String Key) {
-		return null;
+		String Hql = "from MessageTableDetial where Name like '%"+Key+"%' or Title like '%"+Key+"%' or KeyName like '%"+Key+"%'";
+		return messageTableDetialRepository.FindByHql(Hql);
 	}
 
 	@Override

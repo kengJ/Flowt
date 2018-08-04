@@ -21,7 +21,11 @@ public class MessageTableServiceImpl extends BasicServiceImpl<MessageTable> impl
 	@Override
 	public List<MessageTable> FindByKey(String Key) {
 		String Hql = "from MessageTable where Name like '%"+Key+"%' or Type like '%"+Key+"%' or Title like '%"+Key+"%'";
-		return messageTableRepository.FindByHql(Hql);
+		List<MessageTable> Data = messageTableRepository.FindByHql(Hql);
+		if(Data==null|Data.size()==0){
+			Data = menuRepository.FindByHql("from Menu where Title like '%"+Key+"%'").get(0).getMessageTables();
+		}
+		return Data;
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class MessageTableDetial {
 	private String Title;
 	
 	@Column(name="KeyName")
-	private String Key;
+	private String KeyName;
 	
 	@Column(name="OrderNo",nullable=false,columnDefinition="INT default 0")
 	private int OrderNo;
@@ -56,11 +56,11 @@ public class MessageTableDetial {
 	public void setTitle(String title) {
 		Title = title;
 	}
-	public String getKey() {
-		return Key;
+	public String getKeyName() {
+		return KeyName;
 	}
-	public void setKey(String key) {
-		Key = key;
+	public void setKeyName(String key) {
+		KeyName = key;
 	}
 	public int getOrderNo() {
 		return OrderNo;
@@ -96,7 +96,7 @@ public class MessageTableDetial {
 		Id = id;
 		Name = name;
 		Title = title;
-		Key = key;
+		KeyName = key;
 		OrderNo = orderNo;
 		IsEdit = isEdit;
 		IsAdd = isAdd;
@@ -104,7 +104,7 @@ public class MessageTableDetial {
 	}
 	@Override
 	public String toString() {
-		return "MessageTableDetial [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Key=" + Key + ", OrderNo="
+		return "MessageTableDetial [Id=" + Id + ", Name=" + Name + ", Title=" + Title + ", Key=" + KeyName + ", OrderNo="
 				+ OrderNo + ", IsEdit=" + IsEdit + ", IsAdd=" + IsAdd + ", IsShow=" + IsShow + "]";
 	}
 }

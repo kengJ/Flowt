@@ -115,7 +115,7 @@ public class StrUtil {
 			return false;
 		}
 		String ClassName = o.getClass().getName();
-		System.out.println(ClassName);
+		//System.out.println(ClassName);
 		String pattern = "^(((java\\.lang\\.)[A-Za-z]+)|java.util.Date|java.sql.Timestamp)";
 		return Pattern.matches(pattern, ClassName);
 	}

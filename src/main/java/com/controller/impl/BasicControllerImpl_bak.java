@@ -66,10 +66,10 @@ public abstract class BasicControllerImpl_bak<T> implements IBasicController<T>{
 	public boolean Edit(T o) {
 		GetService().Update(o);
 		return true;
-	}**/
+	}
 
 	@Override
 	public Map<String, Object> FindByKey(String keyword) {
 		return LayUiListFormat(GetService().FindByKey(keyword));
-	}
+	}**/
 }

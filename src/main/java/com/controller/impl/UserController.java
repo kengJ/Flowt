@@ -23,7 +23,7 @@ public class UserController extends BasicControllerImpl<User> implements IUserCo
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
 		List<User> Data = userService.FindAll();
-		return super.LayUiListFormat(Data);
+		return super.LayUiListFormat(Data,page,limit);
 	}
 
 	@RequestMapping(value="/FindById",method=RequestMethod.POST)
@@ -33,8 +33,8 @@ public class UserController extends BasicControllerImpl<User> implements IUserCo
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> FindByKey(String keyword) {
-		return LayUiListFormat(userService.FindByKey(keyword));
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
+		return LayUiListFormat(userService.FindByKey(keyword),page,limit);
 	}
 
 	@RequestMapping(value="/Add",method=RequestMethod.POST)

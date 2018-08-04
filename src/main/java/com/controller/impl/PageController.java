@@ -108,7 +108,7 @@ public class PageController {
 		for(MessageTableDetial MessageTableDetial :MessageTableDetials){
 			Map<String, String> line = new HashMap<>();
 			line.put("title", MessageTableDetial.getTitle());
-			line.put("field", MessageTableDetial.getKey());
+			line.put("field", MessageTableDetial.getKeyName());
 			Detials.add(line);
 		}
 		mv.addObject("cols", Detials);

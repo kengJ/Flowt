@@ -22,7 +22,7 @@ public class RoleControllerImpl extends BasicControllerImpl<Role> {
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
 		List<Role> Data = roleService.FindAll();
-		return LayUiListFormat(Data);
+		return LayUiListFormat(Data,page,limit);
 	}
 
 	@RequestMapping(value="/FindById",method=RequestMethod.POST)
@@ -32,8 +32,8 @@ public class RoleControllerImpl extends BasicControllerImpl<Role> {
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> FindByKey(String keyword) {
-		return LayUiListFormat(roleService.FindByKey(keyword));
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
+		return LayUiListFormat(roleService.FindByKey(keyword),page,limit);
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)

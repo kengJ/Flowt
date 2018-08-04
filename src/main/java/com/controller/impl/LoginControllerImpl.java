@@ -26,7 +26,7 @@ public class LoginControllerImpl extends BasicControllerImpl<User> implements IL
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
-		return LayUiListFormat(loginService.FindAll());
+		return LayUiListFormat(loginService.FindAll(),page,limit);
 	}
 
 	@RequestMapping(value="/FindById",method=RequestMethod.POST)
@@ -36,8 +36,8 @@ public class LoginControllerImpl extends BasicControllerImpl<User> implements IL
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> FindByKey(String keyword) {
-		return LayUiListFormat(loginService.FindByKey(keyword));
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
+		return LayUiListFormat(loginService.FindByKey(keyword),page,limit);
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 public interface IBasicController<T> {
 	Map<String, Object> FindAll(String page,String limit);
 	ModelAndView FindById(Map<String, Object> Json);
-	Map<String, Object> FindByKey(String keyword);
+	Map<String, Object> FindByKey(String keyword,String page, String limit);
 	String Del(String Id);
 	String Add(T o);
 	ModelAndView ForwardEditPage(T o);

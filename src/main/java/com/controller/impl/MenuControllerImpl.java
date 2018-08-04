@@ -23,7 +23,7 @@ public class MenuControllerImpl extends BasicControllerImpl<Menu> implements IMe
 	@ResponseBody
 	public Map<String, Object> FindAll(String page, String limit) {
 		List<Menu> Data = menuService.FindAll();
-		Map<String, Object> Result = LayUiListFormat(Data);
+		Map<String, Object> Result = LayUiListFormat(Data,page,limit);
 		return Result;
 	}
 
@@ -34,8 +34,8 @@ public class MenuControllerImpl extends BasicControllerImpl<Menu> implements IMe
 
 	@RequestMapping(value="/FindByKey",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> FindByKey(String keyword) {
-		return LayUiListFormat(menuService.FindByKey(keyword));
+	public Map<String, Object> FindByKey(String keyword,String page, String limit) {
+		return LayUiListFormat(menuService.FindByKey(keyword),page,limit);
 	}
 
 	@RequestMapping(value="/Del",method=RequestMethod.POST)
