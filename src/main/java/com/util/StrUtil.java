@@ -119,4 +119,18 @@ public class StrUtil {
 		String pattern = "^(((java\\.lang\\.)[A-Za-z]+)|java.util.Date|java.sql.Timestamp)";
 		return Pattern.matches(pattern, ClassName);
 	}
+	
+	/**
+	 * 格式化字符串
+	 * 匹配字符{key}
+	 * key为map中的key
+	 * @param Data
+	 * @param Str
+	 */
+	public static String FormatStr(Map<String, String> Data,String Str){
+		for(String Key:Data.keySet()){
+			Str.replaceAll("{"+Key+"}", Data.get(Key));
+		}
+		return Str;
+	}
 }

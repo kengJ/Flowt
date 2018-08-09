@@ -37,7 +37,7 @@ public class MessageTableServiceImpl extends BasicServiceImpl<MessageTable> impl
 	public MessageTable FindMessageTable(String ActionName) {
 		MessageTable data = null;
 		try {
-			data =  messageTableRepository.FindByHql(String.format("from MessageTable where Type = 'Basic' and Name='%s' order by Id", ActionName)).get(0);
+			data =  messageTableRepository.FindByHql(String.format("from MessageTable where Name='%s' order by Id", ActionName)).get(0);
 		} catch (Exception e) {
 			
 		}

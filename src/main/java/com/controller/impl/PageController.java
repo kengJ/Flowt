@@ -9,13 +9,23 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.model.MessageTable;
 import com.model.MessageTableAction;
 import com.model.MessageTableDetial;
 import com.service.MessageTableService;
+import com.service.PageService;
 import com.util.ServerTool;
 import com.util.StrUtil;
+
+/***
+ * 页面处理控制器
+ * 基础页面的切换和基础模块的处理，只限无关联关系的表
+ * @author heyanzhu
+ *
+ */
 @Controller
 @RequestMapping(value="/Page")
 public class PageController {
@@ -23,23 +33,20 @@ public class PageController {
 	@Autowired
 	private MessageTableService messageTableService;
 	
-	@RequestMapping(value="/ComputerEditPage")
-	public ModelAndView ComputerEditPage(String Id,String Ip,String LoginName){
-		ModelAndView mav  = new ModelAndView("Page/Computer/Edit");
-		mav.addObject("id", Id);
-		mav.addObject("ip", Ip);
-		mav.addObject("loginName", LoginName);
-		return mav;
-	}
+	@Autowired
+	private PageService PageService;
 	
-	/**@RequestMapping(value="/{action}Edit")
-	public ModelAndView AddPage(@PathVariable("action")String action) {
-		String ActionName = action.substring(0, 1).toUpperCase()+action.substring(1);
-		return new ModelAndView("Page/"+ActionName+"/Edit");
-	}**/
+//	@RequestMapping(value="/ComputerEditPage")
+//	public ModelAndView ComputerEditPage(String Id,String Ip,String LoginName){
+//		ModelAndView mav  = new ModelAndView("Page/Computer/Edit");
+//		mav.addObject("id", Id);
+//		mav.addObject("ip", Ip);
+//		mav.addObject("loginName", LoginName);
+//		return mav;
+//	}
 	
-	@RequestMapping(value="/Edit")
-	public ModelAndView Edit(HttpServletRequest request){
+	@RequestMapping(value="/EditPage")
+	public ModelAndView EditPage(HttpServletRequest request){
 		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
 		try {
 			String ActionName = request.getAttribute("result").getClass().getSimpleName();
@@ -65,14 +72,14 @@ public class PageController {
 		mv.addObject("data", ResultData);
 		return mv;
 	}
-	
+
 	/**
 	 * 普通数据展示请求
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="/Show")
-	public ModelAndView ShowPage(HttpServletRequest request){
+	@RequestMapping(value="/ShowPage")
+	public ModelAndView ShowPagePage(HttpServletRequest request){
 		//获取表字段配置信息
 		MessageTable MessageTable =messageTableService.FindMessageTable(request.getAttribute("result").getClass().getSimpleName());
 		Map<String, String> Data = StrUtil.ObjectToMap(request.getAttribute("result"));//数据转换
@@ -91,6 +98,32 @@ public class PageController {
 		mv.addObject("data", ResultData);
 		return mv;
 	}
+
+	@RequestMapping(value="/AddPage")
+	public ModelAndView AddPage(String ActionName){
+		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
+		String Action = StrUtil.FormatFirstCharUp(ActionName);
+		MessageTable MessageTable = messageTableService.FindMessageTable(Action);
+		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
+		for(MessageTableDetial MessageTableDetial : MessageTableDetials){
+			if(MessageTableDetial.getIsAdd()==1){
+				Map<String, String> line = new HashMap<String, String>();
+				line.put("title", MessageTableDetial.getTitle());
+				line.put("name", MessageTableDetial.getName());
+				ResultData.add(line);
+			}
+		}
+		ModelAndView mv = new ModelAndView("Page/AddPage");
+		mv.addObject("data", ResultData);
+		return mv;
+	}
+	
+	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> FindAll(String ActionName,String page, String limit){
+		return LayUiListFormat(PageService.FindAll(ActionName), page, limit);
+	}
+	
 	
 	@RequestMapping(value="/Index")
 	public ModelAndView IndexPage(String ActionName){
@@ -119,26 +152,7 @@ public class PageController {
 		}
 		return mv;
 	}
-	@RequestMapping(value="/AddPage")
-	public ModelAndView AddPage(String ActionName){
-		List<Map<String, String>> ResultData = new ArrayList<Map<String, String>>();
-		String Action = StrUtil.FormatFirstCharUp(ActionName);
-		MessageTable MessageTable = messageTableService.FindMessageTable(Action);
-		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
-		for(MessageTableDetial MessageTableDetial : MessageTableDetials){
-			if(MessageTableDetial.getIsAdd()==1){
-				Map<String, String> line = new HashMap<String, String>();
-				line.put("title", MessageTableDetial.getTitle());
-				line.put("name", MessageTableDetial.getName());
-				ResultData.add(line);
-			}
-		}
-		//System.out.println(MessageTableDetials);
-		ModelAndView mv = new ModelAndView("Page/AddPage");
-		mv.addObject("data", ResultData);
-		return mv;
-	}
-	
+
 	@RequestMapping(value="/LoginPage")
 	public String LoginPage(){
 		return "Login/UiTest";
@@ -147,5 +161,30 @@ public class PageController {
 	@RequestMapping("/Logout")
 	public String Ladyout(){
 		return "Login/UiTest";
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Map<String, Object> LayUiListFormat(List<?> Data,String page, String limit) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		//判断是否有数据
+		if(Data!=null){
+			int Max = Data.size();
+			int StartIndex = (Integer.parseInt(page)-1)*Integer.parseInt(limit);
+			int EndIndex = StartIndex+Integer.parseInt(limit)>Max?Max:StartIndex+Integer.parseInt(limit);
+			List ResultData = new ArrayList<>();
+			for(int i = StartIndex;i<EndIndex;i++){
+				ResultData.add(Data.get(i));
+			}
+			result.put("code", "");
+			result.put("msg", "");
+			result.put("count", Max);
+			result.put("data", ResultData);
+		}else{
+			result.put("code", "0");
+			result.put("msg", "没有查到相应的数据");
+			result.put("count", "0");
+			result.put("data", new ArrayList());
+		}
+		return result;
 	}
 }

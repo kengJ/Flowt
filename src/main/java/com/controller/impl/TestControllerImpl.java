@@ -15,6 +15,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.service.ExcelTableService;
@@ -188,19 +190,19 @@ public class TestControllerImpl {
 //        return "success!";
 //    }
 //    
-//    @RequestMapping("/Test1")
-//    @ResponseBody
-//    public ModelAndView test3(@RequestParam String ExcelTableId,
-//    					@RequestParam(defaultValue="") String Code,
-//    					@RequestParam(defaultValue="") String Dept,
-//    					@RequestParam(defaultValue="") String StartDate,
-//    					@RequestParam(defaultValue="") String FinishDate){
-//    	
-//    	List<Map<String, Object>> model = excelTableService.FindData(ExcelTableId, Code, Dept, StartDate, FinishDate);
-//    	System.out.println(model.toString());
-//    	Map<String,Object> result = new HashMap<String,Object>();
-//    	result.put("model", model);
-//    	return new ModelAndView(new ViewExcel(),result);
-//    }
+    @RequestMapping("/Test1")
+    @ResponseBody
+    public ModelAndView test3(@RequestParam String ExcelTableId,
+    					@RequestParam(defaultValue="") String Code,
+    					@RequestParam(defaultValue="") String Dept,
+    					@RequestParam(defaultValue="") String StartDate,
+    					@RequestParam(defaultValue="") String FinishDate){
+    	
+    	List<Map<String, Object>> model = excelTableService.FindData(ExcelTableId, Code, Dept, StartDate, FinishDate);
+    	System.out.println(model.toString());
+    	Map<String,Object> result = new HashMap<String,Object>();
+    	result.put("model", model);
+    	return new ModelAndView(new ViewExcel(),result);
+    }
     
 }

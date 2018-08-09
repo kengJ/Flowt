@@ -77,7 +77,7 @@
 	          <a href="javascript:;">${menu.name }</a>
 	          <dl class="layui-nav-child">
 	          <c:forEach var ="subMenu" items="${menu.messageTables }">
-	          	<dd><a href="javascript:;" action="${subMenu.name }">${subMenu.title }</a></dd>
+	          	<dd><a href="javascript:;" action="${subMenu.name }" typeName = "${subMenu.type }" url="${subMenu.url }">${subMenu.title }</a></dd>
 	          </c:forEach>
 	          </dl>
 	        </li>
@@ -102,9 +102,16 @@ layui.use(['element','layer'], function(){
   $("a[action]").click(function(){
 	  var action = $(this).attr('action');
 	  $('.layui-body').empty();
-	  $.get('${APP_PATH}/Page/Index?ActionName='+action,function(data){
-		  $('.layui-body').append(data);
-	  });
+	  var type = $(this).attr('typeName');
+	  if(type=="Basic"){
+		  $.get('${APP_PATH}/Page/Index?ActionName='+action,function(data){
+			  $('.layui-body').append(data);
+		  });  
+	  }else{
+		  $.get('${APP_PATH}'+$(this).attr('url'),function(data){
+			  $('.layui-body').append(data);
+		  });
+	  }
   });
 });
 </script>

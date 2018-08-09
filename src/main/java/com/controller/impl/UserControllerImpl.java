@@ -1,7 +1,11 @@
 package com.controller.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,14 +14,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.controller.IUserController;
+import com.model.MessageTable;
+import com.model.MessageTableAction;
+import com.model.MessageTableDetial;
+import com.model.Role;
 import com.model.User;
+import com.service.MessageTableService;
+import com.service.RoleService;
 import com.service.UserService;
+import com.util.ServerTool;
+
 @Controller
 @RequestMapping(value="/User")
-public class UserController extends BasicControllerImpl<User> implements IUserController {
+public class UserControllerImpl extends BasicControllerImpl<User> implements IUserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MessageTableService messageTableService;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@RequestMapping(value="/FindAll",method=RequestMethod.POST)
 	@ResponseBody
@@ -56,6 +74,49 @@ public class UserController extends BasicControllerImpl<User> implements IUserCo
 
 	public User FindById(String Id) {
 		return userService.FindById(Id);
+	}
+
+	@Override
+	@RequestMapping("/IndexPage")
+	public ModelAndView IndexPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("Page/User/BasicPage");
+		MessageTable MessageTable = messageTableService.FindMessageTable("User");
+		String Title = MessageTable.getTitle();
+		String Tip = MessageTable.getTip();
+		mv.addObject("title", Title);//获取标题
+		mv.addObject("tip", Tip);//获取提示
+		mv.addObject("width", "500px");//获取提示
+		mv.addObject("action", MessageTable.getName());
+		List<MessageTableDetial> MessageTableDetials = MessageTable.getMessageTableDetial();
+		List<Map<String, String>> Detials = new ArrayList<>();
+		for(MessageTableDetial MessageTableDetial :MessageTableDetials){
+			Map<String, String> line = new HashMap<>();
+			line.put("title", MessageTableDetial.getTitle());
+			line.put("field", MessageTableDetial.getKeyName());
+			Detials.add(line);
+		}
+		mv.addObject("cols", Detials);
+		Set<MessageTableAction> MessageTableActions = MessageTable.getMessageTableActions();
+		String AppPath = ServerTool.GetAppPath();
+		for(MessageTableAction MessageTableAction : MessageTableActions){
+			mv.addObject("Action"+MessageTableAction.getType(), AppPath+MessageTableAction.getUrl());
+		}
+		mv.addObject("ActionUpdateRolePage", ServerTool.GetAppPath()+"/User/UpdateRolePage");
+		return mv;
+	}
+
+	@Override
+	@RequestMapping(value="/UpdateRolePage",method=RequestMethod.POST)
+	public ModelAndView UpdateRolePage(String Id) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("Page/User/UpdatRolePage");
+		List<Role> Roles = roleService.FindAll();
+		User User = FindById(Id);
+		mv.addObject("roles", Roles);
+		mv.addObject("name", User.getUserName());
+		mv.addObject("id", Id);
+		return mv;
 	}
 	
 	/**

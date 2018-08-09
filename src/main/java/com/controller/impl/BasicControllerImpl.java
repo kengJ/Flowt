@@ -16,7 +16,7 @@ public abstract class BasicControllerImpl<T> implements IBasicController<T> {
 	 */
 	@Override
 	public ModelAndView ForwardEditPage(T o) {
-		ModelAndView mv = new ModelAndView("forward:/Page/Edit");
+		ModelAndView mv = new ModelAndView("forward:/Page/EditPage");
 		mv.addObject("result", o);
 		return mv;
 	}
@@ -26,7 +26,7 @@ public abstract class BasicControllerImpl<T> implements IBasicController<T> {
 	 */
 	@Override
 	public ModelAndView ForwardShowPage(T o) {
-		ModelAndView mv = new ModelAndView("forward:/Page/Show");
+		ModelAndView mv = new ModelAndView("forward:/Page/ShowPage");
 		mv.addObject("result", o);
 		return mv;
 	}

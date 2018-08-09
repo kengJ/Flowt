@@ -1,13 +1,20 @@
 package com.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.ExcelTable;
+import com.model.SqlMessage;
 import com.repository.BasicRepository;
 import com.repository.ExcelTableRepository;
 import com.service.ExcelTableService;
+import com.util.ExcelHelp;
+import com.util.SqlTool;
 @Service(value="excelTableService")
 public class ExcelTableServiceImpl extends BasicServiceImpl<ExcelTable> implements ExcelTableService{
 
@@ -29,7 +36,7 @@ public class ExcelTableServiceImpl extends BasicServiceImpl<ExcelTable> implemen
 		excelTableRepository.Save(excelTable);
 		return true;
 	}
-	
+	**/
 	public List<Map<String, Object>> FindData(String ExceleTableId,String code,String Dept,String StartDate,String FinishDate){
 		List<Map<String, Object>> Book = null;
 		if(!Dept.equals("")&&Dept!=""){
@@ -56,9 +63,9 @@ public class ExcelTableServiceImpl extends BasicServiceImpl<ExcelTable> implemen
     	}
         return Book;
 	}
-	
+
 	public List<String[]> FindDataBasic(String ExceleTableId,String code,String Dept,String StartDate,String FinishDate){
-		ExcelTable excelTable = excelTableRepository.Find(ExceleTableId);
+		ExcelTable excelTable = excelTableRepository.FindByHql("from ExcelTable where Id = "+ExceleTableId).get(0);
 		SqlMessage sqlMessage = excelTable.getSqlMessage();
 		String Sql = excelTable.getSql();
 		String codeicon = excelTable.getCodeIcon();
@@ -71,19 +78,19 @@ public class ExcelTableServiceImpl extends BasicServiceImpl<ExcelTable> implemen
 		List<String[]> Data = sqlTool.GetData(sqlMessage, Sql);
 		return Data;
 	}
-	
+
 	public List<ExcelTable> FindExcelTables(){
-		//List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
-		//List<ExcelTable> ExcelTables = excelTableRepository.Find();
-		/**for(int i = 0;i<ExcelTables.size();i++){
+		/**List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		List<ExcelTable> ExcelTables = excelTableRepository.FindAll();
+		for(int i = 0;i<ExcelTables.size();i++){
 			Map<String, Object> map = new HashMap<String,Object>();
 			ExcelTable excelTable = ExcelTables.get(i);
 			map.put(excelTable.getId().toString(),excelTable.getMemo());
 			result.add(map);
-		}**/
-		//return result;
-		/**return excelTableRepository.Find();
-	}**/
+		}
+		return result;**/
+		return excelTableRepository.FindAll();
+	}
 	
 	/**public Map<String, Object> Find(String Code){
 		try {

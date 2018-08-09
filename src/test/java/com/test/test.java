@@ -1,5 +1,9 @@
 package com.test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -119,5 +123,34 @@ public class test {
 		ApplicationContext ac = new FileSystemXmlApplicationContext("classpath:spring.xml");
 		MenuService o = ac.getBean(MenuService.class);
 		System.out.println(o.FindAll());
+	}
+	
+	@Test
+	public void getCode(){
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream("D:\\code.txt");
+			byte bytes[]=new byte[1024];
+            int n=0;
+            String codes = "";
+            while((n=fis.read(bytes))!= -1){
+                String str = new String(bytes,0,n);
+                //System.out.print(str);
+                codes+=str;
+            }
+            System.out.println("codes="+codes.replaceAll("\n", ","));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+            try {
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 }
