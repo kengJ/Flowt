@@ -69,6 +69,21 @@ INSERT IGNORE INTO `exceltable` (`Id`, `IsSplitTable`, `Memo`, `SqlText`, `Table
 	(1, 0, '', 'select a.id as 翼闸编号,c.Code as 工号,c.Name as 姓名,convert(varchar(30),a.Data_datetime,20) as 打卡时间 ,convert(varchar(10),b.Clock_id)+b.Clock_name as\'考勤机和门闸\'\r\nfrom attend_data a \r\nleft join ICCO_Clockskq b on a.ID = b.Clock_id \r\nleft join ZlEmployee c on  a.WorkNo=c.Code --a.workid=c.cardno\r\nleft join zldept d on c.Dept = d.Code\r\nwhere\r\nc.Dept like \'@Dept\'+\'%\' and \r\na.Data_datetime between \'@StartTime\' and  \'@FinishTime\'+\' 23:59:59.000\'  and\r\na.id in (\'6322\',\'6300\',\'5014\',\'6264\',\'6344\',\'6216\',\'6211\',\'6207\',\'6329\',\'6326\',\'6348\',\'6350\',\'6289\',\'6282\',\'6464\',\'6451\',\'6351\')\r\norder by a.Data_datetime,b.Clock_id desc\r\n', 'test', '', '@Dept', '@FinishTime', '@StartTime', 1, '2018-07-13 14:17:45', '2018-07-13 14:17:45');
 /*!40000 ALTER TABLE `exceltable` ENABLE KEYS */;
 
+-- 导出  表 flowt.hqlmessage 结构
+CREATE TABLE IF NOT EXISTS `hqlmessage` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Hql` varchar(255) DEFAULT NULL,
+  `KeyMap` varchar(255) DEFAULT NULL,
+  `Name` varchar(255) DEFAULT NULL,
+  `ActionName` varchar(255) DEFAULT NULL,
+  `Type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在导出表  flowt.hqlmessage 的数据：~0 rows (大约)
+/*!40000 ALTER TABLE `hqlmessage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hqlmessage` ENABLE KEYS */;
+
 -- 导出  表 flowt.interceptedlog 结构
 CREATE TABLE IF NOT EXISTS `interceptedlog` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -143,16 +158,18 @@ CREATE TABLE IF NOT EXISTS `messagetable` (
   PRIMARY KEY (`Id`),
   KEY `FK_aayjedu9m054so23lv4l4boky` (`Menu_id`),
   CONSTRAINT `FK_aayjedu9m054so23lv4l4boky` FOREIGN KEY (`Menu_id`) REFERENCES `menu` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetable 的数据：~4 rows (大约)
+-- 正在导出表  flowt.messagetable 的数据：~7 rows (大约)
 /*!40000 ALTER TABLE `messagetable` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetable` (`Id`, `Memo`, `Name`, `Type`, `Title`, `Url`, `OrderNo`, `Menu_id`, `Tip`) VALUES
 	(1, NULL, 'Computer', 'Basic', '准入IP地址设置', '/PageIndex/IndexPage/Computer', 0, 1, '说明:<br/>1.系统登录时会进行Ip检查，准入IP里没有信息是不可以访问的<br/>2.查询功能可查询所有列'),
-	(2, NULL, 'User', 'Basic', '用户设置', '/PageIndex/IndexPage/User', 0, 1, NULL),
+	(2, NULL, 'User', 'Other', '用户设置', '/User/IndexPage', 0, 1, NULL),
 	(3, NULL, 'Menu', 'Basic', '菜单管理', '/PageIndex/IndexPage/Menu', 0, 8, '说明:<br/>1.顺序编号值越越靠前'),
 	(4, NULL, 'MessageTable', 'Basic', '子菜单管理', '/PageIndex/IndexPage/MessageTable', 0, 8, '说明:<br/>1.顺序编号值越越靠前'),
-	(6, NULL, 'MessageTableDetial', 'Basic', '菜单明细', '/PageIndex/IndexPage/MessageTableDetial', 0, 8, '');
+	(6, NULL, 'MessageTableDetial', 'Basic', '菜单明细', '/PageIndex/IndexPage/MessageTableDetial', 0, 8, ''),
+	(9, NULL, 'MessageTableAction', 'Basic', '子菜单请求', '/PageIndex/IndexPage/MessageTableAction', 0, 8, ''),
+	(10, NULL, 'Role', 'Basic', '权限管理', '/PageIndex/IndexPage/Role', 0, 1, NULL);
 /*!40000 ALTER TABLE `messagetable` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetableaction 结构
@@ -166,9 +183,9 @@ CREATE TABLE IF NOT EXISTS `messagetableaction` (
   PRIMARY KEY (`Id`),
   KEY `FK_n7wpqnj2yubnjt6xlgahg1vkj` (`MessageTable_id`),
   CONSTRAINT `FK_n7wpqnj2yubnjt6xlgahg1vkj` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetableaction 的数据：~32 rows (大约)
+-- 正在导出表  flowt.messagetableaction 的数据：~56 rows (大约)
 /*!40000 ALTER TABLE `messagetableaction` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetableaction` (`Id`, `ActionName`, `Name`, `Type`, `Url`, `MessageTable_id`) VALUES
 	(1, 'Computer', '查询所有', 'Find', '/Computer/FindAll', 1),
@@ -204,13 +221,29 @@ INSERT IGNORE INTO `messagetableaction` (`Id`, `ActionName`, `Name`, `Type`, `Ur
 	(31, 'MessageTable', '修改数据', 'Edit', '/MessageTable/Edit', 4),
 	(32, 'MessageTable', '按条件查询', 'FindByKey', '/MessageTable/FindByKey', 4),
 	(55, 'MessageTableDetial', '查询所有', 'Find', '/MessageTableDetial/FindAll', 6),
-	(56, 'MessageTableDetial', '显示详细信息', 'Show', '/Menu/FindById', 6),
-	(57, 'MessageTableDetial', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Menu', 6),
-	(58, 'MessageTableDetial', '新增数据', 'Add', '/Menu/Add', 6),
-	(59, 'MessageTableDetial', '删除信息', 'Del', '/Menu/Del', 6),
-	(60, 'MessageTableDetial', '修改页面', 'EditPage', '/Menu/FindById', 6),
-	(61, 'MessageTableDetial', '修改数据', 'Edit', '/Menu/Edit', 6),
-	(62, 'MessageTableDetial', '按条件查询', 'FindByKey', '/Menu/FindByKey', 6);
+	(56, 'MessageTableDetial', '显示详细信息', 'Show', '/MessageTableDetial/FindById', 6),
+	(57, 'MessageTableDetial', '增加页面', 'AddPage', '/Page/AddPage', 6),
+	(58, 'MessageTableDetial', '新增数据', 'Add', '/MessageTableDetial/Add', 6),
+	(59, 'MessageTableDetial', '删除信息', 'Del', '/MessageTableDetial/Del', 6),
+	(60, 'MessageTableDetial', '修改页面', 'EditPage', '/MessageTableDetial/FindById', 6),
+	(61, 'MessageTableDetial', '修改数据', 'Edit', '/MessageTableDetial/Edit', 6),
+	(62, 'MessageTableDetial', '按条件查询', 'FindByKey', '/MessageTableDetial/FindByKey', 6),
+	(70, 'MessageTableAction', '查询所有', 'Find', '/MessageTableAction/FindAll', 9),
+	(71, 'MessageTableAction', '显示详细信息', 'Show', '/MessageTableAction/FindById', 9),
+	(72, 'MessageTableAction', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Menu', 9),
+	(73, 'MessageTableAction', '新增数据', 'Add', '/MessageTableAction/Add', 9),
+	(74, 'MessageTableAction', '删除信息', 'Del', '/MessageTableAction/Del', 9),
+	(75, 'MessageTableAction', '修改页面', 'EditPage', '/MessageTableAction/FindById', 9),
+	(76, 'MessageTableAction', '修改数据', 'Edit', '/MessageTableAction/Edit', 9),
+	(77, 'MessageTableAction', '按条件查询', 'FindByKey', '/MessageTableAction/FindByKey', 9),
+	(85, 'Role', '查询所有', 'Find', '/Role/FindAll', 10),
+	(86, 'Role', '显示详细信息', 'Show', '/Role/FindById', 10),
+	(87, 'Role', '增加页面', 'AddPage', '/Page/AddPage?ActionName=Menu', 10),
+	(88, 'Role', '新增数据', 'Add', '/Role/Add', 10),
+	(89, 'Role', '删除信息', 'Del', '/Role/Del', 10),
+	(90, 'Role', '修改页面', 'EditPage', '/Role/FindById', 10),
+	(91, 'Role', '修改数据', 'Edit', '/Role/Edit', 10),
+	(92, 'Role', '按条件查询', 'FindByKey', '/Role/FindByKey', 10);
 /*!40000 ALTER TABLE `messagetableaction` ENABLE KEYS */;
 
 -- 导出  表 flowt.messagetabledetial 结构
@@ -227,9 +260,9 @@ CREATE TABLE IF NOT EXISTS `messagetabledetial` (
   PRIMARY KEY (`Id`),
   KEY `FK_16brbwxm07jialhapfje9l5yr` (`MessageTable_id`),
   CONSTRAINT `FK_16brbwxm07jialhapfje9l5yr` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetabledetial 的数据：~23 rows (大约)
+-- 正在导出表  flowt.messagetabledetial 的数据：~37 rows (大约)
 /*!40000 ALTER TABLE `messagetabledetial` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `MessageTable_id`, `OrderNo`, `IsAdd`, `IsEdit`, `IsShow`) VALUES
 	(1, 'id', 'Id', 'Id', 2, 0, 0, 1, 1),
@@ -260,9 +293,17 @@ INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `Mess
 	(27, 'title', 'Title', '标题', 6, 0, 1, 1, 1),
 	(28, 'isEdit', 'IsEdit', '是否编辑', 6, 0, 1, 1, 1),
 	(29, 'orderNo', 'OrderNo', '顺序编号', 6, 0, 1, 1, 1),
-	(32, 'key', 'KeyName', '关键字', 6, 0, 1, 1, 1),
+	(32, 'keyName', 'KeyName', '关键字', 6, 0, 1, 1, 1),
 	(33, 'isAdd', 'IsAdd', '是否新增', 6, 0, 1, 1, 1),
-	(34, 'isShow', 'IsShow', '是否显示详细信息', 6, 0, 1, 1, 1);
+	(34, 'isShow', 'IsShow', '是否显示详细信息', 6, 0, 1, 1, 1),
+	(35, 'id', 'Id', 'Id', 9, 0, 0, 1, 1),
+	(36, 'type', 'Type', '类型', 9, 0, 1, 1, 1),
+	(37, 'name', 'Name', '名称', 9, 0, 1, 1, 1),
+	(38, 'ActionName', 'ActionName', '请求名', 9, 0, 1, 1, 1),
+	(39, 'url', 'Url', 'Url', 9, 0, 1, 1, 1),
+	(42, 'id', 'Id', 'Id', 10, 0, 1, 1, 1),
+	(43, 'roleName', 'RoleName', '权限名称', 10, 0, 1, 1, 1),
+	(44, 'memo', 'Memo', '备注', 10, 0, 1, 1, 1);
 /*!40000 ALTER TABLE `messagetabledetial` ENABLE KEYS */;
 
 -- 导出  表 flowt.orders 结构
@@ -304,12 +345,10 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.role 的数据：~2 rows (大约)
+-- 正在导出表  flowt.role 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 INSERT IGNORE INTO `role` (`id`, `Memo`, `RoleName`) VALUES
-	(1, 'test', 'admin'),
-	(2, '测试', 'test'),
-	(3, '测试1', 'test1');
+	(1, 'test', 'admin');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 
 -- 导出  表 flowt.sqlmessage 结构
@@ -379,6 +418,42 @@ CREATE TABLE IF NOT EXISTS `user_1` (
 -- 正在导出表  flowt.user_1 的数据：~0 rows (大约)
 /*!40000 ALTER TABLE `user_1` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_1` ENABLE KEYS */;
+
+-- 导出  表 flowt.vuemenuitem 结构
+CREATE TABLE IF NOT EXISTS `vuemenuitem` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Icon` varchar(255) DEFAULT NULL,
+  `IndexName` varchar(255) DEFAULT NULL,
+  `OrderNo` varchar(255) DEFAULT NULL,
+  `Title` varchar(255) DEFAULT NULL,
+  `Uri` varchar(255) DEFAULT NULL,
+  `VueTable_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_t1ioxxynvob3a93ry6ji1wvgx` (`VueTable_id`),
+  CONSTRAINT `FK_t1ioxxynvob3a93ry6ji1wvgx` FOREIGN KEY (`VueTable_id`) REFERENCES `vuetable` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- 正在导出表  flowt.vuemenuitem 的数据：~0 rows (大约)
+/*!40000 ALTER TABLE `vuemenuitem` DISABLE KEYS */;
+INSERT IGNORE INTO `vuemenuitem` (`Id`, `Icon`, `IndexName`, `OrderNo`, `Title`, `Uri`, `VueTable_id`) VALUES
+	(1, '', 'user', '0', '用户管理', '', 1);
+/*!40000 ALTER TABLE `vuemenuitem` ENABLE KEYS */;
+
+-- 导出  表 flowt.vuetable 结构
+CREATE TABLE IF NOT EXISTS `vuetable` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Icon` varchar(255) DEFAULT NULL,
+  `Ttile` varchar(255) DEFAULT NULL,
+  `Title` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- 正在导出表  flowt.vuetable 的数据：~2 rows (大约)
+/*!40000 ALTER TABLE `vuetable` DISABLE KEYS */;
+INSERT IGNORE INTO `vuetable` (`Id`, `Icon`, `Ttile`, `Title`) VALUES
+	(1, 'el-icon-setting', NULL, '系统设置'),
+	(2, 'el-icon-document', NULL, '菜单设置');
+/*!40000 ALTER TABLE `vuetable` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

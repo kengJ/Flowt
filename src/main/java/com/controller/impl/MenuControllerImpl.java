@@ -53,7 +53,6 @@ public class MenuControllerImpl extends BasicControllerImpl<Menu> implements IMe
 	public Menu FindById(String Id) {
 		return menuService.FindById(Id);
 	}
-
 	
 	
 //	@Override
