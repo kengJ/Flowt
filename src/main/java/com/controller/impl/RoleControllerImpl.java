@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.controller.IRoleController;
 import com.model.Role;
 import com.service.RoleService;
 
 @Controller
 @RequestMapping(value="/Role")
-public class RoleControllerImpl extends BasicControllerImpl<Role> {
+public class RoleControllerImpl extends BasicControllerImpl<Role> implements IRoleController {
 
 	@Autowired
 	private RoleService roleService;
@@ -51,6 +53,13 @@ public class RoleControllerImpl extends BasicControllerImpl<Role> {
 	@Override
 	public Role FindById(String Id) {
 		return roleService.FindById(Id);
+	}
+
+	@Override
+	@RequestMapping(value="/ReactFindAll")
+	@ResponseBody
+	public List<Role> FindAll() {
+		return roleService.FindAll();
 	}
 	
 //	@RequestMapping(value="Find",method=RequestMethod.GET)

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -117,6 +118,42 @@ public class UserControllerImpl extends BasicControllerImpl<User> implements IUs
 		mv.addObject("name", User.getUserName());
 		mv.addObject("id", Id);
 		return mv;
+	}
+
+	@Override
+	@RequestMapping("/ReactFindAll")
+	@ResponseBody
+	public List<User> FindAll() {
+		// TODO Auto-generated method stub
+		return userService.FindAll();
+	}
+
+	@Override
+	@RequestMapping("/ReactFindByKey")
+	@ResponseBody
+	public List<User> FindeByKey(@RequestBody Map<String,String> Json) {
+		System.out.println(Json);
+		return userService.FindByKey(Json.get("Key"));
+	}
+
+	@Override
+	@RequestMapping("/UpdateUser")
+	@ResponseBody
+	public String UpdateUser(@RequestBody Map<String, String> Json) {
+		System.out.println(Json);
+		boolean Check = false;
+		User User = userService.FindById(Json.get("Id"));
+		if(User!=null){
+			User.setUserName(Json.get("UserName"));
+			User.setPassword(Json.get("Password"));
+			Check = userService.SaveOrEdit(User);
+		}
+		if(Check){
+			return "success";
+		}else{
+			return "error";
+		}
+		//return userService.SaveOrEdit(User);
 	}
 	
 	/**
