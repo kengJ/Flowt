@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.menu 的数据：~1 rows (大约)
+-- 正在导出表  flowt.menu 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT IGNORE INTO `menu` (`Id`, `Memo`, `Name`, `OrderNo`, `Title`, `OrderBy`) VALUES
 	(1, '系统设置', '系统设置', 0, '系统设置', 0),
@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `messagetabledetial` (
   CONSTRAINT `FK_16brbwxm07jialhapfje9l5yr` FOREIGN KEY (`MessageTable_id`) REFERENCES `messagetable` (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.messagetabledetial 的数据：~37 rows (大约)
+-- 正在导出表  flowt.messagetabledetial 的数据：~39 rows (大约)
 /*!40000 ALTER TABLE `messagetabledetial` DISABLE KEYS */;
 INSERT IGNORE INTO `messagetabledetial` (`Id`, `KeyName`, `Name`, `Title`, `MessageTable_id`, `OrderNo`, `IsAdd`, `IsEdit`, `IsShow`) VALUES
 	(1, 'id', 'Id', 'Id', 2, 0, 0, 1, 1),
@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS `pass_computer` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.pass_computer 的数据：~1 rows (大约)
+-- 正在导出表  flowt.pass_computer 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `pass_computer` DISABLE KEYS */;
 INSERT IGNORE INTO `pass_computer` (`Id`, `Ip`, `LoginName`, `UserCode`, `UserName`) VALUES
 	(10, '192.168.80.186', 'p00848', 'Admin', 'Admin'),
@@ -348,7 +348,8 @@ CREATE TABLE IF NOT EXISTS `role` (
 -- 正在导出表  flowt.role 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 INSERT IGNORE INTO `role` (`id`, `Memo`, `RoleName`) VALUES
-	(1, 'test', 'admin');
+	(1, '管理员', 'admin'),
+	(4, '普通用户', 'user');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 
 -- 导出  表 flowt.sqlmessage 结构
@@ -401,8 +402,8 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
 -- 正在导出表  flowt.sys_user 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT IGNORE INTO `sys_user` (`Id`, `CreateDate`, `Password`, `UpdateDate`, `UserName`, `Role`, `Role_Id`) VALUES
-	(1, '2018-06-19 13:38:53', 'admin', '2018-06-19 13:38:53', 'admin', NULL, NULL),
-	(8, '2018-08-02 11:59:49', 'test', '2018-08-02 11:59:49', 'test', NULL, NULL);
+	(1, '2018-06-19 13:38:53', 'admin', '2018-06-19 13:38:53', 'admin', '1', 1),
+	(8, '2018-08-02 11:59:49', 'test', '2018-08-02 11:59:49', 'test', '1', 1);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 
 -- 导出  表 flowt.user_1 结构
@@ -433,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `vuemenuitem` (
   CONSTRAINT `FK_t1ioxxynvob3a93ry6ji1wvgx` FOREIGN KEY (`VueTable_id`) REFERENCES `vuetable` (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- 正在导出表  flowt.vuemenuitem 的数据：~0 rows (大约)
+-- 正在导出表  flowt.vuemenuitem 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `vuemenuitem` DISABLE KEYS */;
 INSERT IGNORE INTO `vuemenuitem` (`Id`, `Icon`, `IndexName`, `OrderNo`, `Title`, `Uri`, `VueTable_id`) VALUES
 	(1, '', 'user', '0', '用户管理', '', 1);

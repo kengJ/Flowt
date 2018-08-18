@@ -1,11 +1,11 @@
 package com.model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
@@ -21,7 +21,12 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="Sys_User")
-public class User {
+public class User implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -33,7 +38,7 @@ public class User {
 	@Column(name="Password")
 	private String Password;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="Role_Id",referencedColumnName="id")
 	private Role Role;
 	
